@@ -1,0 +1,26 @@
+{
+  "name": "kublai",
+  "version": "0.1.0",
+  "description": "Pomelo plug-in for khan clan server.",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/topfreegames/kublai.git"
+  },
+  "keywords": [
+    "khan",
+    "pomelo"
+  ],
+  "author": "Top Free Games <backend@tfgco.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/topfreegames/kublai/issues"
+  },
+  "homepage": "https://github.com/topfreegames/kublai#readme",
+  "scripts": {
+    "test": "mocha ./test"
+  },
+  "dependencies": {
+    "pomelo": "^2.0.0"
+  }
+}
