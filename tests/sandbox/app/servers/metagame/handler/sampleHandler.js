@@ -10,25 +10,28 @@ var Handler = function (app) {
   this.kublaiService = this.app.get('kublai')
 }
 
-Handler.prototype.createGame = function(msg, session, next) {
-  this.kublaiService.createGame(msg, function(error, game) {
+function handleKhanResponse(next) {
+  return function(error, res) {
     if (error) {
       next(error, { success: false, reason: error.toString() })
-      return
+    } else {
+      next(null, res)
     }
-    next(null, { success: true, gameId: game.id })
-  })
+  }
+}
+
+Handler.prototype.createGame = function(msg, session, next) {
+  this.kublaiService.createGame(msg, handleKhanResponse(next))
 }
 
 Handler.prototype.updateGame = function(msg, session, next) {
-  this.kublaiService.updateGame(msg.gameId, msg, function(error, game) {
-    if (error) {
-      next(error, { success: false, reason: error.toString() })
-      return
-    }
-    next(null, { success: true })
-  })
+  this.kublaiService.updateGame(msg.gameId, msg, handleKhanResponse(next))
 }
+
+Handler.prototype.createClan= function(msg, session, next) {
+  this.kublaiService.createClan(msg.gameId, msg, handleKhanResponse(next))
+}
+
 
 module.exports = function (app) {
   return new Handler(app)

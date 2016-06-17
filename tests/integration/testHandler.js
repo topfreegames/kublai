@@ -6,6 +6,11 @@
 // Copyright © 2016 Top Free Games <backend@tfgco.com>
 
 require('./common')
+var uuid = require('node-uuid');
+
+function getRandomId() {
+  return uuid.v4();
+}
 
 function createGame(client, id, name, cb) {
   var reqRoute = 'metagame.sampleHandler.createGame'
@@ -33,21 +38,23 @@ describe('Integration', function () {
     it('Should create game', function (done) {
       createGame(this.pomeloClient, 'test-id', 'test-name', function(res) {
         res.success.should.equal(true)
-        res.gameId.should.not.equal(0)
+        res.id.should.not.equal(0)
         done()
       })
     })
 
     it('Should update game', function (done) {
       var self = this;
-      createGame(self.pomeloClient, 'test-id-2', 'test-name-2', function(res) {
+      var id = getRandomId()
+
+      createGame(self.pomeloClient, id, id, function(res) {
         res.success.should.equal(true);
-        var gameId = res.gameId;
+        var gameId = res.id;
 
         var reqRoute = 'metagame.sampleHandler.updateGame'
         var updatePayload = {
-          gameId: 'test-id-2',
-          name: 'test-name-2',
+          gameId: id,
+          name: id,
           metadata: {},
           minMembershipLevel: 2,
           maxMembershipLevel: 6,
@@ -66,4 +73,21 @@ describe('Integration', function () {
       })
     })
   })
+  
+  //describe('Clan Test Handler', function () {
+    //beforeEach(function(done) {
+      //createGame(self.pomeloClient, 'test-id-' + getRandomId(), 'test-name-' + getRandomId(), function(res) {
+        //res.success.should.equal(true);
+        //this.gameId = res.gameId;
+      //})
+    //})
+
+    //it('Should create clan', function (done) {
+      //var reqRoute = 'metagame.sampleHandler.createClan'
+      //self.pomeloClient.request(reqRoute, updatePayload, function (res) {
+        //res.success.should.equal(true)
+        //done()
+      //})
+    //})
+  //})
 })
