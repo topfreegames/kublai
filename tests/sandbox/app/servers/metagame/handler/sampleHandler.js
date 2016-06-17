@@ -16,7 +16,17 @@ Handler.prototype.createGame = function(msg, session, next) {
       next(error, { success: false, reason: error.toString() })
       return
     }
-    next(null, { success: true, game: game.id })
+    next(null, { success: true, gameId: game.id })
+  })
+}
+
+Handler.prototype.updateGame = function(msg, session, next) {
+  this.kublaiService.updateGame(msg.gameId, msg, function(error, game) {
+    if (error) {
+      next(error, { success: false, reason: error.toString() })
+      return
+    }
+    next(null, { success: true })
   })
 }
 
