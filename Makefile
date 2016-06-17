@@ -18,17 +18,30 @@ migrate-test-khan:
 	@./bin/khan-darwin migrate -c ./tests/khan.yaml
 
 run-test-khan: kill-test-khan drop-test-khan migrate-test-khan
+	@rm -rf /tmp/kublai-khan.log
 	@./bin/khan-darwin start -p 8888 -c ./tests/khan.yaml 2>&1 > /tmp/kublai-khan.log &
 
 kill-test-khan:
 	@ps aux | egrep './bin/khan' | egrep -v egrep | awk ' { print $$2 } ' | xargs kill -9
 
 run-test-game-server: kill-game-server
+	@rm -rf /tmp/kublai-pomelo.log
 	@node tests/sandbox/app.js host=127.0.0.1 port=3334 clientPort=3333 frontend=true serverType=metagame 2>&1 > /tmp/kublai-pomelo.log &
-	@sleep 5
+	@sleep 3
 
 kill-game-server:
 	@ps aux | egrep 'sandbox/app.js' | egrep -v egrep | awk ' { print $$2 } ' | xargs kill -9
 
+run-test:
+
 test: run-test-khan run-test-game-server
-	@./node_modules/mocha/bin/mocha tests/integration/
+	@./node_modules/mocha/bin/mocha tests/integration/ || \
+	if [ "$$?" -ne "0" ]; then \
+		echo "\nKhan log:\n" && \
+		cat /tmp/kublai-khan.log && \
+		echo "\nPomelo log:\n" && \
+		cat /tmp/kublai-pomelo.log && \
+		exit 1 ; \
+	else \
+		exit 0 ; \
+	fi

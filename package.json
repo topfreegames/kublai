@@ -21,7 +21,8 @@
     "test": "mocha ./test"
   },
   "dependencies": {
-    "pomelo": "^2.0.0"
+    "pomelo": "^2.0.0",
+    "request": "^2.72.0"
   },
   "devDependencies": {
     "blanket": "^1.2.3",
