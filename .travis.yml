@@ -3,6 +3,8 @@ language: node
 node:
   - 6.1.0
 
+sudo: required
+
 services:
   - postgresql
   - redis
