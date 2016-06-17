@@ -1,3 +1,6 @@
+setup:
+	@npm install .
+
 run-sandbox-fg: redis
 	@node tests/sandbox/app.js host=127.0.0.1 port=3334 clientPort=3333 frontend=true serverType=metagame
 
