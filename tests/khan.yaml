@@ -1,0 +1,6 @@
+postgres:
+  user: "kublai_khan_test"
+  dbName: "kublai_khan_test"
+  host: "localhost"
+  port: 5432
+  sslMode: "disable"
