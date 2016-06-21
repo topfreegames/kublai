@@ -23,6 +23,8 @@ function createGame(client, id, name, cb) {
     minLevelToAcceptApplication: 1,
     minLevelToCreateInvitation: 2,
     minLevelOffsetToPromoteMember: 3,
+    minLevelOffsetToDemoteMember: 3,
+    minLevelToRemoveMember: 3,
     minLevelToCreateInvitation: 4,
     allowApplication: true,
     maxMembers: 30
@@ -38,7 +40,7 @@ describe('Integration', function () {
     it('Should create game', function (done) {
       createGame(this.pomeloClient, 'test-id', 'test-name', function(res) {
         res.success.should.equal(true)
-        res.id.should.not.equal(0)
+        res.publicID.should.not.equal(0)
         done()
       })
     })
@@ -53,7 +55,7 @@ describe('Integration', function () {
 
         var reqRoute = 'metagame.sampleHandler.updateGame'
         var updatePayload = {
-          gameId: id,
+          publicID: id,
           name: id,
           metadata: {},
           minMembershipLevel: 2,
@@ -61,6 +63,8 @@ describe('Integration', function () {
           minLevelToAcceptApplication: 2,
           minLevelToCreateInvitation: 3,
           minLevelOffsetToPromoteMember: 4,
+          minLevelOffsetToDemoteMember: 4,
+          minLevelToRemoveMember: 4,
           minLevelToCreateInvitation: 5,
           allowApplication: false,
           maxMembers: 20
@@ -73,7 +77,7 @@ describe('Integration', function () {
       })
     })
   })
-  
+
   //describe('Clan Test Handler', function () {
     //beforeEach(function(done) {
       //createGame(self.pomeloClient, 'test-id-' + getRandomId(), 'test-name-' + getRandomId(), function(res) {

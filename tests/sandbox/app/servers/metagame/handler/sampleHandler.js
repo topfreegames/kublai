@@ -25,11 +25,11 @@ Handler.prototype.createGame = function(msg, session, next) {
 }
 
 Handler.prototype.updateGame = function(msg, session, next) {
-  this.kublaiService.updateGame(msg.gameId, msg, handleKhanResponse(next))
+  this.kublaiService.updateGame(msg.publicID, msg, handleKhanResponse(next))
 }
 
 Handler.prototype.createClan= function(msg, session, next) {
-  this.kublaiService.createClan(msg.gameId, msg, handleKhanResponse(next))
+  this.kublaiService.createClan(msg.publicID, msg, handleKhanResponse(next))
 }
 
 
