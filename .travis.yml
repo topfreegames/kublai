@@ -16,4 +16,5 @@ install:
   - make setup
 
 script:
+  - node --version
   - make test
