@@ -1,5 +1,6 @@
 # kublai
 [![Build Status](https://travis-ci.org/topfreegames/khan.svg?branch=master)](https://travis-ci.org/topfreegames/khan)
+[![npm version](https://badge.fury.io/js/kublai-plugin.svg)](https://badge.fury.io/js/kublai-plugin)
 
 Pomelo plug-in for [khan clan server](https://github.com/topfreegames/khan).
 
