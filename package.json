@@ -1,5 +1,5 @@
 {
-  "name": "kublai",
+  "name": "kublai-plugin",
   "version": "0.1.0",
   "description": "Pomelo plug-in for khan clan server.",
   "main": "index.js",
