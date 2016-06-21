@@ -1,3 +1,5 @@
+OS = "$(shell uname | awk '{ print tolower($0) }')"
+
 setup:
 	@npm install .
 
@@ -18,11 +20,11 @@ drop-test-khan:
 	@echo "Test database created successfully!"
 
 migrate-test-khan:
-	@./bin/khan-darwin migrate -c ./tests/khan.yaml
+	@./bin/khan-$(OS) migrate -c ./tests/khan.yaml
 
 run-test-khan: kill-test-khan drop-test-khan migrate-test-khan
 	@rm -rf /tmp/kublai-khan.log
-	@./bin/khan-darwin start -p 8888 -c ./tests/khan.yaml 2>&1 > /tmp/kublai-khan.log &
+	@./bin/khan-$(OS) start -p 8888 -c ./tests/khan.yaml 2>&1 > /tmp/kublai-khan.log &
 
 kill-test-khan:
 	@ps aux | egrep './bin/khan' | egrep -v egrep | awk ' { print $$2 } ' | xargs kill -9
