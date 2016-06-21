@@ -428,5 +428,37 @@ describe('Integration', () => {
         })
       })
     })
+
+    it('Should retrieve clan', function (done) {
+      const self = this
+      const gameId = getRandomId()
+      const playerId = getRandomId()
+      const clanId = getRandomId()
+
+      createGame(self.pomeloClient, gameId, gameId, (res) => {
+        res.success.should.equal(true)
+
+        createPlayer(self.pomeloClient, gameId, playerId, playerId, (playerRes) => {
+          playerRes.success.should.equal(true)
+
+          createClan(self.pomeloClient, gameId, playerId, clanId, clanId, (clanRes) => {
+            clanRes.success.should.equal(true)
+
+            const reqRoute = 'metagame.sampleHandler.getClan'
+            const payload = {
+              gameID: gameId,
+              publicID: clanId,
+            }
+            self.pomeloClient.request(reqRoute, payload, (getClanRes) => {
+              getClanRes.success.should.equal(true)
+              getClanRes.name.should.equal(clanId)
+              getClanRes.members.length.should.equal(0)
+              JSON.stringify(getClanRes.metadata).should.equal('{}')
+              done()
+            })
+          })
+        })
+      })
+    })
   })
 })
