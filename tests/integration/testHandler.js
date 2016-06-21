@@ -48,6 +48,23 @@ function createPlayer(client, gameId, id, name, cb) {
   })
 }
 
+function createClan(client, gameId, ownerId, id, name, cb) {
+  const reqRoute = 'metagame.sampleHandler.createClan'
+  const payload = {
+    gameID: gameId,
+    publicID: id,
+    ownerPublicID: ownerId,
+    name,
+    metadata: {},
+    allowApplication: true,
+    autoJoin: false,
+  }
+
+  client.request(reqRoute, payload, (res) => {
+    cb(res)
+  })
+}
+
 describe('Integration', () => {
   describe('Game Test Handler', () => {
     it('Should create game', function (done) {
@@ -138,6 +155,31 @@ describe('Integration', () => {
       })
     })
 
+    it('Should not create player if missing gameId', function (done) {
+      const self = this
+      const gameId = getRandomId()
+      const playerId = getRandomId()
+
+      createGame(self.pomeloClient, gameId, gameId, (res) => {
+        res.success.should.equal(true)
+
+        const reqRoute = 'metagame.sampleHandler.createPlayer'
+        const payload = {
+          publicID: playerId,
+          name: playerId,
+          metadata: {},
+        }
+
+        self.pomeloClient.request(reqRoute, payload, (playerRes) => {
+          playerRes.success.should.equal(false)
+          playerRes.reason.should.equal(
+            'No game id was provided. Please include gameID in your payload.'
+          )
+          done()
+        })
+      })
+    })
+
     it('Should update player', function (done) {
       const self = this
       const gameId = getRandomId()
@@ -165,7 +207,7 @@ describe('Integration', () => {
       })
     })
 
-    it('Should not update players is missing gameId', function (done) {
+    it('Should not update player if missing gameId', function (done) {
       const self = this
       const gameId = getRandomId()
       const playerId = getRandomId()
@@ -194,7 +236,7 @@ describe('Integration', () => {
       })
     })
 
-    it('Should not update players is missing playerId', function (done) {
+    it('Should not update players if missing playerId', function (done) {
       const self = this
       const gameId = getRandomId()
       const playerId = getRandomId()
@@ -224,20 +266,167 @@ describe('Integration', () => {
     })
   })
 
-  // describe('Clan Test Handler', function () {
-  //   beforeEach(function(done) {
-  //     createGame(self.pomeloClient, 'test-id-' + getRandomId(),
-  // 'test-name-' + getRandomId(), function(res) {
-  //       res.success.should.equal(true)
-  //       this.gameId = res.gameId
-  //     })
-  //   })
-  // it('Should create clan', function (done) {
-  //     const reqRoute = 'metagame.sampleHandler.createClan'
-  //     self.pomeloClient.request(reqRoute, updatePayload, function (res) {
-  //       res.success.should.equal(true)
-  //       done()
-  //     })
-  //   })
-  // })
+  describe('Clan Test Handler', () => {
+    it('Should create clan', function (done) {
+      const self = this
+      const gameId = getRandomId()
+      const playerId = getRandomId()
+
+      createGame(self.pomeloClient, gameId, gameId, (res) => {
+        res.success.should.equal(true)
+
+        createPlayer(self.pomeloClient, gameId, playerId, playerId, (playerRes) => {
+          playerRes.success.should.equal(true)
+
+          createClan(self.pomeloClient, gameId, playerId, 'clan-id', 'clan-id', (clanRes) => {
+            clanRes.success.should.equal(true)
+            clanRes.publicID.should.equal('clan-id')
+            done()
+          })
+        })
+      })
+    })
+
+    it('Should not create clan if missing gameId', function (done) {
+      const self = this
+      const gameId = getRandomId()
+      const playerId = getRandomId()
+      const clanId = getRandomId()
+
+      createGame(self.pomeloClient, gameId, gameId, (res) => {
+        res.success.should.equal(true)
+
+        createPlayer(self.pomeloClient, gameId, playerId, playerId, (playerRes) => {
+          playerRes.success.should.equal(true)
+
+          const reqRoute = 'metagame.sampleHandler.createClan'
+          const payload = {
+            publicID: clanId,
+            ownerPublicID: playerId,
+            name: clanId,
+            metadata: {},
+            allowApplication: true,
+            autoJoin: false,
+          }
+
+          self.pomeloClient.request(reqRoute, payload, (clanRes) => {
+            clanRes.success.should.equal(false)
+            clanRes.reason.should.equal(
+              'No game id was provided. Please include gameID in your payload.'
+            )
+            done()
+          })
+        })
+      })
+    })
+
+    it('Should update clan', function (done) {
+      const self = this
+      const gameId = getRandomId()
+      const playerId = getRandomId()
+      const clanId = getRandomId()
+
+      createGame(self.pomeloClient, gameId, gameId, (res) => {
+        res.success.should.equal(true)
+
+        createPlayer(self.pomeloClient, gameId, playerId, playerId, (playerRes) => {
+          playerRes.success.should.equal(true)
+
+          createClan(self.pomeloClient, gameId, playerId, clanId, clanId, (clanRes) => {
+            clanRes.success.should.equal(true)
+
+            const reqRoute = 'metagame.sampleHandler.updateClan'
+            const updatePayload = {
+              gameID: gameId,
+              publicID: clanId,
+              name: clanId,
+              metadata: { new: 'metadata' },
+              ownerPublicID: playerId,
+              allowApplication: true,
+              autoJoin: false,
+            }
+
+            self.pomeloClient.request(reqRoute, updatePayload, (updateClanRes) => {
+              updateClanRes.success.should.equal(true)
+              done()
+            })
+          })
+        })
+      })
+    })
+
+    it('Should not update clan if missing gameId', function (done) {
+      const self = this
+      const gameId = getRandomId()
+      const playerId = getRandomId()
+      const clanId = getRandomId()
+
+      createGame(self.pomeloClient, gameId, gameId, (res) => {
+        res.success.should.equal(true)
+
+        createPlayer(self.pomeloClient, gameId, playerId, playerId, (playerRes) => {
+          playerRes.success.should.equal(true)
+
+          createClan(self.pomeloClient, gameId, playerId, clanId, clanId, (clanRes) => {
+            clanRes.success.should.equal(true)
+
+            const reqRoute = 'metagame.sampleHandler.updateClan'
+            const updatePayload = {
+              publicID: clanId,
+              name: clanId,
+              metadata: { new: 'metadata' },
+              ownerPublicID: playerId,
+              allowApplication: true,
+              autoJoin: false,
+            }
+
+            self.pomeloClient.request(reqRoute, updatePayload, (updateClanRes) => {
+              updateClanRes.success.should.equal(false)
+              updateClanRes.reason.should.equal(
+                'No game id was provided. Please include gameID in your payload.'
+              )
+              done()
+            })
+          })
+        })
+      })
+    })
+
+    it('Should not update clan if missing clanId', function (done) {
+      const self = this
+      const gameId = getRandomId()
+      const playerId = getRandomId()
+      const clanId = getRandomId()
+
+      createGame(self.pomeloClient, gameId, gameId, (res) => {
+        res.success.should.equal(true)
+
+        createPlayer(self.pomeloClient, gameId, playerId, playerId, (playerRes) => {
+          playerRes.success.should.equal(true)
+
+          createClan(self.pomeloClient, gameId, playerId, clanId, clanId, (clanRes) => {
+            clanRes.success.should.equal(true)
+
+            const reqRoute = 'metagame.sampleHandler.updateClan'
+            const updatePayload = {
+              gameID: gameId,
+              name: clanId,
+              metadata: { new: 'metadata' },
+              ownerPublicID: playerId,
+              allowApplication: true,
+              autoJoin: false,
+            }
+
+            self.pomeloClient.request(reqRoute, updatePayload, (updateClanRes) => {
+              updateClanRes.success.should.equal(false)
+              updateClanRes.reason.should.equal(
+                'No clan id was provided. Please include publicID in your payload.'
+              )
+              done()
+            })
+          })
+        })
+      })
+    })
+  })
 })
