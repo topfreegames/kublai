@@ -35,12 +35,26 @@ function createGame(client, id, name, cb) {
   })
 }
 
+function createPlayer(client, gameId, id, name, cb) {
+  var reqRoute = 'metagame.sampleHandler.createPlayer'
+  var payload = {
+    gameID: gameId,
+    publicID: id,
+    name: name,
+    metadata: {},
+  }
+
+  client.request(reqRoute, payload, function (res) {
+    cb(res)
+  })
+}
+
 describe('Integration', function () {
   describe('Game Test Handler', function () {
     it('Should create game', function (done) {
       createGame(this.pomeloClient, 'test-id', 'test-name', function(res) {
         res.success.should.equal(true)
-        res.publicID.should.not.equal(0)
+        res.publicID.should.equal('test-id')
         done()
       })
     })
@@ -51,11 +65,11 @@ describe('Integration', function () {
 
       createGame(self.pomeloClient, id, id, function(res) {
         res.success.should.equal(true);
-        var gameId = res.id;
+        var gameId = res.publicID;
 
         var reqRoute = 'metagame.sampleHandler.updateGame'
         var updatePayload = {
-          publicID: id,
+          publicID: gameId,
           name: id,
           metadata: {},
           minMembershipLevel: 2,
@@ -73,6 +87,135 @@ describe('Integration', function () {
         self.pomeloClient.request(reqRoute, updatePayload, function (res) {
           res.success.should.equal(true)
           done()
+        })
+      })
+    })
+
+    it('Should not update game is missing gameId', function (done) {
+      var self = this;
+      var id = getRandomId()
+
+      createGame(self.pomeloClient, id, id, function(res) {
+        res.success.should.equal(true);
+
+        var reqRoute = 'metagame.sampleHandler.updateGame'
+        var updatePayload = {
+          name: id,
+          metadata: {},
+          minMembershipLevel: 2,
+          maxMembershipLevel: 6,
+          minLevelToAcceptApplication: 2,
+          minLevelToCreateInvitation: 3,
+          minLevelOffsetToPromoteMember: 4,
+          minLevelOffsetToDemoteMember: 4,
+          minLevelToRemoveMember: 4,
+          minLevelToCreateInvitation: 5,
+          allowApplication: false,
+          maxMembers: 20
+        }
+
+        self.pomeloClient.request(reqRoute, updatePayload, function (res) {
+          res.success.should.equal(false)
+          res.reason.should.equal('No game id was provided. Please include publicID in your payload.')
+          done()
+        })
+      })
+    })
+  })
+
+  describe('Player Test Handler', function () {
+    it('Should create player', function (done) {
+      var self = this
+      var gameId = getRandomId()
+
+      createGame(self.pomeloClient, gameId, gameId, function(res) {
+        res.success.should.equal(true);
+
+        createPlayer(self.pomeloClient, gameId, 'player-id', 'player-name', function(res) {
+          res.success.should.equal(true)
+          res.publicID.should.equal('player-id')
+          done()
+        })
+      })
+    })
+
+    it('Should update player', function (done) {
+      var self = this;
+      var gameId = getRandomId()
+      var playerId = getRandomId()
+
+      createGame(self.pomeloClient, gameId, gameId, function(res) {
+        res.success.should.equal(true);
+
+        createPlayer(self.pomeloClient, gameId, playerId, playerId, function(res) {
+          res.success.should.equal(true)
+
+          var reqRoute = 'metagame.sampleHandler.updatePlayer'
+          var updatePayload = {
+            gameID: gameId,
+            publicID: playerId,
+            name: playerId,
+            metadata: {new: "metadata"},
+          }
+
+          self.pomeloClient.request(reqRoute, updatePayload, function (res) {
+            res.success.should.equal(true)
+            done()
+          })
+        })
+      })
+    })
+
+    it('Should not update players is missing gameId', function (done) {
+      var self = this;
+      var gameId = getRandomId()
+      var playerId = getRandomId()
+
+      createGame(self.pomeloClient, gameId, gameId, function(res) {
+        res.success.should.equal(true);
+
+        createPlayer(self.pomeloClient, gameId, playerId, playerId, function(res) {
+          res.success.should.equal(true)
+
+          var reqRoute = 'metagame.sampleHandler.updatePlayer'
+          var updatePayload = {
+            publicID: playerId,
+            name: playerId,
+            metadata: {new: "metadata"},
+          }
+
+          self.pomeloClient.request(reqRoute, updatePayload, function (res) {
+            res.success.should.equal(false)
+            res.reason.should.equal('No game id was provided. Please include gameID in your payload.')
+            done()
+          })
+        })
+      })
+    })
+
+    it('Should not update players is missing playerId', function (done) {
+      var self = this;
+      var gameId = getRandomId()
+      var playerId = getRandomId()
+
+      createGame(self.pomeloClient, gameId, gameId, function(res) {
+        res.success.should.equal(true);
+
+        createPlayer(self.pomeloClient, gameId, playerId, playerId, function(res) {
+          res.success.should.equal(true)
+
+          var reqRoute = 'metagame.sampleHandler.updatePlayer'
+          var updatePayload = {
+            gameID: gameId,
+            name: playerId,
+            metadata: {new: "metadata"},
+          }
+
+          self.pomeloClient.request(reqRoute, updatePayload, function (res) {
+            res.success.should.equal(false)
+            res.reason.should.equal('No playerId id was provided. Please include publicID in your payload.')
+            done()
+          })
         })
       })
     })

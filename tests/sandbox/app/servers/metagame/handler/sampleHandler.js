@@ -28,6 +28,14 @@ Handler.prototype.updateGame = function(msg, session, next) {
   this.kublaiService.updateGame(msg.publicID, msg, handleKhanResponse(next))
 }
 
+Handler.prototype.createPlayer = function(msg, session, next) {
+  this.kublaiService.createPlayer(msg.gameID, msg, handleKhanResponse(next))
+}
+
+Handler.prototype.updatePlayer = function(msg, session, next) {
+  this.kublaiService.updatePlayer(msg.gameID, msg.publicID, msg, handleKhanResponse(next))
+}
+
 Handler.prototype.createClan= function(msg, session, next) {
   this.kublaiService.createClan(msg.publicID, msg, handleKhanResponse(next))
 }
