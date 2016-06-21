@@ -6,17 +6,17 @@
 // Copyright © 2016 Top Free Games <backend@tfgco.com>
 
 require('./common')
-var uuid = require('node-uuid');
+const uuid = require('node-uuid')
 
 function getRandomId() {
-  return uuid.v4();
+  return uuid.v4()
 }
 
 function createGame(client, id, name, cb) {
-  var reqRoute = 'metagame.sampleHandler.createGame'
-  var payload = {
+  const reqRoute = 'metagame.sampleHandler.createGame'
+  const payload = {
     publicID: id,
-    name: name,
+    name,
     metadata: {},
     minMembershipLevel: 1,
     maxMembershipLevel: 5,
@@ -25,34 +25,33 @@ function createGame(client, id, name, cb) {
     minLevelOffsetToPromoteMember: 3,
     minLevelOffsetToDemoteMember: 3,
     minLevelToRemoveMember: 3,
-    minLevelToCreateInvitation: 4,
     allowApplication: true,
-    maxMembers: 30
+    maxMembers: 30,
   }
 
-  client.request(reqRoute, payload, function (res) {
+  client.request(reqRoute, payload, (res) => {
     cb(res)
   })
 }
 
 function createPlayer(client, gameId, id, name, cb) {
-  var reqRoute = 'metagame.sampleHandler.createPlayer'
-  var payload = {
+  const reqRoute = 'metagame.sampleHandler.createPlayer'
+  const payload = {
     gameID: gameId,
     publicID: id,
-    name: name,
+    name,
     metadata: {},
   }
 
-  client.request(reqRoute, payload, function (res) {
+  client.request(reqRoute, payload, (res) => {
     cb(res)
   })
 }
 
-describe('Integration', function () {
-  describe('Game Test Handler', function () {
+describe('Integration', () => {
+  describe('Game Test Handler', () => {
     it('Should create game', function (done) {
-      createGame(this.pomeloClient, 'test-id', 'test-name', function(res) {
+      createGame(this.pomeloClient, 'test-id', 'test-name', (res) => {
         res.success.should.equal(true)
         res.publicID.should.equal('test-id')
         done()
@@ -60,15 +59,15 @@ describe('Integration', function () {
     })
 
     it('Should update game', function (done) {
-      var self = this;
-      var id = getRandomId()
+      const self = this
+      const id = getRandomId()
 
-      createGame(self.pomeloClient, id, id, function(res) {
-        res.success.should.equal(true);
-        var gameId = res.publicID;
+      createGame(self.pomeloClient, id, id, (res) => {
+        res.success.should.equal(true)
+        const gameId = res.publicID
 
-        var reqRoute = 'metagame.sampleHandler.updateGame'
-        var updatePayload = {
+        const reqRoute = 'metagame.sampleHandler.updateGame'
+        const updatePayload = {
           publicID: gameId,
           name: id,
           metadata: {},
@@ -79,27 +78,26 @@ describe('Integration', function () {
           minLevelOffsetToPromoteMember: 4,
           minLevelOffsetToDemoteMember: 4,
           minLevelToRemoveMember: 4,
-          minLevelToCreateInvitation: 5,
           allowApplication: false,
-          maxMembers: 20
+          maxMembers: 20,
         }
 
-        self.pomeloClient.request(reqRoute, updatePayload, function (res) {
-          res.success.should.equal(true)
+        self.pomeloClient.request(reqRoute, updatePayload, (updateRes) => {
+          updateRes.success.should.equal(true)
           done()
         })
       })
     })
 
     it('Should not update game is missing gameId', function (done) {
-      var self = this;
-      var id = getRandomId()
+      const self = this
+      const id = getRandomId()
 
-      createGame(self.pomeloClient, id, id, function(res) {
-        res.success.should.equal(true);
+      createGame(self.pomeloClient, id, id, (res) => {
+        res.success.should.equal(true)
 
-        var reqRoute = 'metagame.sampleHandler.updateGame'
-        var updatePayload = {
+        const reqRoute = 'metagame.sampleHandler.updateGame'
+        const updatePayload = {
           name: id,
           metadata: {},
           minMembershipLevel: 2,
@@ -109,57 +107,58 @@ describe('Integration', function () {
           minLevelOffsetToPromoteMember: 4,
           minLevelOffsetToDemoteMember: 4,
           minLevelToRemoveMember: 4,
-          minLevelToCreateInvitation: 5,
           allowApplication: false,
-          maxMembers: 20
+          maxMembers: 20,
         }
 
-        self.pomeloClient.request(reqRoute, updatePayload, function (res) {
-          res.success.should.equal(false)
-          res.reason.should.equal('No game id was provided. Please include publicID in your payload.')
+        self.pomeloClient.request(reqRoute, updatePayload, (updateRes) => {
+          updateRes.success.should.equal(false)
+          updateRes.reason.should.equal(
+            'No game id was provided. Please include publicID in your payload.'
+          )
           done()
         })
       })
     })
   })
 
-  describe('Player Test Handler', function () {
+  describe('Player Test Handler', () => {
     it('Should create player', function (done) {
-      var self = this
-      var gameId = getRandomId()
+      const self = this
+      const gameId = getRandomId()
 
-      createGame(self.pomeloClient, gameId, gameId, function(res) {
-        res.success.should.equal(true);
+      createGame(self.pomeloClient, gameId, gameId, (res) => {
+        res.success.should.equal(true)
 
-        createPlayer(self.pomeloClient, gameId, 'player-id', 'player-name', function(res) {
-          res.success.should.equal(true)
-          res.publicID.should.equal('player-id')
+        createPlayer(self.pomeloClient, gameId, 'player-id', 'player-name', (playerRes) => {
+          playerRes.success.should.equal(true)
+          playerRes.publicID.should.equal('player-id')
           done()
         })
       })
     })
 
     it('Should update player', function (done) {
-      var self = this;
-      var gameId = getRandomId()
-      var playerId = getRandomId()
+      const self = this
+      const gameId = getRandomId()
+      const playerId = getRandomId()
 
-      createGame(self.pomeloClient, gameId, gameId, function(res) {
-        res.success.should.equal(true);
+      createGame(self.pomeloClient, gameId, gameId, (res) => {
+        res.success.should.equal(true)
 
-        createPlayer(self.pomeloClient, gameId, playerId, playerId, function(res) {
-          res.success.should.equal(true)
+        createPlayer(self.pomeloClient, gameId, playerId, playerId, (playerRes) => {
+          playerRes.success.should.equal(true)
 
-          var reqRoute = 'metagame.sampleHandler.updatePlayer'
-          var updatePayload = {
+          const reqRoute = 'metagame.sampleHandler.updatePlayer'
+          const updatePayload = {
             gameID: gameId,
             publicID: playerId,
             name: playerId,
-            metadata: {new: "metadata"},
+            metadata: { new: 'metadata' },
           }
 
-          self.pomeloClient.request(reqRoute, updatePayload, function (res) {
-            res.success.should.equal(true)
+          self.pomeloClient.request(reqRoute, updatePayload, (updatePlayerRes) => {
+            updatePlayerRes.success.should.equal(true)
             done()
           })
         })
@@ -167,26 +166,28 @@ describe('Integration', function () {
     })
 
     it('Should not update players is missing gameId', function (done) {
-      var self = this;
-      var gameId = getRandomId()
-      var playerId = getRandomId()
+      const self = this
+      const gameId = getRandomId()
+      const playerId = getRandomId()
 
-      createGame(self.pomeloClient, gameId, gameId, function(res) {
-        res.success.should.equal(true);
+      createGame(self.pomeloClient, gameId, gameId, (res) => {
+        res.success.should.equal(true)
 
-        createPlayer(self.pomeloClient, gameId, playerId, playerId, function(res) {
-          res.success.should.equal(true)
+        createPlayer(self.pomeloClient, gameId, playerId, playerId, (playerRes) => {
+          playerRes.success.should.equal(true)
 
-          var reqRoute = 'metagame.sampleHandler.updatePlayer'
-          var updatePayload = {
+          const reqRoute = 'metagame.sampleHandler.updatePlayer'
+          const updatePayload = {
             publicID: playerId,
             name: playerId,
-            metadata: {new: "metadata"},
+            metadata: { new: 'metadata' },
           }
 
-          self.pomeloClient.request(reqRoute, updatePayload, function (res) {
-            res.success.should.equal(false)
-            res.reason.should.equal('No game id was provided. Please include gameID in your payload.')
+          self.pomeloClient.request(reqRoute, updatePayload, (updatePlayerRes) => {
+            updatePlayerRes.success.should.equal(false)
+            updatePlayerRes.reason.should.equal(
+              'No game id was provided. Please include gameID in your payload.'
+            )
             done()
           })
         })
@@ -194,26 +195,28 @@ describe('Integration', function () {
     })
 
     it('Should not update players is missing playerId', function (done) {
-      var self = this;
-      var gameId = getRandomId()
-      var playerId = getRandomId()
+      const self = this
+      const gameId = getRandomId()
+      const playerId = getRandomId()
 
-      createGame(self.pomeloClient, gameId, gameId, function(res) {
-        res.success.should.equal(true);
+      createGame(self.pomeloClient, gameId, gameId, (res) => {
+        res.success.should.equal(true)
 
-        createPlayer(self.pomeloClient, gameId, playerId, playerId, function(res) {
-          res.success.should.equal(true)
+        createPlayer(self.pomeloClient, gameId, playerId, playerId, (playerRes) => {
+          playerRes.success.should.equal(true)
 
-          var reqRoute = 'metagame.sampleHandler.updatePlayer'
-          var updatePayload = {
+          const reqRoute = 'metagame.sampleHandler.updatePlayer'
+          const updatePayload = {
             gameID: gameId,
             name: playerId,
-            metadata: {new: "metadata"},
+            metadata: { new: 'metadata' },
           }
 
-          self.pomeloClient.request(reqRoute, updatePayload, function (res) {
-            res.success.should.equal(false)
-            res.reason.should.equal('No playerId id was provided. Please include publicID in your payload.')
+          self.pomeloClient.request(reqRoute, updatePayload, (updatePlayerRes) => {
+            updatePlayerRes.success.should.equal(false)
+            updatePlayerRes.reason.should.equal(
+              'No playerId id was provided. Please include publicID in your payload.'
+            )
             done()
           })
         })
@@ -221,20 +224,20 @@ describe('Integration', function () {
     })
   })
 
-  //describe('Clan Test Handler', function () {
-    //beforeEach(function(done) {
-      //createGame(self.pomeloClient, 'test-id-' + getRandomId(), 'test-name-' + getRandomId(), function(res) {
-        //res.success.should.equal(true);
-        //this.gameId = res.gameId;
-      //})
-    //})
-
-    //it('Should create clan', function (done) {
-      //var reqRoute = 'metagame.sampleHandler.createClan'
-      //self.pomeloClient.request(reqRoute, updatePayload, function (res) {
-        //res.success.should.equal(true)
-        //done()
-      //})
-    //})
-  //})
+  // describe('Clan Test Handler', function () {
+  //   beforeEach(function(done) {
+  //     createGame(self.pomeloClient, 'test-id-' + getRandomId(),
+  // 'test-name-' + getRandomId(), function(res) {
+  //       res.success.should.equal(true)
+  //       this.gameId = res.gameId
+  //     })
+  //   })
+  // it('Should create clan', function (done) {
+  //     const reqRoute = 'metagame.sampleHandler.createClan'
+  //     self.pomeloClient.request(reqRoute, updatePayload, function (res) {
+  //       res.success.should.equal(true)
+  //       done()
+  //     })
+  //   })
+  // })
 })

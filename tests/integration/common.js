@@ -1,7 +1,7 @@
-var path = require('path')
+const pomeloClient = require('./../pomeloClient')
 
 // chai
-var chai = require('chai')
+const chai = require('chai')
 chai.use(require('chai-datetime'))
 chai.use(require('chai-string'))
 global.chai = chai
@@ -35,25 +35,25 @@ global.serversConfig = {
     clientHost: '127.0.0.1',
     clientPort: 3333,
     frontend: true,
-  }
+  },
 }
 
 
 beforeEach(function (done) {
-  var self = this
-  self.pomeloClient = require('./../pomeloClient')
+  const self = this
+  self.pomeloClient = pomeloClient
 
   self.pomeloClient.init({
-      host: global.serversConfig.metagame.clientHost,
-      port: global.serversConfig.metagame.clientPort,
-      player: {},
-  }, function () {
+    host: global.serversConfig.metagame.clientHost,
+    port: global.serversConfig.metagame.clientPort,
+    player: {},
+  }, () => {
     done()
   })
 })
 
 afterEach(function (done) {
-  var self = this
+  const self = this
   self.pomeloClient.disconnect()
   done()
 })

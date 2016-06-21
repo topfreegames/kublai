@@ -1,53 +1,53 @@
-var pomelo = require('pomelo');
+const pomelo = require('pomelo')
 
-var kublaiPlugin = require('../../index.js');
+const kublaiPlugin = require('../../index.js')
 
 /**
  * Init app for client.
  */
-var app = pomelo.createApp();
-app.set('name', 'sandbox');
+const app = pomelo.createApp()
+app.set('name', 'sandbox')
 
-var redisPort = process.env.POMELO_REDIS_PORT || 3434;
+const redisPort = process.env.POMELO_REDIS_PORT || 3434
 
 // configure monitor
-app.configure('production|development', function(){
+app.configure('production|development', () => {
   app.set('monitorConfig',
     {
-      monitor : pomelo.monitors.redismonitor,
+      monitor: pomelo.monitors.redismonitor,
       servers: '127.0.0.1:3334',
       redisNodes: {
-        host: "127.0.0.1",
+        host: '127.0.0.1',
         port: redisPort,
       },
       redisOpts: {
-        keyPrefix: "kublai_test",
+        keyPrefix: 'kublai_test',
         showFriendlyErrorStack: true,
       },
     }
   )
-});
+})
 
 // app configuration
-app.configure('production|development', 'metagame', function(){
+app.configure('production|development', 'metagame', () => {
   app.set('connectorConfig',
     {
-      connector : pomelo.connectors.hybridconnector,
-      heartbeat : 3,
-      useDict : true,
-      useProtobuf : true
-    });
+      connector: pomelo.connectors.hybridconnector,
+      heartbeat: 3,
+      useDict: true,
+      useProtobuf: true,
+    })
 
   app.use(kublaiPlugin, {
     kublai: {
-      khanUrl: 'http://localhost:8888/'
-    }
+      khanUrl: 'http://localhost:8888/',
+    },
   })
-});
+})
 
 // start app
-app.start();
+app.start()
 
-process.on('uncaughtException', function (err) {
-  console.error(' Caught exception: ' + err.stack);
-});
+process.on('uncaughtException', (err) => {
+  console.error(`Caught exception: ${err.stack}`)
+})

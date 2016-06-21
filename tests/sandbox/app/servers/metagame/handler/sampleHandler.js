@@ -5,13 +5,13 @@
 // http://www.opensource.org/licenses/mit-license
 // Copyright © 2016 Top Free Games <backend@tfgco.com>
 
-var Handler = function (app) {
+const Handler = function (app) {
   this.app = app
   this.kublaiService = this.app.get('kublai')
 }
 
 function handleKhanResponse(next) {
-  return function(error, res) {
+  return (error, res) => {
     if (error) {
       next(error, { success: false, reason: error.toString() })
     } else {
@@ -20,23 +20,23 @@ function handleKhanResponse(next) {
   }
 }
 
-Handler.prototype.createGame = function(msg, session, next) {
+Handler.prototype.createGame = function (msg, session, next) {
   this.kublaiService.createGame(msg, handleKhanResponse(next))
 }
 
-Handler.prototype.updateGame = function(msg, session, next) {
+Handler.prototype.updateGame = function (msg, session, next) {
   this.kublaiService.updateGame(msg.publicID, msg, handleKhanResponse(next))
 }
 
-Handler.prototype.createPlayer = function(msg, session, next) {
+Handler.prototype.createPlayer = function (msg, session, next) {
   this.kublaiService.createPlayer(msg.gameID, msg, handleKhanResponse(next))
 }
 
-Handler.prototype.updatePlayer = function(msg, session, next) {
+Handler.prototype.updatePlayer = function (msg, session, next) {
   this.kublaiService.updatePlayer(msg.gameID, msg.publicID, msg, handleKhanResponse(next))
 }
 
-Handler.prototype.createClan= function(msg, session, next) {
+Handler.prototype.createClan = function (msg, session, next) {
   this.kublaiService.createClan(msg.publicID, msg, handleKhanResponse(next))
 }
 

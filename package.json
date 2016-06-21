@@ -18,7 +18,8 @@
   },
   "homepage": "https://github.com/topfreegames/kublai#readme",
   "scripts": {
-    "test": "mocha ./test"
+    "test": "mocha ./test",
+    "lint": "eslint ."
   },
   "dependencies": {
     "pomelo": "^2.0.0",
@@ -29,6 +30,9 @@
     "chai": "^3.5.0",
     "chai-datetime": "^1.4.1",
     "chai-string": "^1.2.0",
+    "eslint": "^2.13.1",
+    "eslint-config-airbnb": "^9.0.1",
+    "eslint-plugin-import": "^1.9.2",
     "mocha": "^2.5.3",
     "node-uuid": "^1.4.7"
   }
