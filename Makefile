@@ -1,4 +1,4 @@
-OS = "$(shell uname | awk '{ print tolower($0) }')"
+OS = "$(shell uname | awk '{ print tolower($$0) }')"
 
 setup:
 	@npm install .
@@ -20,9 +20,11 @@ drop-test-khan:
 	@echo "Test database created successfully!"
 
 migrate-test-khan:
+	@echo "Running migrations in $(OS)"
 	@./bin/khan-$(OS) migrate -c ./tests/khan.yaml
 
 run-test-khan: kill-test-khan drop-test-khan migrate-test-khan
+	@echo "Running test khan in $(OS)"
 	@rm -rf /tmp/kublai-khan.log
 	@./bin/khan-$(OS) start -p 8888 -c ./tests/khan.yaml 2>&1 > /tmp/kublai-khan.log &
 
