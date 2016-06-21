@@ -13,8 +13,15 @@ app.configure('production|development', function(){
   app.set('monitorConfig',
     {
       monitor : pomelo.monitors.redismonitor,
-      host: "127.0.0.1",
-      port: "3434"
+      servers: '127.0.0.1:3334',
+      redisNodes: {
+        host: "127.0.0.1",
+        port: "3434",
+      },
+      redisOpts: {
+        keyPrefix: "kublai_test",
+        showFriendlyErrorStack: true,
+      },
     }
   )
 });

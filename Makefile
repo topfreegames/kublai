@@ -5,12 +5,12 @@ run-sandbox-fg: redis
 	@node tests/sandbox/app.js host=127.0.0.1 port=3334 clientPort=3333 frontend=true serverType=metagame
 
 # get a redis instance up (localhost:3434)
-redis: kill_redis
+redis: kill-redis
 	@redis-server ./tests/redis.conf; sleep 1
 	@redis-cli -p 3434 info > /dev/null
 
 # kill this redis instance (localhost:3434)
-kill_redis:
+kill-redis:
 	@-redis-cli -p 3434 shutdown
 
 drop-test-khan:
@@ -37,7 +37,7 @@ kill-game-server:
 
 run-test:
 
-test: run-test-khan run-test-game-server
+test: redis run-test-khan run-test-game-server
 	@./node_modules/mocha/bin/mocha tests/integration/ || \
 	if [ "$$?" -ne "0" ]; then \
 		echo "\nKhan log:\n" && \
