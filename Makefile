@@ -37,9 +37,11 @@ run-test-game-server: kill-game-server
 kill-game-server:
 	@ps aux | egrep 'sandbox/app.js' | egrep -v egrep | awk ' { print $$2 } ' | xargs kill -9
 
-run-test:
+test: redis run-test-khan run-test-game-server run-tests
 
-test: redis run-test-khan run-test-game-server
+test-ci: run-test-khan run-test-game-server run-tests
+
+run-tests:
 	@./node_modules/mocha/bin/mocha tests/integration/ || \
 	if [ "$$?" -ne "0" ]; then \
 		echo "\nKhan log:\n" && \
@@ -50,3 +52,4 @@ test: redis run-test-khan run-test-game-server
 	else \
 		exit 0 ; \
 	fi
+
