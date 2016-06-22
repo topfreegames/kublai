@@ -21,7 +21,7 @@ The [tests/sandbox folder](tests/sandbox) has real examples of how to do the int
 In your `app.js` add the following lines:
 
 ```js
-const kublaiPlugin = require('kublai')
+const kublaiPlugin = require('kublai-pugin')
 
 // app configuration
 app.configure('production|development', 'metagame', () => {
