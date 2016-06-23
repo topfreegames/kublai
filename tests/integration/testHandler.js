@@ -26,8 +26,8 @@ function createGame(client, id, name, cb) {
     minLevelOffsetToDemoteMember: 3,
     minLevelOffsetToRemoveMember: 1,
     minLevelToRemoveMember: 3,
-    allowApplication: true,
     maxMembers: 30,
+    membershipLevels: { member: 1, elder: 2, coleader: 3 },
   }
 
   client.request(reqRoute, payload, (res) => {
@@ -99,6 +99,7 @@ describe('Integration', () => {
           minLevelToRemoveMember: 4,
           allowApplication: false,
           maxMembers: 20,
+          membershipLevels: { noob: 1, member: 2, elder: 3, coleader: 4 },
         }
 
         self.pomeloClient.request(reqRoute, updatePayload, (updateRes) => {
