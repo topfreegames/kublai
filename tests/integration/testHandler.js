@@ -328,6 +328,7 @@ describe('Integration', () => {
 
               self.pomeloClient.request(reqRoute, payload, (getPlayerRes) => {
                 getPlayerRes.success.should.equal(false)
+                getPlayerRes.code.should.equal(500)
                 done()
               })
             })
@@ -362,6 +363,7 @@ describe('Integration', () => {
 
               self.pomeloClient.request(reqRoute, payload, (getPlayerRes) => {
                 getPlayerRes.success.should.equal(false)
+                getPlayerRes.code.should.equal(500)
                 done()
               })
             })
@@ -619,6 +621,7 @@ describe('Integration', () => {
             }
             self.pomeloClient.request(reqRoute, payload, (leaveClanRes) => {
               leaveClanRes.success.should.equal(false)
+              leaveClanRes.code.should.equal(500)
               done()
             })
           })
