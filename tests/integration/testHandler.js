@@ -626,4 +626,74 @@ describe('Integration', () => {
       })
     })
   })
+
+  describe('Membership Test Handler', () => {
+    it('Should apply for membership', function (done) {
+      const self = this
+      const gameId = getRandomId()
+      const playerId = getRandomId()
+      const applicantId = getRandomId()
+      const clanId = getRandomId()
+
+      createGame(self.pomeloClient, gameId, gameId, (res) => {
+        res.success.should.equal(true)
+
+        createPlayer(self.pomeloClient, gameId, playerId, playerId, (playerRes) => {
+          playerRes.success.should.equal(true)
+
+          createPlayer(self.pomeloClient, gameId, applicantId, playerId, (applicantRes) => {
+            applicantRes.success.should.equal(true)
+
+            createClan(self.pomeloClient, gameId, playerId, clanId, clanId, (clanRes) => {
+              clanRes.success.should.equal(true)
+
+
+              const reqRoute = 'metagame.sampleHandler.applyForMembership'
+              const payload = {
+                gameID: gameId,
+                publicID: clanId,
+                level: 1,
+                playerPublicID: applicantId,
+              }
+              self.pomeloClient.request(reqRoute, payload, (applyForMembershipRes) => {
+                applyForMembershipRes.success.should.equal(true)
+                done()
+              })
+            })
+          })
+        })
+      })
+    })
+
+    it('Should not apply for unexistent clan', function (done) {
+      const self = this
+      const gameId = getRandomId()
+      const playerId = getRandomId()
+      const applicantId = getRandomId()
+      const clanId = getRandomId()
+
+      createGame(self.pomeloClient, gameId, gameId, (res) => {
+        res.success.should.equal(true)
+
+        createPlayer(self.pomeloClient, gameId, applicantId, playerId, (applicantRes) => {
+          applicantRes.success.should.equal(true)
+
+          const reqRoute = 'metagame.sampleHandler.applyForMembership'
+          const payload = {
+            gameID: gameId,
+            publicID: clanId,
+            level: 1,
+            playerPublicID: applicantId,
+          }
+          self.pomeloClient.request(reqRoute, payload, (applyForMembershipRes) => {
+            applyForMembershipRes.success.should.equal(false)
+            applyForMembershipRes.reason.should.equal('Could not process request: Clan was ' +
+              `not found with id: ${clanId}`)
+            applyForMembershipRes.code.should.equal(500)
+            done()
+          })
+        })
+      })
+    })
+  })
 })

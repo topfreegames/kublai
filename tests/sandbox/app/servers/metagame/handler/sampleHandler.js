@@ -57,6 +57,10 @@ Handler.prototype.leaveClan = function (msg, session, next) {
   this.kublaiService.leaveClan(msg.gameID, msg.publicID, msg, handleKhanResponse(next))
 }
 
+Handler.prototype.applyForMembership = function (msg, session, next) {
+  this.kublaiService.applyForMembership(msg.gameID, msg.publicID, msg, handleKhanResponse(next))
+}
+
 module.exports = function (app) {
   return new Handler(app)
 }
