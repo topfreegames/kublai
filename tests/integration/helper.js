@@ -100,6 +100,20 @@ function createMembership(client, gameId, ownerId, clanId, level, applicantId, c
   acceptOrDenyMembership(client, gameId, ownerId, clanId, level, 'approve', applicantId, cb)
 }
 
+function createMembershipInvitation(client, gameId, clanId, level, requestorId, inviteeId, cb) {
+  const reqRoute = 'metagame.sampleHandler.inviteForMembership'
+  const payload = {
+    gameID: gameId,
+    publicID: clanId,
+    level,
+    playerPublicID: inviteeId,
+    requestorPublicID: requestorId,
+  }
+  client.request(reqRoute, payload, (res) => {
+    cb(res)
+  })
+}
+
 module.exports = {
   getRandomId,
   createGame,
@@ -108,4 +122,5 @@ module.exports = {
   createMembershipApplication,
   acceptOrDenyMembership,
   createMembership,
+  createMembershipInvitation,
 }

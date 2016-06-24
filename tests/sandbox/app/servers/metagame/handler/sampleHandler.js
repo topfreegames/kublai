@@ -71,6 +71,12 @@ Handler.prototype.inviteForMembership = function (msg, session, next) {
   this.kublaiService.inviteForMembership(msg.gameID, msg.publicID, msg, handleKhanResponse(next))
 }
 
+Handler.prototype.approveDenyMembershipInvitation = function (msg, session, next) {
+  this.kublaiService.approveDenyMembershipInvitation(
+    msg.gameID, msg.publicID, msg.action, msg, handleKhanResponse(next)
+  )
+}
+
 module.exports = function (app) {
   return new Handler(app)
 }

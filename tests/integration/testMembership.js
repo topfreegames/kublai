@@ -227,6 +227,7 @@ describe('Integration', () => {
                     self.pomeloClient.request(reqRoute, payload,
                     (approveDenyMembershipApplicationRes) => {
                       approveDenyMembershipApplicationRes.success.should.equal(false)
+                      approveDenyMembershipApplicationRes.code.should.equal(500)
                       done()
                     })
                   })
@@ -345,6 +346,113 @@ describe('Integration', () => {
                     inviteForMembershipRes.success.should.equal(false)
                     inviteForMembershipRes.code.should.equal(500)
                     done()
+                  })
+                })
+              })
+            })
+          })
+        })
+      })
+    })
+
+    describe('Membership invitation should be', () => {
+      const tests = [
+        { descr: 'approved', action: 'approve' },
+        { descr: 'denied', action: 'deny' },
+      ]
+      tests.forEach(test => {
+        it(test.descr, function (done) {
+          const self = this
+          const gameId = helper.getRandomId()
+          const playerId = helper.getRandomId()
+          const inviteeId = helper.getRandomId()
+          const clanId = helper.getRandomId()
+          const level = 2
+
+          helper.createGame(self.pomeloClient, gameId, gameId, (res) => {
+            res.success.should.equal(true)
+
+            helper.createPlayer(self.pomeloClient, gameId, playerId, playerId, (playerRes) => {
+              playerRes.success.should.equal(true)
+
+              helper.createPlayer(self.pomeloClient, gameId, inviteeId, playerId,
+              (applicantRes) => {
+                applicantRes.success.should.equal(true)
+
+                helper.createClan(self.pomeloClient, gameId, playerId, clanId, clanId,
+                (clanRes) => {
+                  clanRes.success.should.equal(true)
+
+                  helper.createMembershipInvitation(self.pomeloClient, gameId, clanId, level,
+                  playerId, inviteeId, (invitationRes) => {
+                    invitationRes.success.should.equal(true)
+
+                    const reqRoute = 'metagame.sampleHandler.approveDenyMembershipInvitation'
+                    const payload = {
+                      gameID: gameId,
+                      publicID: clanId,
+                      action: test.action,
+                      playerPublicID: inviteeId,
+                    }
+                    self.pomeloClient.request(reqRoute, payload,
+                    (approveDenyMembershipInvitationRes) => {
+                      approveDenyMembershipInvitationRes.success.should.equal(true)
+                      done()
+                    })
+                  })
+                })
+              })
+            })
+          })
+        })
+      })
+    })
+
+    describe('Membership invitation should not be', () => {
+      const tests = [
+        { descr: 'approved', action: 'approve' },
+        { descr: 'denied', action: 'deny' },
+      ]
+      tests.forEach(test => {
+        it(`${test.descr} if requestor cannot perform action`, function (done) {
+          const self = this
+          const gameId = helper.getRandomId()
+          const playerId = helper.getRandomId()
+          const memberId = helper.getRandomId()
+          const inviteeId = helper.getRandomId()
+          const clanId = helper.getRandomId()
+          const requestorLevel = 0
+
+          helper.createGame(self.pomeloClient, gameId, gameId, (res) => {
+            res.success.should.equal(true)
+
+            helper.createPlayer(self.pomeloClient, gameId, playerId, playerId, (playerRes) => {
+              playerRes.success.should.equal(true)
+
+              helper.createPlayer(self.pomeloClient, gameId, memberId, memberId, (applicantRes) => {
+                applicantRes.success.should.equal(true)
+
+                helper.createClan(self.pomeloClient, gameId, playerId, clanId, clanId,
+                (clanRes) => {
+                  clanRes.success.should.equal(true)
+
+                  helper.acceptOrDenyMembership(self.pomeloClient, gameId, playerId, clanId,
+                  requestorLevel, test.action, memberId, (membershipRes) => {
+                    membershipRes.success.should.equal(true)
+
+                    const reqRoute = 'metagame.sampleHandler.approveDenyMembershipInvitation'
+                    const payload = {
+                      gameID: gameId,
+                      publicID: clanId,
+                      action: test.action,
+                      playerPublicID: inviteeId,
+                    }
+                    self.pomeloClient.request(reqRoute, payload,
+                    (approveDenyMembershipInvitationRes) => {
+                      approveDenyMembershipInvitationRes.success.should.equal(false)
+                      approveDenyMembershipInvitationRes.code.should.equal(500)
+                      done()
+                    })
                   })
                 })
               })
