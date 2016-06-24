@@ -268,6 +268,99 @@ describe('Integration', () => {
         })
       })
     })
+
+    it('Should get player', function (done) {
+      const self = this
+      const gameId = getRandomId()
+      const playerId = getRandomId()
+
+      createGame(self.pomeloClient, gameId, gameId, (res) => {
+        res.success.should.equal(true)
+
+        createPlayer(self.pomeloClient, gameId, playerId, playerId, (playerRes) => {
+          playerRes.success.should.equal(true)
+
+          const reqRoute = 'metagame.sampleHandler.getPlayer'
+          const payload = {
+            gameID: gameId,
+            publicID: playerId,
+          }
+
+          self.pomeloClient.request(reqRoute, payload, (getPlayerRes) => {
+            getPlayerRes.success.should.equal(true)
+            done()
+          })
+        })
+      })
+    })
+
+    describe('Should not get player if missing', () => {
+      const tests = [
+        { desc: 'gameID', delete: 'gameID' },
+        { desc: 'playerID', delete: 'publicID' },
+      ]
+      tests.forEach(test => {
+        it(test.desc, function (done) {
+          const self = this
+          const gameId = getRandomId()
+          const playerId = getRandomId()
+
+          createGame(self.pomeloClient, gameId, gameId, (res) => {
+            res.success.should.equal(true)
+
+            createPlayer(self.pomeloClient, gameId, playerId, playerId, (playerRes) => {
+              playerRes.success.should.equal(true)
+
+              const reqRoute = 'metagame.sampleHandler.getPlayer'
+              const payload = {
+                gameID: gameId,
+                publicID: playerId,
+              }
+              delete payload[test.delete]
+
+              self.pomeloClient.request(reqRoute, payload, (getPlayerRes) => {
+                getPlayerRes.success.should.equal(false)
+                done()
+              })
+            })
+          })
+        })
+      })
+    })
+
+    describe('Should not get player if unexistent', () => {
+      const tests = [
+        { desc: 'gameID', field: 'gameID', val: getRandomId() },
+        { desc: 'playerID', field: 'publicID', val: getRandomId() },
+      ]
+      tests.forEach(test => {
+        it(test.desc, function (done) {
+          const self = this
+          const gameId = getRandomId()
+          const playerId = getRandomId()
+
+          createGame(self.pomeloClient, gameId, gameId, (res) => {
+            res.success.should.equal(true)
+
+            createPlayer(self.pomeloClient, gameId, playerId, playerId, (playerRes) => {
+              playerRes.success.should.equal(true)
+
+              const reqRoute = 'metagame.sampleHandler.getPlayer'
+              const payload = {
+                gameID: gameId,
+                publicID: playerId,
+              }
+              payload[test.field] = test.val
+
+              self.pomeloClient.request(reqRoute, payload, (getPlayerRes) => {
+                getPlayerRes.success.should.equal(false)
+                done()
+              })
+            })
+          })
+        })
+      })
+    })
   })
 
   describe('Clan Test Handler', () => {
