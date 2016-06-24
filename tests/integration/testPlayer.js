@@ -226,7 +226,6 @@ describe('Integration', () => {
                 publicID: playerId,
               }
               payload[test.field] = test.val
-
               self.pomeloClient.request(reqRoute, payload, (getPlayerRes) => {
                 getPlayerRes.success.should.equal(false)
                 getPlayerRes.code.should.equal(500)

@@ -69,8 +69,6 @@ describe('Integration', () => {
           }
           self.pomeloClient.request(reqRoute, payload, (applyForMembershipRes) => {
             applyForMembershipRes.success.should.equal(false)
-            applyForMembershipRes.reason.should.equal('Could not process request: Clan was ' +
-              `not found with id: ${clanId}`)
             applyForMembershipRes.code.should.equal(500)
             done()
           })
@@ -173,6 +171,7 @@ describe('Integration', () => {
                   self.pomeloClient.request(reqRoute, payload,
                   (approveDenyMembershipApplicationRes) => {
                     approveDenyMembershipApplicationRes.success.should.equal(false)
+                    approveDenyMembershipApplicationRes.code.should.equal(500)
                     done()
                   })
                 })
@@ -344,8 +343,6 @@ describe('Integration', () => {
                   }
                   self.pomeloClient.request(reqRoute, payload, (inviteForMembershipRes) => {
                     inviteForMembershipRes.success.should.equal(false)
-                    inviteForMembershipRes.reason.should.equal('Could not process request: ' +
-                      `Player ${memberId} cannot create membership for clan ${clanId}`)
                     inviteForMembershipRes.code.should.equal(500)
                     done()
                   })

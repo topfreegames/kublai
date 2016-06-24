@@ -265,5 +265,41 @@ describe('Integration', () => {
         })
       })
     })
+
+    it('Should not leave the clan if not in clan', function (done) {
+      const self = this
+      const gameId = helper.getRandomId()
+      const ownerId = helper.getRandomId()
+      const playerId = helper.getRandomId()
+      const clanId = helper.getRandomId()
+
+      helper.createGame(self.pomeloClient, gameId, gameId, (res) => {
+        res.success.should.equal(true)
+
+        helper.createPlayer(self.pomeloClient, gameId, ownerId, ownerId, (ownerRes) => {
+          ownerRes.success.should.equal(true)
+
+          helper.createPlayer(self.pomeloClient, gameId, playerId, playerId, (playerRes) => {
+            playerRes.success.should.equal(true)
+
+            helper.createClan(self.pomeloClient, gameId, ownerId, clanId, clanId, (clanRes) => {
+              clanRes.success.should.equal(true)
+
+              const reqRoute = 'metagame.sampleHandler.leaveClan'
+              const payload = {
+                gameID: gameId,
+                publicID: clanId,
+                ownerPublicID: playerId,
+              }
+              self.pomeloClient.request(reqRoute, payload, (leaveClanRes) => {
+                leaveClanRes.success.should.equal(false)
+                leaveClanRes.code.should.equal(500)
+                done()
+              })
+            })
+          })
+        })
+      })
+    })
   })
 })
