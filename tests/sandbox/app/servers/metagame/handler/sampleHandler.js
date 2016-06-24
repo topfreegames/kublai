@@ -61,6 +61,13 @@ Handler.prototype.applyForMembership = function (msg, session, next) {
   this.kublaiService.applyForMembership(msg.gameID, msg.publicID, msg, handleKhanResponse(next))
 }
 
+Handler.prototype.approveDenyMembershipApplication = function (msg, session, next) {
+  this.kublaiService.approveDenyMembershipApplication(
+    msg.gameID, msg.publicID, msg.action, msg, handleKhanResponse(next)
+  )
+}
+
+
 module.exports = function (app) {
   return new Handler(app)
 }

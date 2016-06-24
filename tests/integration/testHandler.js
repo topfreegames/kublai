@@ -66,6 +66,43 @@ function createClan(client, gameId, ownerId, id, name, cb) {
   })
 }
 
+function createMembershipApplication(client, gameId, clanId, level, applicantId, cb) {
+  const reqRoute = 'metagame.sampleHandler.applyForMembership'
+  const payload = {
+    gameID: gameId,
+    publicID: clanId,
+    level,
+    playerPublicID: applicantId,
+  }
+  client.request(reqRoute, payload, (applyForMembershipRes) => {
+    cb(applyForMembershipRes)
+  })
+}
+
+function createMeembership(client, gameId, ownerId, clanId, level, action, applicantId, cb) {
+  const applyRoute = 'metagame.sampleHandler.applyForMembership'
+  const applyPayload = {
+    gameID: gameId,
+    publicID: clanId,
+    level,
+    playerPublicID: applicantId,
+  }
+  const approveRoute = 'metagame.sampleHandler.approveDenyMembershipApplication'
+  const approvepayload = {
+    gameID: gameId,
+    publicID: clanId,
+    action,
+    level,
+    playerPublicID: applicantId,
+    requestorPublicID: ownerId,
+  }
+  client.request(applyRoute, applyPayload, () => {
+    client.request(approveRoute, approvepayload, (approveDenyMembershipApplicationRes) => {
+      cb(approveDenyMembershipApplicationRes)
+    })
+  })
+}
+
 describe('Integration', () => {
   describe('Game Test Handler', () => {
     it('Should create game', function (done) {
@@ -694,6 +731,162 @@ describe('Integration', () => {
               `not found with id: ${clanId}`)
             applyForMembershipRes.code.should.equal(500)
             done()
+          })
+        })
+      })
+    })
+
+    describe('Membership application should be', () => {
+      const tests = [
+        { descr: 'approved', action: 'approve' },
+        { descr: 'denied', action: 'deny' },
+      ]
+      tests.forEach(test => {
+        it(test.descr, function (done) {
+          const self = this
+          const gameId = getRandomId()
+          const playerId = getRandomId()
+          const applicantId = getRandomId()
+          const clanId = getRandomId()
+          const level = 1
+
+          createGame(self.pomeloClient, gameId, gameId, (res) => {
+            res.success.should.equal(true)
+
+            createPlayer(self.pomeloClient, gameId, playerId, playerId, (playerRes) => {
+              playerRes.success.should.equal(true)
+
+              createPlayer(self.pomeloClient, gameId, applicantId, playerId, (applicantRes) => {
+                applicantRes.success.should.equal(true)
+
+                createClan(self.pomeloClient, gameId, playerId, clanId, clanId, (clanRes) => {
+                  clanRes.success.should.equal(true)
+
+                  createMembershipApplication(self.pomeloClient, gameId, clanId, level, applicantId,
+                  (applicationRes) => {
+                    applicationRes.success.should.equal(true)
+
+                    const reqRoute = 'metagame.sampleHandler.approveDenyMembershipApplication'
+                    const payload = {
+                      gameID: gameId,
+                      publicID: clanId,
+                      action: test.action,
+                      level,
+                      playerPublicID: applicantId,
+                      requestorPublicID: playerId,
+                    }
+                    self.pomeloClient.request(reqRoute, payload,
+                    (approveDenyMembershipApplicationRes) => {
+                      approveDenyMembershipApplicationRes.success.should.equal(true)
+                      done()
+                    })
+                  })
+                })
+              })
+            })
+          })
+        })
+      })
+    })
+
+    describe('Membership application should not be', () => {
+      const tests = [
+        { descr: 'approved', action: 'approve' },
+        { descr: 'denied', action: 'deny' },
+      ]
+      tests.forEach(test => {
+        it(`${test.descr} if unexistent`, function (done) {
+          const self = this
+          const gameId = getRandomId()
+          const playerId = getRandomId()
+          const applicantId = getRandomId()
+          const clanId = getRandomId()
+          const level = 1
+
+          createGame(self.pomeloClient, gameId, gameId, (res) => {
+            res.success.should.equal(true)
+
+            createPlayer(self.pomeloClient, gameId, playerId, playerId, (playerRes) => {
+              playerRes.success.should.equal(true)
+
+              createPlayer(self.pomeloClient, gameId, applicantId, playerId, (applicantRes) => {
+                applicantRes.success.should.equal(true)
+
+                createClan(self.pomeloClient, gameId, playerId, clanId, clanId, (clanRes) => {
+                  clanRes.success.should.equal(true)
+
+                  const reqRoute = 'metagame.sampleHandler.approveDenyMembershipApplication'
+                  const payload = {
+                    gameID: gameId,
+                    publicID: clanId,
+                    action: test.action,
+                    level,
+                    playerPublicID: applicantId,
+                    requestorPublicID: playerId,
+                  }
+                  self.pomeloClient.request(reqRoute, payload,
+                  (approveDenyMembershipApplicationRes) => {
+                    approveDenyMembershipApplicationRes.success.should.equal(false)
+                    done()
+                  })
+                })
+              })
+            })
+          })
+        })
+      })
+    })
+
+    describe('Membership application should not be', () => {
+      const tests = [
+        { descr: 'approved', action: 'approve' },
+        { descr: 'denied', action: 'deny' },
+      ]
+      tests.forEach(test => {
+        it(`${test.descr} if requestor cannot perform action`, function (done) {
+          const self = this
+          const gameId = getRandomId()
+          const playerId = getRandomId()
+          const memberId = getRandomId()
+          const applicantId = getRandomId()
+          const clanId = getRandomId()
+          const requestorLevel = 0
+          const level = 1
+
+          createGame(self.pomeloClient, gameId, gameId, (res) => {
+            res.success.should.equal(true)
+
+            createPlayer(self.pomeloClient, gameId, playerId, playerId, (playerRes) => {
+              playerRes.success.should.equal(true)
+
+              createPlayer(self.pomeloClient, gameId, memberId, memberId, (applicantRes) => {
+                applicantRes.success.should.equal(true)
+
+                createClan(self.pomeloClient, gameId, playerId, clanId, clanId, (clanRes) => {
+                  clanRes.success.should.equal(true)
+
+                  createMeembership(self.pomeloClient, gameId, playerId, clanId, requestorLevel,
+                  test.action, memberId, (membershipRes) => {
+                    membershipRes.success.should.equal(true)
+
+                    const reqRoute = 'metagame.sampleHandler.approveDenyMembershipApplication'
+                    const payload = {
+                      gameID: gameId,
+                      publicID: clanId,
+                      action: test.action,
+                      level,
+                      playerPublicID: applicantId,
+                      requestorPublicID: memberId,
+                    }
+                    self.pomeloClient.request(reqRoute, payload,
+                    (approveDenyMembershipApplicationRes) => {
+                      approveDenyMembershipApplicationRes.success.should.equal(false)
+                      done()
+                    })
+                  })
+                })
+              })
+            })
           })
         })
       })
