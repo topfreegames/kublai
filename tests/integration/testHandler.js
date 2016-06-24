@@ -557,5 +557,65 @@ describe('Integration', () => {
         })
       })
     })
+
+    it('Should leave the clan', function (done) {
+      const self = this
+      const gameId = getRandomId()
+      const playerId = getRandomId()
+      const clanId = getRandomId()
+
+      createGame(self.pomeloClient, gameId, gameId, (res) => {
+        res.success.should.equal(true)
+
+        createPlayer(self.pomeloClient, gameId, playerId, playerId, (playerRes) => {
+          playerRes.success.should.equal(true)
+
+          createClan(self.pomeloClient, gameId, playerId, clanId, clanId, (clanRes) => {
+            clanRes.success.should.equal(true)
+
+            const reqRoute = 'metagame.sampleHandler.leaveClan'
+            const payload = {
+              gameID: gameId,
+              publicID: clanId,
+              ownerPublicID: playerId,
+            }
+            self.pomeloClient.request(reqRoute, payload, (leaveClanRes) => {
+              leaveClanRes.success.should.equal(true)
+              done()
+            })
+          })
+        })
+      })
+    })
+
+    it('Should not leave the clan if wrong ownerPublicID', function (done) {
+      const self = this
+      const gameId = getRandomId()
+      const playerId = getRandomId()
+      const clanId = getRandomId()
+
+      createGame(self.pomeloClient, gameId, gameId, (res) => {
+        res.success.should.equal(true)
+
+        createPlayer(self.pomeloClient, gameId, playerId, playerId, (playerRes) => {
+          playerRes.success.should.equal(true)
+
+          createClan(self.pomeloClient, gameId, playerId, clanId, clanId, (clanRes) => {
+            clanRes.success.should.equal(true)
+
+            const reqRoute = 'metagame.sampleHandler.leaveClan'
+            const payload = {
+              gameID: gameId,
+              publicID: clanId,
+              ownerPublicID: getRandomId(),
+            }
+            self.pomeloClient.request(reqRoute, payload, (leaveClanRes) => {
+              leaveClanRes.success.should.equal(false)
+              done()
+            })
+          })
+        })
+      })
+    })
   })
 })
