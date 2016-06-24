@@ -288,6 +288,14 @@ describe('Integration', () => {
 
           self.pomeloClient.request(reqRoute, payload, (getPlayerRes) => {
             getPlayerRes.success.should.equal(true)
+            getPlayerRes.publicID.should.equal(playerId)
+            getPlayerRes.name.should.equal(playerId)
+            getPlayerRes.clans.approved.length.should.equal(0)
+            getPlayerRes.clans.banned.length.should.equal(0)
+            getPlayerRes.clans.denied.length.should.equal(0)
+            getPlayerRes.clans.pending.length.should.equal(0)
+            getPlayerRes.memberships.length.should.equal(0)
+            getPlayerRes.createdAt.should.equal(getPlayerRes.updatedAt)
             done()
           })
         })
