@@ -31,8 +31,6 @@ describe('Integration', () => {
           publicID: gameId,
           name: id,
           metadata: {},
-          minMembershipLevel: 2,
-          maxMembershipLevel: 6,
           minLevelToAcceptApplication: 2,
           minLevelToCreateInvitation: 3,
           minLevelOffsetToPromoteMember: 4,
@@ -42,6 +40,7 @@ describe('Integration', () => {
           allowApplication: false,
           maxMembers: 20,
           membershipLevels: { noob: 1, member: 2, elder: 3, coleader: 4 },
+          maxClansPerPlayer: 2,
         }
 
         self.pomeloClient.request(reqRoute, updatePayload, (updateRes) => {
@@ -62,8 +61,6 @@ describe('Integration', () => {
         const updatePayload = {
           name: id,
           metadata: {},
-          minMembershipLevel: 2,
-          maxMembershipLevel: 6,
           minLevelToAcceptApplication: 2,
           minLevelToCreateInvitation: 3,
           minLevelOffsetToPromoteMember: 4,
@@ -72,6 +69,8 @@ describe('Integration', () => {
           minLevelToRemoveMember: 4,
           allowApplication: false,
           maxMembers: 20,
+          membershipLevels: { noob: 1, member: 2, elder: 3, coleader: 4 },
+          maxClansPerPlayer: 2,
         }
 
         self.pomeloClient.request(reqRoute, updatePayload, (updateRes) => {

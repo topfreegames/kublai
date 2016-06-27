@@ -34,7 +34,7 @@ describe('Integration', () => {
               const payload = {
                 gameID: gameId,
                 publicID: clanId,
-                level: 1,
+                level: 'member',
                 playerPublicID: applicantId,
               }
               self.pomeloClient.request(reqRoute, payload, (applyForMembershipRes) => {
@@ -64,7 +64,7 @@ describe('Integration', () => {
           const payload = {
             gameID: gameId,
             publicID: clanId,
-            level: 1,
+            level: 'member',
             playerPublicID: applicantId,
           }
           self.pomeloClient.request(reqRoute, payload, (applyForMembershipRes) => {
@@ -88,7 +88,7 @@ describe('Integration', () => {
           const playerId = helper.getRandomId()
           const applicantId = helper.getRandomId()
           const clanId = helper.getRandomId()
-          const level = 1
+          const level = 'member'
 
           helper.createGame(self.pomeloClient, gameId, gameId, (res) => {
             res.success.should.equal(true)
@@ -143,7 +143,7 @@ describe('Integration', () => {
           const playerId = helper.getRandomId()
           const applicantId = helper.getRandomId()
           const clanId = helper.getRandomId()
-          const level = 1
+          const level = 'member'
 
           helper.createGame(self.pomeloClient, gameId, gameId, (res) => {
             res.success.should.equal(true)
@@ -195,8 +195,8 @@ describe('Integration', () => {
           const memberId = helper.getRandomId()
           const applicantId = helper.getRandomId()
           const clanId = helper.getRandomId()
-          const requestorLevel = 0
-          const level = 1
+          const requestorLevel = 'member'
+          const level = 'member'
 
           helper.createGame(self.pomeloClient, gameId, gameId, (res) => {
             res.success.should.equal(true)
@@ -263,7 +263,7 @@ describe('Integration', () => {
               const payload = {
                 gameID: gameId,
                 publicID: clanId,
-                level: 1,
+                level: 'member',
                 playerPublicID: inviteeId,
                 requestorPublicID: playerId,
               }
@@ -294,7 +294,7 @@ describe('Integration', () => {
           const payload = {
             gameID: gameId,
             publicID: clanId,
-            level: 1,
+            level: 'member',
             playerPublicID: inviteeId,
             requestorPublicID: playerId,
           }
@@ -330,7 +330,8 @@ describe('Integration', () => {
               helper.createClan(self.pomeloClient, gameId, playerId, clanId, clanId, (clanRes) => {
                 clanRes.success.should.equal(true)
 
-                helper.createMembership(self.pomeloClient, gameId, playerId, clanId, 0, memberId,
+                helper.createMembership(
+                  self.pomeloClient, gameId, playerId, clanId, 'member', memberId,
                 (membershipRes) => {
                   membershipRes.success.should.equal(true)
 
@@ -338,7 +339,7 @@ describe('Integration', () => {
                   const payload = {
                     gameID: gameId,
                     publicID: clanId,
-                    level: 1,
+                    level: 'member',
                     playerPublicID: inviteeId,
                     requestorPublicID: memberId,
                   }
@@ -367,7 +368,7 @@ describe('Integration', () => {
           const playerId = helper.getRandomId()
           const inviteeId = helper.getRandomId()
           const clanId = helper.getRandomId()
-          const level = 2
+          const level = 'elder'
 
           helper.createGame(self.pomeloClient, gameId, gameId, (res) => {
             res.success.should.equal(true)
@@ -421,7 +422,7 @@ describe('Integration', () => {
           const memberId = helper.getRandomId()
           const inviteeId = helper.getRandomId()
           const clanId = helper.getRandomId()
-          const requestorLevel = 0
+          const requestorLevel = 'member'
 
           helper.createGame(self.pomeloClient, gameId, gameId, (res) => {
             res.success.should.equal(true)

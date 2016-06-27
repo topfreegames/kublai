@@ -196,7 +196,10 @@ describe('Integration', () => {
             self.pomeloClient.request(reqRoute, payload, (getClanRes) => {
               getClanRes.success.should.equal(true)
               getClanRes.name.should.equal(clanId)
-              getClanRes.members.length.should.equal(0)
+              getClanRes.roster.length.should.equal(0)
+              getClanRes.memberships.banned.length.should.equal(0)
+              getClanRes.memberships.denied.length.should.equal(0)
+              getClanRes.memberships.pending.length.should.equal(0)
               JSON.stringify(getClanRes.metadata).should.equal('{}')
               done()
             })

@@ -18,16 +18,15 @@ function createGame(client, id, name, cb) {
     publicID: id,
     name,
     metadata: {},
-    minMembershipLevel: 1,
-    maxMembershipLevel: 5,
     minLevelToAcceptApplication: 1,
     minLevelToCreateInvitation: 2,
-    minLevelOffsetToPromoteMember: 3,
-    minLevelOffsetToDemoteMember: 3,
+    minLevelOffsetToPromoteMember: 2,
+    minLevelOffsetToDemoteMember: 1,
     minLevelOffsetToRemoveMember: 1,
     minLevelToRemoveMember: 3,
     maxMembers: 30,
     membershipLevels: { member: 1, elder: 2, coleader: 3 },
+    maxClansPerPlayer: 1,
   }
 
   client.request(reqRoute, payload, (res) => {
