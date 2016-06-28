@@ -4,7 +4,7 @@
 
 Pomelo plug-in for [khan clan server](https://github.com/topfreegames/khan).
 
-This release is compatible with [Khan 0.3.1](https://github.com/topfreegames/khan/releases/tag/0.3.1).
+This release is compatible with [Khan 0.3.3](https://github.com/topfreegames/khan/releases/tag/0.3.3).
 
 ## Download kublai
 
@@ -18,12 +18,12 @@ npm install kublai-plugin
 
 The [tests/sandbox folder](tests/sandbox) has real examples of how to do the integration, make sure you check it out.
 
-### Register the kublai plugai in your app configuration
+### Register the kublai plugin in your app configuration
 
 In your `app.js` add the following lines:
 
 ```js
-const kublaiPlugin = require('kublai-pugin')
+const kublaiPlugin = require('kublai-plugin')
 
 // app configuration
 app.configure('production|development', 'metagame', () => {
