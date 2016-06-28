@@ -93,6 +93,12 @@ Handler.prototype.deleteMembership = function (msg, session, next) {
   )
 }
 
+Handler.prototype.searchClans = function (msg, session, next) {
+  this.kublaiService.searchClans(
+    msg.gameID, msg.term, handleKhanResponse(next)
+  )
+}
+
 module.exports = function (app) {
   return new Handler(app)
 }

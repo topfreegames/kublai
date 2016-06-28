@@ -350,5 +350,83 @@ describe('Integration', () => {
         })
       })
     })
+
+    it('Should search an existing clan', function (done) {
+      const self = this
+      const gameId = helper.getRandomId()
+      const ownerId = helper.getRandomId()
+      const clanId = helper.getRandomId()
+      const clanName = 'clan with spaces'
+
+      helper.createGame(self.pomeloClient, gameId, gameId, (res) => {
+        res.success.should.equal(true)
+
+        helper.createPlayer(self.pomeloClient, gameId, ownerId, ownerId, (ownerRes) => {
+          ownerRes.success.should.equal(true)
+
+          helper.createClan(self.pomeloClient, gameId, ownerId, clanId, clanName, (clanRes) => {
+            clanRes.success.should.equal(true)
+
+            const reqRoute = 'metagame.sampleHandler.searchClans'
+            const payload = {
+              gameID: gameId,
+              term: 'with spaces',
+            }
+            self.pomeloClient.request(reqRoute, payload, (searchRes) => {
+              searchRes.success.should.equal(true)
+              searchRes.clans.length.should.equal(1)
+              searchRes.clans[0].name.should.equal(clanName)
+              searchRes.clans[0].publicID.should.equal(clanId)
+
+              done()
+            })
+          })
+        })
+      })
+    })
+
+    it.only('Should search and find multiple clans', function (done) {
+      const self = this
+      const gameId = helper.getRandomId()
+      const ownerId = helper.getRandomId()
+      const ownerId2 = helper.getRandomId()
+      const clanId = helper.getRandomId()
+      const clanName = 'clan with spaces'
+      const clanId2 = helper.getRandomId()
+      const clanName2 = 'clanwithoutspaces'
+      const pClient = self.pomeloClient
+
+      helper.createGame(pClient, gameId, gameId, (res) => {
+        res.success.should.equal(true)
+
+        helper.createPlayer(pClient, gameId, ownerId, ownerId, (ownerRes) => {
+          ownerRes.success.should.equal(true)
+
+          helper.createPlayer(pClient, gameId, ownerId2, ownerId2, (ownerRes2) => {
+            ownerRes2.success.should.equal(true)
+
+            helper.createClan(pClient, gameId, ownerId, clanId, clanName, (clanRes) => {
+              clanRes.success.should.equal(true)
+
+              helper.createClan(pClient, gameId, ownerId2, clanId2, clanName2, (clanRes2) => {
+                clanRes2.success.should.equal(true)
+
+                const reqRoute = 'metagame.sampleHandler.searchClans'
+                const payload = {
+                  gameID: gameId,
+                  term: 'clan',
+                }
+                pClient.request(reqRoute, payload, (searchRes) => {
+                  searchRes.success.should.equal(true)
+                  searchRes.clans.length.should.equal(2)
+
+                  done()
+                })
+              })
+            })
+          })
+        })
+      })
+    })
   })
 })
