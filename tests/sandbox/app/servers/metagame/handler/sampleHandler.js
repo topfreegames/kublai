@@ -81,6 +81,12 @@ Handler.prototype.approveDenyMembershipInvitation = function (msg, session, next
   )
 }
 
+Handler.prototype.promoteDemoteMember = function (msg, session, next) {
+  this.kublaiService.promoteDemoteMember(
+    msg.gameID, msg.publicID, msg.action, msg, handleKhanResponse(next)
+  )
+}
+
 module.exports = function (app) {
   return new Handler(app)
 }
