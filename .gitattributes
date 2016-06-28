@@ -1,0 +1,2 @@
+bin/khan-darwin-amd64 filter=lfs diff=lfs merge=lfs -text
+bin/khan-linux-amd64 filter=lfs diff=lfs merge=lfs -text
