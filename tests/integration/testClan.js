@@ -208,6 +208,52 @@ describe('Integration', () => {
       })
     })
 
+    it('Should list clans', function (done) {
+      const self = this
+      const gameId = helper.getRandomId()
+      const playerId1 = helper.getRandomId()
+      const playerId2 = helper.getRandomId()
+      const clanId1 = helper.getRandomId()
+      const clanId2 = helper.getRandomId()
+
+      helper.createGame(self.pomeloClient, gameId, gameId, (res) => {
+        res.success.should.equal(true)
+
+        helper.createPlayer(self.pomeloClient, gameId, playerId1, playerId1, (playerRes) => {
+          playerRes.success.should.equal(true)
+
+          helper.createPlayer(self.pomeloClient, gameId, playerId2, playerId2, (playerRes2) => {
+            playerRes2.success.should.equal(true)
+
+            helper.createClan(self.pomeloClient, gameId, playerId1, clanId1, clanId1,
+            (clanRes1) => {
+              clanRes1.success.should.equal(true)
+
+              helper.createClan(self.pomeloClient, gameId, playerId2, clanId2, clanId2,
+              (clanRes2) => {
+                clanRes2.success.should.equal(true)
+
+                const reqRoute = 'metagame.sampleHandler.listClans'
+                const payload = {
+                  gameID: gameId,
+                }
+                self.pomeloClient.request(reqRoute, payload, (listClansRes) => {
+                  listClansRes.success.should.equal(true)
+                  listClansRes.clans.length.should.equal(2)
+                  listClansRes.clans.forEach(clan => {
+                    clan.name.should.be.oneOf([clanId1, clanId2])
+                    clan.publicID.should.be.oneOf([clanId1, clanId2])
+                    JSON.stringify(clan.metadata).should.equal('{}')
+                  })
+                  done()
+                })
+              })
+            })
+          })
+        })
+      })
+    })
+
     it('Should leave the clan', function (done) {
       const self = this
       const gameId = helper.getRandomId()
