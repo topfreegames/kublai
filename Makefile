@@ -4,9 +4,25 @@
 # http://www.opensource.org/licenses/mit-license
 # Copyright © 2016 Top Free Games <backend@tfgco.com>
 
-OS = "$(shell uname | awk '{ print tolower($$0) }')"
+OS = $(shell uname | awk '{ print tolower($$0) }')
+LFS := $(shell command -v git-lfs 2> /dev/null)
 
-setup:
+setup-lfs:
+	@if [ "$(LFS)" = "" ]; then \
+		echo "You don't seem to have Git LFS installed. Installing..."; \
+		$(MAKE) setup-lfs-$(OS); \
+	fi
+
+setup-lfs-linux:
+	@curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash
+	@sudo apt-get install git-lfs
+	@git lfs install
+
+setup-lfs-darwin:
+	@brew install git-lfs
+	@git lfs install
+
+setup: setup-lfs
 	@npm install .
 
 run-sandbox-fg: redis
