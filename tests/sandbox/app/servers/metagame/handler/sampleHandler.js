@@ -99,6 +99,12 @@ Handler.prototype.searchClans = function (msg, session, next) {
   )
 }
 
+Handler.prototype.transferClanOwnership = function (msg, session, next) {
+  this.kublaiService.transferClanOwnership(
+    msg.gameID, msg.clanId, msg, handleKhanResponse(next)
+  )
+}
+
 module.exports = function (app) {
   return new Handler(app)
 }

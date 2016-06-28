@@ -385,7 +385,7 @@ describe('Integration', () => {
       })
     })
 
-    it.only('Should search and find multiple clans', function (done) {
+    it('Should search and find multiple clans', function (done) {
       const self = this
       const gameId = helper.getRandomId()
       const ownerId = helper.getRandomId()
@@ -422,6 +422,83 @@ describe('Integration', () => {
 
                   done()
                 })
+              })
+            })
+          })
+        })
+      })
+    })
+
+    it('Should fail if other user is not in clan', function (done) {
+      const self = this
+      const gameId = helper.getRandomId()
+      const ownerId = helper.getRandomId()
+      const ownerId2 = helper.getRandomId()
+      const clanId = helper.getRandomId()
+      const pClient = self.pomeloClient
+
+      helper.createGame(pClient, gameId, gameId, (res) => {
+        res.success.should.equal(true)
+
+        helper.createPlayer(pClient, gameId, ownerId, ownerId, (ownerRes) => {
+          ownerRes.success.should.equal(true)
+
+          helper.createPlayer(pClient, gameId, ownerId2, ownerId2, (ownerRes2) => {
+            ownerRes2.success.should.equal(true)
+
+            helper.createClan(pClient, gameId, ownerId, clanId, clanId, (clanRes) => {
+              clanRes.success.should.equal(true)
+
+              const reqRoute = 'metagame.sampleHandler.transferClanOwnership'
+              const payload = {
+                gameID: gameId,
+                clanId,
+                ownerPublicID: ownerId,
+                playerPublicID: ownerId2,
+              }
+              pClient.request(reqRoute, payload, (searchRes) => {
+                searchRes.success.should.equal(false)
+
+                done()
+              })
+            })
+          })
+        })
+      })
+    })
+
+    it('Should transfer ownership to other player', function (done) {
+      const self = this
+      const gameId = helper.getRandomId()
+      const ownerId = helper.getRandomId()
+      const ownerId2 = helper.getRandomId()
+      const clanId = helper.getRandomId()
+      const pClient = self.pomeloClient
+
+      helper.createGame(pClient, gameId, gameId, (res) => {
+        res.success.should.equal(true)
+
+        helper.createPlayer(pClient, gameId, ownerId, ownerId, (ownerRes) => {
+          ownerRes.success.should.equal(true)
+
+          helper.createClan(pClient, gameId, ownerId, clanId, clanId, (clanRes) => {
+            clanRes.success.should.equal(true)
+
+            helper.createPlayerAndMembership(pClient, gameId, ownerId, clanId, 'member', ownerId2,
+            (ownerRes2) => {
+              ownerRes2.success.should.equal(true)
+
+              const reqRoute = 'metagame.sampleHandler.transferClanOwnership'
+              const payload = {
+                gameID: gameId,
+                clanId,
+                ownerPublicID: ownerId,
+                playerPublicID: ownerId2,
+              }
+              pClient.request(reqRoute, payload, (searchRes) => {
+                searchRes.success.should.equal(true)
+
+                done()
               })
             })
           })
