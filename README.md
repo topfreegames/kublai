@@ -4,6 +4,8 @@
 
 Pomelo plug-in for [khan clan server](https://github.com/topfreegames/khan).
 
+This release is compatible with [Khan 0.3.1](https://github.com/topfreegames/khan/releases/tag/0.3.1).
+
 ## Download kublai
 
 You can download kublai using npm:

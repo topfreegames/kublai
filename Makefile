@@ -76,3 +76,6 @@ run-tests:
 	else \
 		exit 0 ; \
 	fi
+
+release-npm:
+	@npm publish
