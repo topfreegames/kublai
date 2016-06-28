@@ -87,6 +87,12 @@ Handler.prototype.promoteDemoteMember = function (msg, session, next) {
   )
 }
 
+Handler.prototype.deleteMembership = function (msg, session, next) {
+  this.kublaiService.deleteMembership(
+    msg.gameID, msg.publicID, msg, handleKhanResponse(next)
+  )
+}
+
 module.exports = function (app) {
   return new Handler(app)
 }

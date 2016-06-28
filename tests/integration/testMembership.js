@@ -705,5 +705,121 @@ describe('Integration', () => {
         })
       })
     })
+
+    describe('Player deletion should succeed when', () => {
+      const tests = [
+        { descr: 'player asks to leave', actor: 'player' },
+        { descr: 'owner deletes', actor: 'owner' },
+        { descr: 'high level player deletes', actor: 'highLv' },
+      ]
+      tests.forEach(test => {
+        it(`${test.descr}`, function (done) {
+          const self = this
+          const gameId = helper.getRandomId()
+          const playerId = helper.getRandomId()
+          const highLvId = helper.getRandomId()
+          const memberId = helper.getRandomId()
+          const clanId = helper.getRandomId()
+          const client = self.pomeloClient
+
+          helper.createGame(client, gameId, gameId, (res) => {
+            res.success.should.equal(true)
+
+            helper.createPlayer(client, gameId, playerId, playerId, (playerRes) => {
+              playerRes.success.should.equal(true)
+              helper.createClan(client, gameId, playerId, clanId, clanId, (clanRes) => {
+                clanRes.success.should.equal(true)
+
+                helper.createPlayerAndMembership(client, gameId, playerId, clanId, 'coleader',
+                highLvId, (highRes) => {
+                  highRes.success.should.equal(true)
+
+                  helper.createPlayerAndMembership(client, gameId, playerId, clanId, 'member',
+                  memberId, (pRes) => {
+                    pRes.success.should.equal(true)
+
+                    const reqRoute = 'metagame.sampleHandler.deleteMembership'
+                    let actor = memberId
+                    if (test.actor === 'owner') {
+                      actor = playerId
+                    } else if (test.actor === 'highLv') {
+                      actor = highLvId
+                    }
+                    const payload = {
+                      gameID: gameId,
+                      publicID: clanId,
+                      playerPublicID: memberId,
+                      requestorPublicID: actor,
+                    }
+
+                    client.request(reqRoute, payload, (deleteMembership) => {
+                      deleteMembership.success.should.equal(true)
+                      done()
+                    })
+                  })
+                })
+              })
+            })
+          })
+        })
+      })
+    })
+
+    describe('Player deletion should fail when', () => {
+      const tests = [
+        { descr: 'player level is higher', actor: 'higher' },
+        { descr: 'player level is same level', actor: 'same' },
+      ]
+      tests.forEach(test => {
+        it(`${test.descr}`, function (done) {
+          const self = this
+          const gameId = helper.getRandomId()
+          const playerId = helper.getRandomId()
+          const highLvId = helper.getRandomId()
+          const memberId = helper.getRandomId()
+          const clanId = helper.getRandomId()
+          const client = self.pomeloClient
+
+          helper.createGame(client, gameId, gameId, (res) => {
+            res.success.should.equal(true)
+
+            helper.createPlayer(client, gameId, playerId, playerId, (playerRes) => {
+              playerRes.success.should.equal(true)
+              helper.createClan(client, gameId, playerId, clanId, clanId, (clanRes) => {
+                clanRes.success.should.equal(true)
+
+                let pLevel = 'elder'
+                if (test.actor === 'higher') {
+                  pLevel = 'coleader'
+                }
+                helper.createPlayerAndMembership(client, gameId, playerId, clanId, 'elder',
+                highLvId, (highRes) => {
+                  highRes.success.should.equal(true)
+
+                  helper.createPlayerAndMembership(client, gameId, playerId, clanId, pLevel,
+                  memberId, (pRes) => {
+                    pRes.success.should.equal(true)
+
+                    const reqRoute = 'metagame.sampleHandler.deleteMembership'
+                    const payload = {
+                      gameID: gameId,
+                      publicID: clanId,
+                      playerPublicID: memberId,
+                      requestorPublicID: highLvId,
+                    }
+
+                    client.request(reqRoute, payload, (deleteMembership) => {
+                      deleteMembership.success.should.equal(false)
+                      deleteMembership.code.should.equal(500)
+                      done()
+                    })
+                  })
+                })
+              })
+            })
+          })
+        })
+      })
+    })
   })
 })
