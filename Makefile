@@ -47,11 +47,24 @@ drop-test-khan:
 	@psql -d postgres -f tests/drop-test.sql > /dev/null
 	@echo "Test database created successfully!"
 
+drop-ci-khan:
+	@psql -d postgres -h postgres -f tests/drop-test.sql > /dev/null
+	@echo "Test database created successfully!"
+
 migrate-test-khan:
 	@echo "Running migrations in $(OS)"
 	@./bin/khan-$(OS)-amd64 migrate -c ./tests/khan.yaml
 
+migrate-ci-khan:
+	@echo "Running migrations in $(OS)"
+	@./bin/khan-$(OS)-amd64 migrate -c ./tests/khan-ci.yaml
+
 run-test-khan: kill-test-khan drop-test-khan migrate-test-khan
+	@echo "Running test khan in $(OS)"
+	@rm -rf /tmp/kublai-khan.log
+	@./bin/khan-$(OS)-amd64 start -p 8888 -c ./tests/khan.yaml 2>&1 > /tmp/kublai-khan.log &
+
+run-ci-khan: kill-test-khan drop-ci-khan migrate-ci-khan
 	@echo "Running test khan in $(OS)"
 	@rm -rf /tmp/kublai-khan.log
 	@./bin/khan-$(OS)-amd64 start -p 8888 -c ./tests/khan.yaml 2>&1 > /tmp/kublai-khan.log &

@@ -15,6 +15,7 @@ const kublaiPlugin = require('../../index.js')
 const app = pomelo.createApp()
 app.set('name', 'sandbox')
 
+const redisHost = process.env.POMELO_REDIS_HOST || '127.0.0.1'
 const redisPort = process.env.POMELO_REDIS_PORT || 3434
 
 // configure monitor
@@ -24,7 +25,7 @@ app.configure('production|development', () => {
       monitor: pomelo.monitors.redismonitor,
       servers: '127.0.0.1:3334',
       redisNodes: {
-        host: '127.0.0.1',
+        host: redisHost,
         port: redisPort,
       },
       redisOpts: {
