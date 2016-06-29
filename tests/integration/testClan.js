@@ -420,6 +420,10 @@ describe('Integration', () => {
                   searchRes.success.should.equal(true)
                   searchRes.clans.length.should.equal(2)
 
+                  for (let i = 0; i < 2; i++) {
+                    searchRes.clans[i].membershipCount.should.not.be.null
+                  }
+
                   done()
                 })
               })
