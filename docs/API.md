@@ -196,14 +196,27 @@ Updates a clan. This operation uses [Khan's Update Clan Route](http://khan-api.r
 #### Signature
 
 ```
-kublaiService.updateClan(gameId, clanId, clanData, callback);
+kublaiService.updateClan(
+  gameId,
+  publicId,
+  name,
+  metadata,
+  ownerPublicId,
+  allowApplication,
+  autoJoin,
+  callback
+);
 ```
 
 #### Arguments
 
-* `gameId`: public ID for the clan's game.
-* `clanId`: public ID for the clan.
-* `clanData`: object with the details for the clan to be updated. Please refer to Khan's docs for the structure of this argument.
+* `gameId`: public ID for the clan's game;
+* `publicId`: public ID for the clan;
+* `name`: clan's name;
+* `metadata`: a JSON object representing any metadata required for the clan;
+* `ownerPublicId`: clan's owner player public id;
+* `allowApplication`: does this clan allow players to apply to it;
+* `autoJoin`: do players that apply to this clan get automatically accepted;
 
 ### Get Clan
 

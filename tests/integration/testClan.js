@@ -81,11 +81,11 @@ describe('Integration', () => {
 
             const reqRoute = 'metagame.sampleHandler.updateClan'
             const updatePayload = {
-              gameID: gameId,
-              publicID: clanId,
+              gameId,
+              publicId: clanId,
               name: clanId,
               metadata: { new: 'metadata' },
-              ownerPublicID: playerId,
+              ownerPublicId: playerId,
               allowApplication: true,
               autoJoin: false,
             }
@@ -116,10 +116,10 @@ describe('Integration', () => {
 
             const reqRoute = 'metagame.sampleHandler.updateClan'
             const updatePayload = {
-              publicID: clanId,
+              publicId: clanId,
               name: clanId,
               metadata: { new: 'metadata' },
-              ownerPublicID: playerId,
+              ownerPublicId: playerId,
               allowApplication: true,
               autoJoin: false,
             }
@@ -153,10 +153,10 @@ describe('Integration', () => {
 
             const reqRoute = 'metagame.sampleHandler.updateClan'
             const updatePayload = {
-              gameID: gameId,
+              gameId,
               name: clanId,
               metadata: { new: 'metadata' },
-              ownerPublicID: playerId,
+              ownerPublicId: playerId,
               allowApplication: true,
               autoJoin: false,
             }

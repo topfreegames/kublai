@@ -83,7 +83,11 @@ Handler.prototype.createClan = function (msg, session, next) {
 }
 
 Handler.prototype.updateClan = function (msg, session, next) {
-  this.kublaiService.updateClan(msg.gameID, msg.publicID, msg, handleKhanResponse(next))
+  this.kublaiService.updateClan(
+    msg.gameId, msg.publicId, msg.name, msg.metadata,
+    msg.ownerPublicId, msg.allowApplication, msg.autoJoin,
+    handleKhanResponse(next)
+  )
 }
 
 Handler.prototype.getClanSummary = function (msg, session, next) {
