@@ -288,14 +288,14 @@ This operation should be used when the clan's owner decides to leave the clan. I
 #### Signature
 
 ```
-kublaiService.leaveClan(gameId, clanId, clanData, callback);
+kublaiService.leaveClan(gameId, clanId, ownerPublicId, callback);
 ```
 
 #### Arguments
 
-* `gameId`: public ID for the clan's game.
-* `clanId`: public ID for the clan.
-* `clanData`: object with the details for the clan to be changed. Please refer to Khan's docs for the structure of this argument.
+* `gameId`: public ID for the clan's game;
+* `clanId`: public ID for the clan;
+* `ownerPublicId`: public ID of the owner leaving the clan.
 
 ### Transfer Clan Ownership
 

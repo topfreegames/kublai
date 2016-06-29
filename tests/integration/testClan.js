@@ -289,7 +289,7 @@ describe('Integration', () => {
       })
     })
 
-    it('Should leave the clan', function (done) {
+    it.only('Should leave the clan', function (done) {
       const self = this
       const gameId = helper.getRandomId()
       const playerId = helper.getRandomId()
@@ -306,9 +306,9 @@ describe('Integration', () => {
 
             const reqRoute = 'metagame.sampleHandler.leaveClan'
             const payload = {
-              gameID: gameId,
-              publicID: clanId,
-              ownerPublicID: playerId,
+              gameId,
+              publicId: clanId,
+              ownerPublicId: playerId,
             }
             self.pomeloClient.request(reqRoute, payload, (leaveClanRes) => {
               leaveClanRes.success.should.equal(true)

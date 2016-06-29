@@ -100,7 +100,9 @@ Handler.prototype.getClan = function (msg, session, next) {
 
 Handler.prototype.leaveClan = function (msg, session, next) {
   // Here maybe you should check if the current player is the current clan owner ;)
-  this.kublaiService.leaveClan(msg.gameID, msg.publicID, msg, handleKhanResponse(next))
+  this.kublaiService.leaveClan(
+    msg.gameId, msg.publicId, msg.ownerPublicId, handleKhanResponse(next)
+  )
 }
 
 Handler.prototype.listClans = function (msg, session, next) {
