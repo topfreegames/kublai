@@ -17,7 +17,7 @@ before_install:
   - nvm use 6.2.2
 
 install:
-  - make setup
+  - make setup-ci
 
 script:
   - node --version
