@@ -82,7 +82,7 @@ kill-game-server:
 
 test: redis run-test-khan run-test-game-server run-tests
 
-test-ci: run-test-khan run-test-game-server run-tests
+test-ci: run-ci-khan run-test-game-server run-tests
 
 run-tests:
 	@./node_modules/mocha/bin/mocha tests/integration/ || \
