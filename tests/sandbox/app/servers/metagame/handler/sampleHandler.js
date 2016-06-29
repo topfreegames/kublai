@@ -48,6 +48,10 @@ Handler.prototype.updateClan = function (msg, session, next) {
   this.kublaiService.updateClan(msg.gameID, msg.publicID, msg, handleKhanResponse(next))
 }
 
+Handler.prototype.getClanSummary = function (msg, session, next) {
+  this.kublaiService.getClanSummary(msg.gameID, msg.publicID, handleKhanResponse(next))
+}
+
 Handler.prototype.getClan = function (msg, session, next) {
   this.kublaiService.getClan(msg.gameID, msg.publicID, handleKhanResponse(next))
 }

@@ -55,7 +55,7 @@ kill-test-khan:
 
 run-test-game-server: kill-game-server
 	@rm -rf /tmp/kublai-pomelo.log
-	@node tests/sandbox/app.js host=127.0.0.1 port=3334 clientPort=3333 frontend=true serverType=metagame 2>&1 > /tmp/kublai-pomelo.log &
+	@node tests/sandbox/app.js host=127.0.0.1 port=3334 clientPort=3333 frontend=true debug=false serverType=metagame 2>&1 > /tmp/kublai-pomelo.log &
 	@sleep 3
 
 kill-game-server:

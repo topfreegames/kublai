@@ -173,6 +173,41 @@ describe('Integration', () => {
       })
     })
 
+    it('Should retrieve clan summary', function (done) {
+      const self = this
+      const gameId = helper.getRandomId()
+      const playerId = helper.getRandomId()
+      const clanId = helper.getRandomId()
+
+      helper.createGame(self.pomeloClient, gameId, gameId, (res) => {
+        res.success.should.equal(true)
+
+        helper.createPlayer(self.pomeloClient, gameId, playerId, playerId, (playerRes) => {
+          playerRes.success.should.equal(true)
+
+          helper.createClan(self.pomeloClient, gameId, playerId, clanId, clanId, (clanRes) => {
+            clanRes.success.should.equal(true)
+
+            const reqRoute = 'metagame.sampleHandler.getClanSummary'
+            const payload = {
+              gameID: gameId,
+              publicID: clanId,
+            }
+            self.pomeloClient.request(reqRoute, payload, (getClanRes) => {
+              getClanRes.success.should.equal(true)
+              getClanRes.name.should.equal(clanId)
+              getClanRes.publicID.should.equal(clanId)
+              getClanRes.allowApplication.should.be.true  // eslint-disable-line no-unused-expressions,max-len
+              getClanRes.autoJoin.should.be.false  // eslint-disable-line no-unused-expressions,max-len
+              getClanRes.metadata.should.be.empty  // eslint-disable-line no-unused-expressions,max-len
+              getClanRes.membershipCount.should.equal(0)
+              done()
+            })
+          })
+        })
+      })
+    })
+
     it('Should retrieve clan', function (done) {
       const self = this
       const gameId = helper.getRandomId()
@@ -421,7 +456,7 @@ describe('Integration', () => {
                   searchRes.clans.length.should.equal(2)
 
                   for (let i = 0; i < 2; i++) {
-                    searchRes.clans[i].membershipCount.should.not.be.null
+                    searchRes.clans[i].membershipCount.should.not.be.null  // eslint-disable-line no-unused-expressions,max-len
                   }
 
                   done()
