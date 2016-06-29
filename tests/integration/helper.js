@@ -12,10 +12,10 @@ function getRandomId() {
   return uuid.v4()
 }
 
-function createGame(client, id, name, cb) {
+function createGame(client, publicId, name, cb) {
   const reqRoute = 'metagame.sampleHandler.createGame'
   const payload = {
-    publicID: id,
+    publicId,
     name,
     metadata: {},
     minLevelToAcceptApplication: 1,

@@ -28,7 +28,7 @@ describe('Integration', () => {
 
         const reqRoute = 'metagame.sampleHandler.updateGame'
         const updatePayload = {
-          publicID: gameId,
+          publicId: gameId,
           name: id,
           metadata: {},
           minLevelToAcceptApplication: 2,

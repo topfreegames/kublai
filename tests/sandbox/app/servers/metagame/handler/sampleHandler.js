@@ -21,11 +21,41 @@ function handleKhanResponse(next) {
 }
 
 Handler.prototype.createGame = function (msg, session, next) {
-  this.kublaiService.createGame(msg, handleKhanResponse(next))
+  const callback = handleKhanResponse(next)
+  this.kublaiService.createGame(
+    msg.publicId,
+    msg.name,
+    msg.metadata,
+    msg.membershipLevels,
+    msg.minLevelToAcceptApplication,
+    msg.minLevelToCreateInvitation,
+    msg.minLevelToRemoveMember,
+    msg.minLevelOffsetToRemoveMember,
+    msg.minLevelOffsetToPromoteMember,
+    msg.minLevelOffsetToDemoteMember,
+    msg.maxMembers,
+    msg.maxClansPerPlayer,
+    callback
+  )
 }
 
 Handler.prototype.updateGame = function (msg, session, next) {
-  this.kublaiService.updateGame(msg.publicID, msg, handleKhanResponse(next))
+  const callback = handleKhanResponse(next)
+  this.kublaiService.updateGame(
+    msg.publicId,
+    msg.name,
+    msg.metadata,
+    msg.membershipLevels,
+    msg.minLevelToAcceptApplication,
+    msg.minLevelToCreateInvitation,
+    msg.minLevelToRemoveMember,
+    msg.minLevelOffsetToRemoveMember,
+    msg.minLevelOffsetToPromoteMember,
+    msg.minLevelOffsetToDemoteMember,
+    msg.maxMembers,
+    msg.maxClansPerPlayer,
+    callback
+  )
 }
 
 Handler.prototype.createPlayer = function (msg, session, next) {

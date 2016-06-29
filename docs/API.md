@@ -32,19 +32,37 @@ For error reasons and payloads, please refer to [Khan's API](http://khan-api.rea
 #### Signature
 
 ```
-kublaiService.createGame(gameData, callback);
+kublaiService.createGame(
+  publicId,
+  name,
+  metadata,
+  membershipLevels,
+  minLevelToAcceptApplication,
+  minLevelToCreateInvitation,
+  minLevelToRemoveMember,
+  minLevelOffsetToRemoveMember,
+  minLevelOffsetToPromoteMember,
+  minLevelOffsetToDemoteMember,
+  maxMembers,
+  maxClansPerPlayer,
+  callback
+);
 ```
 
 #### Arguments
 
-* `gameData`: object with details for the game to be created. Please refer to Khan's docs for the structure of this argument.
-
-```
-{
-  "success": true,
-  "publicID": [string]  // game public id
-}
-```
+* `publicId`: game's public id;
+* `name`: name for this game;
+* `metadata`: any metadata that needs to be stored for this game;
+* `membershipLevels`: object with the available membership levels for this game (refer to khan Docs for more details);
+* `minLevelToAcceptApplication`: a member cannot accept a player’s application to join the clan unless their level is greater or equal to this parameter;
+* `minLevelToCreateInvitation`: a member cannot invite a player to join the clan unless their level is greater or equal to this parameter;
+* `minLevelToRemoveMember`: minimum membership level required to remove another member from the clan;
+* `minLevelOffsetToRemoveMember`: a member cannot remove another member unless their level is at least `minLevelOffsetToRemoveMember` levels greater than the level of the member they wish to promote;
+* `minLevelOffsetToPromoteMember`: a member cannot promote another member unless their level is at least `minLevelOffsetToPromoteMember` levels greater than the level of the member they wish to promote;
+* `minLevelOffsetToDemoteMember`: a member cannot demote another member unless their level is at least `minLevelOffsetToDemoteMember` levels greater than the level of the member they wish to demote;
+* `maxMembers`: maximum number of members a clan of this game can have;
+* `maxClansPerPlayer`: maximum numbers of clans a player can be an approved member of.
         
 ### Update Game
 
@@ -53,14 +71,38 @@ Updates a game. If the game does not exist it gets created with the given parame
 #### Signature
 
 ```
-kublaiService.updateGame(gameId, gameData, callback);
+kublaiService.updateGame(
+  publicId,
+  name,
+  metadata,
+  membershipLevels,
+  minLevelToAcceptApplication,
+  minLevelToCreateInvitation,
+  minLevelToRemoveMember,
+  minLevelOffsetToRemoveMember,
+  minLevelOffsetToPromoteMember,
+  minLevelOffsetToDemoteMember,
+  maxMembers,
+  maxClansPerPlayer,
+  callback
+)
 ```
 
 #### Arguments
 
-* `gameId`: public ID for the game to be updated.
-* `gameData`: object with the details for the game to be updated. Please refer to Khan's docs for the structure of this argument.
-        
+* `publicId`: game's public id;
+* `name`: name for this game;
+* `metadata`: any metadata that needs to be stored for this game;
+* `membershipLevels`: object with the available membership levels for this game (refer to khan Docs for more details);
+* `minLevelToAcceptApplication`: a member cannot accept a player’s application to join the clan unless their level is greater or equal to this parameter;
+* `minLevelToCreateInvitation`: a member cannot invite a player to join the clan unless their level is greater or equal to this parameter;
+* `minLevelToRemoveMember`: minimum membership level required to remove another member from the clan;
+* `minLevelOffsetToRemoveMember`: a member cannot remove another member unless their level is at least `minLevelOffsetToRemoveMember` levels greater than the level of the member they wish to promote;
+* `minLevelOffsetToPromoteMember`: a member cannot promote another member unless their level is at least `minLevelOffsetToPromoteMember` levels greater than the level of the member they wish to promote;
+* `minLevelOffsetToDemoteMember`: a member cannot demote another member unless their level is at least `minLevelOffsetToDemoteMember` levels greater than the level of the member they wish to demote;
+* `maxMembers`: maximum number of members a clan of this game can have;
+* `maxClansPerPlayer`: maximum numbers of clans a player can be an approved member of.
+
 ## Player Methods
 
 ### Create Player
@@ -243,51 +285,43 @@ kublaiService.transferClanOwnership(gameId, clanId, clanData, callback);
 
 ## Membership Routes
 
-  ### Apply For Membership
+### Apply for Membership
 
-  `POST /games/:gameID/clans/:clanPublicID/memberships/application`
+Allows a player to ask to join the clan with the given publicID. If the clan’s autoJoin property is true the member will be automatically approved. Otherwise, the membership must be approved by the clan owner or one of the clan members.
 
-  Allows a player to ask to join the clan with the given publicID. If the clan's autoJoin property is true the member will be automatically approved. Otherwise, the membership must be approved by the clan owner or one of the clan members.
+This operation uses [Khan's Apply For Membership Route](http://khan-api.readthedocs.io/en/latest/API.html#apply-for-membership).
 
-  * Payload
+#### Signature
 
-    ```
-    {
-      "level": [string],         // the level of the membership
-      "playerPublicID": [string] // the player's public id
-    }
-    ```
+```
+kublaiService.applyForMembership(gameId, clanId, membershipData, callback);
+```
 
-  * Success Response
-    * Code: `200`
-    * Content:
-      ```
-      {
-        "success": true
-      }
-      ```
+#### Arguments
 
-  * Error Response
+* `gameId`: public ID for the desired clan's game.
+* `clanId`: public ID for the desired clan.
+* `membershipData`: object with the details for the membership to be changed. Please refer to Khan's docs for the structure of this argument.
 
-    It will return an error if an invalid payload is sent or if there are missing parameters.
+### Approve or Deny Membership
 
-    * Code: `400`
-    * Content:
-      ```
-      {
-        "success": false,
-        "reason": [string]
-      }
-      ```
+Allows the clan owner or a clan member to approve or deny a player’s application to join the clan. The member’s membership level must be at least the game’s `minLevelToAcceptApplication`.
 
-    * Code: `500`
-    * Content:
-      ```
-      {
-        "success": false,
-        "reason": [string]
-      }
-      ```
+This operation uses [Khan's Approve Or Deny Membership Route](http://khan-api.readthedocs.io/en/latest/API.html#approve-or-deny-membership-application).
+
+#### Signature
+
+```
+kublaiService.applyForMembership(gameId, clanId, action, membershipData, callback);
+```
+
+#### Arguments
+
+* `gameId`: public ID for the desired clan's game.
+* `clanId`: public ID for the desired clan.
+* `action`: action to be executed. Can be either `approve` or `deny`.
+* `membershipData`: object with the details for the membership to be changed. Please refer to Khan's docs for the structure of this argument.
+
 
   ### Approve Or Deny Membership Application
 
