@@ -6,14 +6,17 @@
 // Copyright © 2016 Top Free Games <backend@tfgco.com>
 
 require('./common')
+const uuid = require('node-uuid')
 const helper = require('./helper')
 
 describe('Integration', () => {
   describe('Game Test Handler', () => {
     it('Should create game', function (done) {
-      helper.createGame(this.pomeloClient, 'test-id', 'test-name', (res) => {
+      const publicId = uuid.v4()
+
+      helper.createGame(this.pomeloClient, publicId, publicId, (res) => {
         res.success.should.equal(true)
-        res.publicID.should.equal('test-id')
+        res.publicID.should.equal(publicId)
         done()
       })
     })

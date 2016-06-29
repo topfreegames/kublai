@@ -32,10 +32,10 @@ describe('Integration', () => {
 
               const reqRoute = 'metagame.sampleHandler.applyForMembership'
               const payload = {
-                gameID: gameId,
-                publicID: clanId,
+                gameId,
+                publicId: clanId,
                 level: 'member',
-                playerPublicID: applicantId,
+                playerPublicId: applicantId,
               }
               self.pomeloClient.request(reqRoute, payload, (applyForMembershipRes) => {
                 applyForMembershipRes.success.should.equal(true)
@@ -62,10 +62,10 @@ describe('Integration', () => {
 
           const reqRoute = 'metagame.sampleHandler.applyForMembership'
           const payload = {
-            gameID: gameId,
-            publicID: clanId,
+            gameId,
+            publicId: clanId,
             level: 'member',
-            playerPublicID: applicantId,
+            playerPublicId: applicantId,
           }
           self.pomeloClient.request(reqRoute, payload, (applyForMembershipRes) => {
             applyForMembershipRes.success.should.equal(false)
@@ -110,12 +110,12 @@ describe('Integration', () => {
 
                     const reqRoute = 'metagame.sampleHandler.approveDenyMembershipApplication'
                     const payload = {
-                      gameID: gameId,
-                      publicID: clanId,
+                      gameId,
+                      publicId: clanId,
                       action: test.action,
                       level,
-                      playerPublicID: applicantId,
-                      requestorPublicID: playerId,
+                      playerPublicId: applicantId,
+                      requestorPublicId: playerId,
                     }
                     self.pomeloClient.request(reqRoute, payload,
                     (approveDenyMembershipApplicationRes) => {
@@ -161,12 +161,12 @@ describe('Integration', () => {
 
                   const reqRoute = 'metagame.sampleHandler.approveDenyMembershipApplication'
                   const payload = {
-                    gameID: gameId,
-                    publicID: clanId,
+                    gameId,
+                    publicId: clanId,
                     action: test.action,
                     level,
-                    playerPublicID: applicantId,
-                    requestorPublicID: playerId,
+                    playerPublicId: applicantId,
+                    requestorPublicId: playerId,
                   }
                   self.pomeloClient.request(reqRoute, payload,
                   (approveDenyMembershipApplicationRes) => {
@@ -217,12 +217,12 @@ describe('Integration', () => {
 
                     const reqRoute = 'metagame.sampleHandler.approveDenyMembershipApplication'
                     const payload = {
-                      gameID: gameId,
-                      publicID: clanId,
+                      gameId,
+                      publicId: clanId,
                       action: test.action,
                       level,
-                      playerPublicID: applicantId,
-                      requestorPublicID: memberId,
+                      playerPublicId: applicantId,
+                      requestorPublicId: memberId,
                     }
                     self.pomeloClient.request(reqRoute, payload,
                     (approveDenyMembershipApplicationRes) => {
@@ -261,11 +261,11 @@ describe('Integration', () => {
 
               const reqRoute = 'metagame.sampleHandler.inviteForMembership'
               const payload = {
-                gameID: gameId,
-                publicID: clanId,
+                gameId,
+                publicId: clanId,
                 level: 'member',
-                playerPublicID: inviteeId,
-                requestorPublicID: playerId,
+                playerPublicId: inviteeId,
+                requestorPublicId: playerId,
               }
               self.pomeloClient.request(reqRoute, payload, (inviteForMembershipRes) => {
                 inviteForMembershipRes.success.should.equal(true)
@@ -292,11 +292,11 @@ describe('Integration', () => {
 
           const reqRoute = 'metagame.sampleHandler.inviteForMembership'
           const payload = {
-            gameID: gameId,
-            publicID: clanId,
+            gameId,
+            publicId: clanId,
             level: 'member',
-            playerPublicID: inviteeId,
-            requestorPublicID: playerId,
+            playerPublicId: inviteeId,
+            requestorPublicId: playerId,
           }
           self.pomeloClient.request(reqRoute, payload, (inviteForMembershipRes) => {
             inviteForMembershipRes.success.should.equal(false)
@@ -337,11 +337,11 @@ describe('Integration', () => {
 
                   const reqRoute = 'metagame.sampleHandler.inviteForMembership'
                   const payload = {
-                    gameID: gameId,
-                    publicID: clanId,
+                    gameId,
+                    publicId: clanId,
                     level: 'member',
-                    playerPublicID: inviteeId,
-                    requestorPublicID: memberId,
+                    playerPublicId: inviteeId,
+                    requestorPublicId: memberId,
                   }
                   self.pomeloClient.request(reqRoute, payload, (inviteForMembershipRes) => {
                     inviteForMembershipRes.success.should.equal(false)
@@ -390,10 +390,10 @@ describe('Integration', () => {
 
                     const reqRoute = 'metagame.sampleHandler.approveDenyMembershipInvitation'
                     const payload = {
-                      gameID: gameId,
-                      publicID: clanId,
+                      gameId,
+                      publicId: clanId,
                       action: test.action,
-                      playerPublicID: inviteeId,
+                      playerPublicId: inviteeId,
                     }
                     self.pomeloClient.request(reqRoute, payload,
                     (approveDenyMembershipInvitationRes) => {
@@ -443,10 +443,10 @@ describe('Integration', () => {
 
                     const reqRoute = 'metagame.sampleHandler.approveDenyMembershipInvitation'
                     const payload = {
-                      gameID: gameId,
-                      publicID: clanId,
+                      gameId,
+                      publicId: clanId,
                       action: test.action,
-                      playerPublicID: inviteeId,
+                      playerPublicId: inviteeId,
                     }
                     self.pomeloClient.request(reqRoute, payload,
                     (approveDenyMembershipInvitationRes) => {
@@ -499,11 +499,11 @@ describe('Integration', () => {
 
                     const reqRoute = 'metagame.sampleHandler.promoteDemoteMember'
                     const payload = {
-                      gameID: gameId,
-                      publicID: clanId,
+                      gameId,
+                      publicId: clanId,
                       action: test.action,
-                      playerPublicID: memberId,
-                      requestorPublicID: playerId,
+                      playerPublicId: memberId,
+                      requestorPublicId: playerId,
                     }
                     self.pomeloClient.request(reqRoute, payload, (promoteDemoteMember) => {
                       promoteDemoteMember.success.should.equal(true)
@@ -555,11 +555,11 @@ describe('Integration', () => {
 
                     const reqRoute = 'metagame.sampleHandler.promoteDemoteMember'
                     const payload = {
-                      gameID: gameId,
-                      publicID: clanId,
+                      gameId,
+                      publicId: clanId,
                       action: test.action,
-                      playerPublicID: memberId,
-                      requestorPublicID: playerId,
+                      playerPublicId: memberId,
+                      requestorPublicId: playerId,
                     }
                     self.pomeloClient.request(reqRoute, payload, (promoteDemoteMember) => {
                       promoteDemoteMember.success.should.equal(false)
@@ -619,11 +619,11 @@ describe('Integration', () => {
 
                         const reqRoute = 'metagame.sampleHandler.promoteDemoteMember'
                         const payload = {
-                          gameID: gameId,
-                          publicID: clanId,
+                          gameId,
+                          publicId: clanId,
                           action: test.action,
-                          playerPublicID: memberId,
-                          requestorPublicID: highLvId,
+                          playerPublicId: memberId,
+                          requestorPublicId: highLvId,
                         }
                         self.pomeloClient.request(reqRoute, payload, (promoteDemoteMember) => {
                           promoteDemoteMember.success.should.equal(true)
@@ -684,11 +684,11 @@ describe('Integration', () => {
 
                         const reqRoute = 'metagame.sampleHandler.promoteDemoteMember'
                         const payload = {
-                          gameID: gameId,
-                          publicID: clanId,
+                          gameId,
+                          publicId: clanId,
                           action: test.action,
-                          playerPublicID: memberId,
-                          requestorPublicID: highLvId,
+                          playerPublicId: memberId,
+                          requestorPublicId: highLvId,
                         }
                         self.pomeloClient.request(reqRoute, payload, (promoteDemoteMember) => {
                           promoteDemoteMember.success.should.equal(false)
@@ -746,10 +746,10 @@ describe('Integration', () => {
                       actor = highLvId
                     }
                     const payload = {
-                      gameID: gameId,
-                      publicID: clanId,
-                      playerPublicID: memberId,
-                      requestorPublicID: actor,
+                      gameId,
+                      publicId: clanId,
+                      playerPublicId: memberId,
+                      requestorPublicId: actor,
                     }
 
                     client.request(reqRoute, payload, (deleteMembership) => {
@@ -802,10 +802,10 @@ describe('Integration', () => {
 
                     const reqRoute = 'metagame.sampleHandler.deleteMembership'
                     const payload = {
-                      gameID: gameId,
-                      publicID: clanId,
-                      playerPublicID: memberId,
-                      requestorPublicID: highLvId,
+                      gameId,
+                      publicId: clanId,
+                      playerPublicId: memberId,
+                      requestorPublicId: highLvId,
                     }
 
                     client.request(reqRoute, payload, (deleteMembership) => {

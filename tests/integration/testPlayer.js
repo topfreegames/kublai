@@ -35,7 +35,7 @@ describe('Integration', () => {
 
         const reqRoute = 'metagame.sampleHandler.createPlayer'
         const payload = {
-          publicID: playerId,
+          publicId: playerId,
           name: playerId,
           metadata: {},
         }
@@ -90,7 +90,7 @@ describe('Integration', () => {
 
           const reqRoute = 'metagame.sampleHandler.updatePlayer'
           const updatePayload = {
-            publicID: playerId,
+            publicId: playerId,
             name: playerId,
             metadata: { new: 'metadata' },
           }
@@ -148,8 +148,8 @@ describe('Integration', () => {
 
           const reqRoute = 'metagame.sampleHandler.getPlayer'
           const payload = {
-            gameID: gameId,
-            publicID: playerId,
+            gameId,
+            publicId: playerId,
           }
 
           self.pomeloClient.request(reqRoute, payload, (getPlayerRes) => {
@@ -170,8 +170,8 @@ describe('Integration', () => {
 
     describe('Should not get player if missing', () => {
       const tests = [
-        { desc: 'gameID', delete: 'gameID' },
-        { desc: 'playerID', delete: 'publicID' },
+        { desc: 'gameId', delete: 'gameId' },
+        { desc: 'playerId', delete: 'publicId' },
       ]
       tests.forEach(test => {
         it(test.desc, function (done) {
@@ -187,8 +187,8 @@ describe('Integration', () => {
 
               const reqRoute = 'metagame.sampleHandler.getPlayer'
               const payload = {
-                gameID: gameId,
-                publicID: playerId,
+                gameId,
+                publicId: playerId,
               }
               delete payload[test.delete]
 
@@ -205,8 +205,8 @@ describe('Integration', () => {
 
     describe('Should not get player if unexistent', () => {
       const tests = [
-        { desc: 'gameID', field: 'gameID', val: helper.getRandomId() },
-        { desc: 'playerID', field: 'publicID', val: helper.getRandomId() },
+        { desc: 'gameId', field: 'gameId', val: helper.getRandomId() },
+        { desc: 'playerId', field: 'publicId', val: helper.getRandomId() },
       ]
       tests.forEach(test => {
         it(test.desc, function (done) {
@@ -222,8 +222,8 @@ describe('Integration', () => {
 
               const reqRoute = 'metagame.sampleHandler.getPlayer'
               const payload = {
-                gameID: gameId,
-                publicID: playerId,
+                gameId,
+                publicId: playerId,
               }
               payload[test.field] = test.val
               self.pomeloClient.request(reqRoute, payload, (getPlayerRes) => {

@@ -68,10 +68,10 @@ function createClan(client, gameId, ownerId, publicId, name, cb) {
 function createMembershipApplication(client, gameId, clanId, level, applicantId, cb) {
   const reqRoute = 'metagame.sampleHandler.applyForMembership'
   const payload = {
-    gameID: gameId,
-    publicID: clanId,
+    gameId,
+    publicId: clanId,
     level,
-    playerPublicID: applicantId,
+    playerPublicId: applicantId,
   }
   client.request(reqRoute, payload, (applyForMembershipRes) => {
     cb(applyForMembershipRes)
@@ -82,12 +82,12 @@ function acceptOrDenyMembership(client, gameId, ownerId, clanId, level, action, 
   createMembershipApplication(client, gameId, clanId, level, applicantId, () => {
     const approveRoute = 'metagame.sampleHandler.approveDenyMembershipApplication'
     const approvepayload = {
-      gameID: gameId,
-      publicID: clanId,
+      gameId,
+      publicId: clanId,
       action,
       level,
-      playerPublicID: applicantId,
-      requestorPublicID: ownerId,
+      playerPublicId: applicantId,
+      requestorPublicId: ownerId,
     }
     client.request(approveRoute, approvepayload, (approveDenyMembershipApplicationRes) => {
       cb(approveDenyMembershipApplicationRes)
@@ -108,11 +108,11 @@ function createPlayerAndMembership(client, gameId, ownerId, clanId, level, appli
 function createMembershipInvitation(client, gameId, clanId, level, requestorId, inviteeId, cb) {
   const reqRoute = 'metagame.sampleHandler.inviteForMembership'
   const payload = {
-    gameID: gameId,
-    publicID: clanId,
+    gameId,
+    publicId: clanId,
     level,
-    playerPublicID: inviteeId,
-    requestorPublicID: requestorId,
+    playerPublicId: inviteeId,
+    requestorPublicId: requestorId,
   }
   client.request(reqRoute, payload, (res) => {
     cb(res)

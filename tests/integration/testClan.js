@@ -45,8 +45,8 @@ describe('Integration', () => {
 
           const reqRoute = 'metagame.sampleHandler.createClan'
           const payload = {
-            publicID: clanId,
-            ownerPublicID: playerId,
+            publicId: clanId,
+            ownerPublicId: playerId,
             name: clanId,
             metadata: {},
             allowApplication: true,
@@ -190,8 +190,8 @@ describe('Integration', () => {
 
             const reqRoute = 'metagame.sampleHandler.getClanSummary'
             const payload = {
-              gameID: gameId,
-              publicID: clanId,
+              gameId,
+              publicId: clanId,
             }
             self.pomeloClient.request(reqRoute, payload, (getClanRes) => {
               getClanRes.success.should.equal(true)
@@ -225,8 +225,8 @@ describe('Integration', () => {
 
             const reqRoute = 'metagame.sampleHandler.getClan'
             const payload = {
-              gameID: gameId,
-              publicID: clanId,
+              gameId,
+              publicId: clanId,
             }
             self.pomeloClient.request(reqRoute, payload, (getClanRes) => {
               getClanRes.success.should.equal(true)
@@ -270,7 +270,7 @@ describe('Integration', () => {
 
                 const reqRoute = 'metagame.sampleHandler.listClans'
                 const payload = {
-                  gameID: gameId,
+                  gameId,
                 }
                 self.pomeloClient.request(reqRoute, payload, (listClansRes) => {
                   listClansRes.success.should.equal(true)
@@ -319,7 +319,7 @@ describe('Integration', () => {
       })
     })
 
-    it('Should not leave the clan if wrong ownerPublicID', function (done) {
+    it('Should not leave the clan if wrong ownerPublicId', function (done) {
       const self = this
       const gameId = helper.getRandomId()
       const playerId = helper.getRandomId()
@@ -336,9 +336,9 @@ describe('Integration', () => {
 
             const reqRoute = 'metagame.sampleHandler.leaveClan'
             const payload = {
-              gameID: gameId,
-              publicID: clanId,
-              ownerPublicID: helper.getRandomId(),
+              gameId,
+              publicId: clanId,
+              ownerPublicId: helper.getRandomId(),
             }
             self.pomeloClient.request(reqRoute, payload, (leaveClanRes) => {
               leaveClanRes.success.should.equal(false)
@@ -371,9 +371,9 @@ describe('Integration', () => {
 
               const reqRoute = 'metagame.sampleHandler.leaveClan'
               const payload = {
-                gameID: gameId,
-                publicID: clanId,
-                ownerPublicID: playerId,
+                gameId,
+                publicId: clanId,
+                ownerPublicId: playerId,
               }
               self.pomeloClient.request(reqRoute, payload, (leaveClanRes) => {
                 leaveClanRes.success.should.equal(false)
@@ -404,7 +404,7 @@ describe('Integration', () => {
 
             const reqRoute = 'metagame.sampleHandler.searchClans'
             const payload = {
-              gameID: gameId,
+              gameId,
               term: 'with spaces',
             }
             self.pomeloClient.request(reqRoute, payload, (searchRes) => {
@@ -448,7 +448,7 @@ describe('Integration', () => {
 
                 const reqRoute = 'metagame.sampleHandler.searchClans'
                 const payload = {
-                  gameID: gameId,
+                  gameId,
                   term: 'clan',
                 }
                 pClient.request(reqRoute, payload, (searchRes) => {

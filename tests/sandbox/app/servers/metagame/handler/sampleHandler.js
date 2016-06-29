@@ -71,7 +71,7 @@ Handler.prototype.updatePlayer = function (msg, session, next) {
 }
 
 Handler.prototype.getPlayer = function (msg, session, next) {
-  this.kublaiService.getPlayer(msg.gameID, msg.publicID, handleKhanResponse(next))
+  this.kublaiService.getPlayer(msg.gameId, msg.publicId, handleKhanResponse(next))
 }
 
 Handler.prototype.createClan = function (msg, session, next) {
@@ -91,11 +91,11 @@ Handler.prototype.updateClan = function (msg, session, next) {
 }
 
 Handler.prototype.getClanSummary = function (msg, session, next) {
-  this.kublaiService.getClanSummary(msg.gameID, msg.publicID, handleKhanResponse(next))
+  this.kublaiService.getClanSummary(msg.gameId, msg.publicId, handleKhanResponse(next))
 }
 
 Handler.prototype.getClan = function (msg, session, next) {
-  this.kublaiService.getClan(msg.gameID, msg.publicID, handleKhanResponse(next))
+  this.kublaiService.getClan(msg.gameId, msg.publicId, handleKhanResponse(next))
 }
 
 Handler.prototype.leaveClan = function (msg, session, next) {
@@ -106,44 +106,52 @@ Handler.prototype.leaveClan = function (msg, session, next) {
 }
 
 Handler.prototype.listClans = function (msg, session, next) {
-  this.kublaiService.listClans(msg.gameID, handleKhanResponse(next))
+  this.kublaiService.listClans(msg.gameId, handleKhanResponse(next))
 }
 
 Handler.prototype.applyForMembership = function (msg, session, next) {
-  this.kublaiService.applyForMembership(msg.gameID, msg.publicID, msg, handleKhanResponse(next))
+  this.kublaiService.applyForMembership(
+    msg.gameId, msg.publicId, msg.level, msg.playerPublicId, handleKhanResponse(next)
+  )
 }
 
 Handler.prototype.approveDenyMembershipApplication = function (msg, session, next) {
   this.kublaiService.approveDenyMembershipApplication(
-    msg.gameID, msg.publicID, msg.action, msg, handleKhanResponse(next)
+    msg.gameId, msg.publicId, msg.action, msg.playerPublicId,
+    msg.requestorPublicId, handleKhanResponse(next)
   )
 }
 
 Handler.prototype.inviteForMembership = function (msg, session, next) {
-  this.kublaiService.inviteForMembership(msg.gameID, msg.publicID, msg, handleKhanResponse(next))
+  this.kublaiService.inviteForMembership(
+    msg.gameId, msg.publicId, msg.level, msg.playerPublicId,
+    msg.requestorPublicId, handleKhanResponse(next)
+  )
 }
 
 Handler.prototype.approveDenyMembershipInvitation = function (msg, session, next) {
   this.kublaiService.approveDenyMembershipInvitation(
-    msg.gameID, msg.publicID, msg.action, msg, handleKhanResponse(next)
+    msg.gameId, msg.publicId, msg.action, msg.playerPublicId, handleKhanResponse(next)
   )
 }
 
 Handler.prototype.promoteDemoteMember = function (msg, session, next) {
   this.kublaiService.promoteDemoteMember(
-    msg.gameID, msg.publicID, msg.action, msg, handleKhanResponse(next)
+    msg.gameId, msg.publicId, msg.action, msg.playerPublicId,
+    msg.requestorPublicId, handleKhanResponse(next)
   )
 }
 
 Handler.prototype.deleteMembership = function (msg, session, next) {
   this.kublaiService.deleteMembership(
-    msg.gameID, msg.publicID, msg, handleKhanResponse(next)
+    msg.gameId, msg.publicId, msg.playerPublicId,
+    msg.requestorPublicId, handleKhanResponse(next)
   )
 }
 
 Handler.prototype.searchClans = function (msg, session, next) {
   this.kublaiService.searchClans(
-    msg.gameID, msg.term, handleKhanResponse(next)
+    msg.gameId, msg.term, handleKhanResponse(next)
   )
 }
 
