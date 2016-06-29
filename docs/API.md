@@ -53,7 +53,7 @@ kublaiService.createGame(
 
 * `publicId`: game's public id;
 * `name`: name for this game;
-* `metadata`: any metadata that needs to be stored for this game;
+* `metadata`: any meta-data that needs to be stored for this game;
 * `membershipLevels`: object with the available membership levels for this game (refer to khan Docs for more details);
 * `minLevelToAcceptApplication`: a member cannot accept a player’s application to join the clan unless their level is greater or equal to this parameter;
 * `minLevelToCreateInvitation`: a member cannot invite a player to join the clan unless their level is greater or equal to this parameter;
@@ -63,7 +63,7 @@ kublaiService.createGame(
 * `minLevelOffsetToDemoteMember`: a member cannot demote another member unless their level is at least `minLevelOffsetToDemoteMember` levels greater than the level of the member they wish to demote;
 * `maxMembers`: maximum number of members a clan of this game can have;
 * `maxClansPerPlayer`: maximum numbers of clans a player can be an approved member of.
-        
+
 ### Update Game
 
 Updates a game. If the game does not exist it gets created with the given parameters. This operation uses [Khan's Update Game Route](http://khan-api.readthedocs.io/en/latest/API.html#update-game).
@@ -124,7 +124,7 @@ kublaiService.createPlayer(gameId, publicId, name, metadata, callback);
 * `gameId`: public ID for the player's game;
 * `publicId`: public ID for the player;
 * `name`: player's name;
-* `metadata`: any player metadata the game wants to store.
+* `metadata`: any player meta-data the game wants to store.
 
 ### Update Player
 
@@ -141,7 +141,7 @@ kublaiService.updatePlayer(gameId, publicId, name, metadata, callback);
 * `gameId`: public ID for the player's game;
 * `publicId`: public ID for the player;
 * `name`: player's name;
-* `metadata`: any player metadata the game wants to store.
+* `metadata`: any player meta-data the game wants to store.
 
 ### Get Player
 
@@ -213,7 +213,7 @@ kublaiService.updateClan(
 * `gameId`: public ID for the clan's game;
 * `publicId`: public ID for the clan;
 * `name`: clan's name;
-* `metadata`: a JSON object representing any metadata required for the clan;
+* `metadata`: a JSON object representing any meta-data required for the clan;
 * `ownerPublicId`: clan's owner player public id;
 * `allowApplication`: does this clan allow players to apply to it;
 * `autoJoin`: do players that apply to this clan get automatically accepted;
@@ -318,21 +318,22 @@ kublaiService.transferClanOwnership(gameId, clanId, ownerPublicId, playerPublicI
 
 ### Apply for Membership
 
-Allows a player to ask to join the clan with the given publicID. If the clan’s autoJoin property is true the member will be automatically approved. Otherwise, the membership must be approved by the clan owner or one of the clan members.
+Allows a player to ask to join the clan with the given `publicID`. If the clan’s `autoJoin` property is true the member will be automatically approved. Otherwise, the membership must be approved by the clan owner or one of the clan members.
 
 This operation uses [Khan's Apply For Membership Route](http://khan-api.readthedocs.io/en/latest/API.html#apply-for-membership).
 
 #### Signature
 
 ```
-kublaiService.applyForMembership(gameId, clanId, membershipData, callback);
+kublaiService.applyForMembership(gameId, clanId, level, playerPublicId, callback);
 ```
 
 #### Arguments
 
-* `gameId`: public ID for the desired clan's game.
-* `clanId`: public ID for the desired clan.
-* `membershipData`: object with the details for the membership to be changed. Please refer to Khan's docs for the structure of this argument.
+* `gameId`: public ID for the desired clan's game;
+* `clanId`: public ID for the desired clan;
+* `level`: membership level for the application;
+* `playerPublicId`: public id for the player filing the application for the clan.
 
 ### Approve or Deny Membership
 
@@ -343,250 +344,101 @@ This operation uses [Khan's Approve Or Deny Membership Route](http://khan-api.re
 #### Signature
 
 ```
-kublaiService.applyForMembership(gameId, clanId, action, membershipData, callback);
+kublaiService.approveDenyMembershipApplication(
+  gameId, clanId, action, playerPublicId, requestorPublicID, callback
+);
 ```
 
 #### Arguments
 
-* `gameId`: public ID for the desired clan's game.
-* `clanId`: public ID for the desired clan.
-* `action`: action to be executed. Can be either `approve` or `deny`.
-* `membershipData`: object with the details for the membership to be changed. Please refer to Khan's docs for the structure of this argument.
+* `gameId`: public ID for the desired clan's game;
+* `clanId`: public ID for the desired clan;
+* `action`: action to be executed. Can be either `approve` or `deny`;
+* `playerPublicId`: public id for the player that must be approved or denied;
+* `requestorPublicId`: the public id of the clan member who will approve or deny the application.
 
+### Invite for Membership
 
-  ### Approve Or Deny Membership Application
+Allows the clan owner or a clan member to invite a player to join the clan with the given `publicID`. If the request is made by a member of the clan, their membership level must be at least the game’s `minLevelToCreateInvitation`. The membership must be approved by the player being invited.
 
-  `POST /games/:gameID/clans/:clanPublicID/memberships/application/:action`
+This operation uses [Khan's Invite for Membership Route](http://khan-api.readthedocs.io/en/latest/API.html#invite-for-membership).
 
-  `:action` must be either 'approve' or 'deny'.
+#### Signature
 
-  Allows the clan owner or a clan member to approve or deny a player's application to join the clan. The member's membership level must be at least the game's `minLevelToAcceptApplication`.
+```
+kublaiService.inviteForMembership(
+  gameId, clanId, level, playerPublicId, requestorPublicId, callback
+);
+```
 
-  * Payload
+#### Arguments
 
-    ```
-    {
-      "level": [string],            // the level of the membership
-      "playerPublicID": [string]    // the public id of player who made the application
-      "RequestorPublicID": [string] // the public id of the clan member or the owner who will approve or deny the application
-    }
-    ```
+* `gameId`: public ID for the desired clan's game;
+* `clanId`: public ID for the desired clan;
+* `level`: membership level for the application;
+* `playerPublicId`: public id for the player that is being invited;
+* `requestorPublicId`: the public id of the clan member who is inviting the player.
 
-  * Success Response
-    * Code: `200`
-    * Content:
-      ```
-      {
-        "success": true
-      }
-      ```
+### Approve or Deny Membership Invitation
 
-  * Error Response
+Allows a player member to approve or deny a player’s invitation to join a given clan.
 
-    It will return an error if an invalid payload is sent or if there are missing parameters.
+This operation uses [Khan's Approve or Deny Membership Invitation Route](http://khan-api.readthedocs.io/en/latest/API.html#approve-or-deny-membership-invitation).
 
-    * Code: `400`
-    * Content:
-      ```
-      {
-        "success": false,
-        "reason": [string]
-      }
-      ```
+#### Signature
 
-    * Code: `500`
-    * Content:
-      ```
-      {
-        "success": false,
-        "reason": [string]
-      }
-      ```
+```
+kublaiService.approveDenyMembershipInvitation(
+  gameId, clanId, action, playerPublicId, callback
+);
+```
 
-  ### Invite For Membership
+#### Arguments
 
-  `POST /games/:gameID/clans/:clanPublicID/memberships/invitation`
+* `gameId`: public ID for the desired clan's game;
+* `clanId`: public ID for the desired clan;
+* `action`: action to be executed. Can be either `approve` or `deny`;
+* `playerPublicId`: public id for the player that is accepting the invitation.
 
-  Allows a the clan owner or a clan member to invite a player to join the clan with the given publicID. If the request is made by a member of the clan, their membership level must be at least the game's `minLevelToCreateInvitation`. The membership must be approved by the player being invited.
+### Promote or Demote Member
 
-  * Payload
+Allows the clan owner or a clan member to promote or demote another member. When promoting, the member’s membership level will be increased by one, when demoting it will be decreased by one. The member’s membership level must be at least `minLevelOffsetToPromoteMember` or `minLevelOffsetToDemoteMember` levels greater than the level of the player being promoted or demoted.
 
-    ```
-    {
-      "level": [string],            // the level of the membership
-      "playerPublicID": [string],   // the public id player being invited
-      "requestorPublicID": [string] // the public id of the member or the clan owner who is inviting
-    }
-    ```
+This operation uses [Khan's Promote or Demote Member Route](http://khan-api.readthedocs.io/en/latest/API.html#promote-or-demote-member).
 
-  * Success Response
-    * Code: `200`
-    * Content:
-      ```
-      {
-        "success": true
-      }
-      ```
+#### Signature
 
-  * Error Response
+```
+kublaiService.promoteDemoteMember(
+  gameId, clanId, action, playerPublicId, requestorPublicId, callback
+);
+```
 
-    It will return an error if an invalid payload is sent or if there are missing parameters.
+#### Arguments
 
-    * Code: `400`
-    * Content:
-      ```
-      {
-        "success": false,
-        "reason": [string]
-      }
-      ```
+* `gameId`: public ID for the desired clan's game;
+* `clanId`: public ID for the desired clan;
+* `action`: action to be executed. Can be either `promote` or `demote`;
+* `playerPublicId`: public id for the player that is being promoted/demoted;
+* `requestorPublicId`: the public id of the clan member who is promoting/demoting the player.
 
-    * Code: `500`
-    * Content:
-      ```
-      {
-        "success": false,
-        "reason": [string]
-      }
-      ```
+### Delete Membership
 
-  ### Approve Or Deny Membership Invitation
+Allows the clan owner or a clan member to remove another member from the clan. The member’s membership level must be at least `minLevelToRemoveMember`. A member can leave the clan by sending the same `playerPublicID` and `requestorPublicID`.
 
-  `POST /games/:gameID/clans/:clanPublicID/memberships/invitation/:action`
+This operation uses [Khan's Delete Membership Route](http://khan-api.readthedocs.io/en/latest/API.html#delete-membership).
 
-  `:action` must be either 'approve' or 'deny'.
+#### Signature
 
-  Allows a player member to approve or deny a player's invitation to join a given clan.
+```
+kublaiService.deleteMembership(
+  gameId, clanId, playerPublicId, requestorPublicId, callback
+);
+```
 
-  * Payload
+#### Arguments
 
-    ```
-    {
-      "playerPublicID": [string] // the public id of player who was invited
-    }
-    ```
-
-  * Success Response
-    * Code: `200`
-    * Content:
-      ```
-      {
-        "success": true
-      }
-      ```
-
-  * Error Response
-
-    It will return an error if an invalid payload is sent or if there are missing parameters.
-
-    * Code: `400`
-    * Content:
-      ```
-      {
-        "success": false,
-        "reason": [string]
-      }
-      ```
-
-    * Code: `500`
-    * Content:
-      ```
-      {
-        "success": false,
-        "reason": [string]
-      }
-      ```
-
-  ### Promote Or Demote Member
-
-  `POST /games/:gameID/clans/:clanPublicID/memberships/:action`
-
-  `:action` must be either 'promote' or 'demote'.
-
-  Allows a the clan owner or a clan member to promote or demote another member. When promoting, the member's membership level will be increased by one, when demoting it will be decreased by one. The member's membership level must be at least `minLevelOffsetToPromoteMember` or `minLevelOffsetToDemoteMember` levels greater than the level of the player being promoted or demoted.
-
-  * Payload
-
-    ```
-    {
-      "playerPublicID": [string],   // the public id player being promoted or demoted
-      "requestorPublicID": [string] // the public id of the member or the clan owner who is promoting or demoting
-    }
-    ```
-
-  * Success Response
-    * Code: `200`
-    * Content:
-      ```
-      {
-        "success": true
-      }
-      ```
-
-  * Error Response
-
-    It will return an error if an invalid payload is sent or if there are missing parameters.
-
-    * Code: `400`
-    * Content:
-      ```
-      {
-        "success": false,
-        "reason": [string]
-      }
-      ```
-
-    * Code: `500`
-    * Content:
-      ```
-      {
-        "success": false,
-        "reason": [string]
-      }
-      ```
-
-  ### Delete Membership
-
-  `POST /games/:gameID/clans/:clanPublicID/memberships/delete`
-
-  Allows a the clan owner or a clan member to remove another member from the clan. The member's membership level must be at least `minLevelToRemoveMember`. A member can leave the clan by sending the same `playerPublicID` and `requestorPublicID`.
-
-  * Payload
-
-    ```
-    {
-      "playerPublicID": [string],   // the public id player being deleted
-      "requestorPublicID": [string] // the public id of the member or the clan owner who is deleting the membership
-    }
-    ```
-
-  * Success Response
-    * Code: `200`
-    * Content:
-      ```
-      {
-        "success": true
-      }
-      ```
-
-  * Error Response
-
-    It will return an error if an invalid payload is sent or if there are missing parameters.
-
-    * Code: `400`
-    * Content:
-      ```
-      {
-        "success": false,
-        "reason": [string]
-      }
-      ```
-
-    * Code: `500`
-    * Content:
-      ```
-      {
-        "success": false,
-        "reason": [string]
-      }
-      ```
+* `gameId`: public ID for the desired clan's game;
+* `clanId`: public ID for the desired clan;
+* `playerPublicId`: public id for the player that is leaving the clan;
+* `requestorPublicId`: the public id of the clan member who is kicking the player.
