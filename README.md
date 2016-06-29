@@ -1,5 +1,5 @@
 # kublai
-[![Build Status](https://travis-ci.org/topfreegames/khan.svg?branch=master)](https://travis-ci.org/topfreegames/khan)
+[![Build Status](https://travis-ci.org/topfreegames/kublai.svg?branch=master)](https://travis-ci.org/topfreegames/kublai)
 [![npm version](https://badge.fury.io/js/kublai-plugin.svg)](https://badge.fury.io/js/kublai-plugin)
 [![Docs](https://readthedocs.org/projects/kublai/badge/?version=latest)](http://kublai.readthedocs.io/en/latest/)
 
