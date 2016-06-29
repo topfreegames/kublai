@@ -7,6 +7,9 @@
 OS = $(shell uname | awk '{ print tolower($$0) }')
 LFS := $(shell command -v git-lfs 2> /dev/null)
 
+setup-docs:
+	@pip install -q --log /tmp/pip.log --no-cache-dir sphinx recommonmark sphinx_rtd_theme
+
 setup-lfs:
 	@if [ "$(LFS)" = "" ]; then \
 		echo "You don't seem to have Git LFS installed. Installing..."; \
@@ -22,7 +25,7 @@ setup-lfs-darwin:
 	@brew install git-lfs
 	@git lfs install
 
-setup: setup-lfs
+setup: setup-lfs setup-docs
 	@npm install .
 
 run-sandbox-fg: redis
