@@ -289,7 +289,7 @@ describe('Integration', () => {
       })
     })
 
-    it.only('Should leave the clan', function (done) {
+    it('Should leave the clan', function (done) {
       const self = this
       const gameId = helper.getRandomId()
       const playerId = helper.getRandomId()
@@ -490,10 +490,10 @@ describe('Integration', () => {
 
               const reqRoute = 'metagame.sampleHandler.transferClanOwnership'
               const payload = {
-                gameID: gameId,
+                gameId,
                 clanId,
-                ownerPublicID: ownerId,
-                playerPublicID: ownerId2,
+                ownerPublicId: ownerId,
+                playerPublicId: ownerId2,
               }
               pClient.request(reqRoute, payload, (searchRes) => {
                 searchRes.success.should.equal(false)
@@ -529,13 +529,13 @@ describe('Integration', () => {
 
               const reqRoute = 'metagame.sampleHandler.transferClanOwnership'
               const payload = {
-                gameID: gameId,
+                gameId,
                 clanId,
-                ownerPublicID: ownerId,
-                playerPublicID: ownerId2,
+                ownerPublicId: ownerId,
+                playerPublicId: ownerId2,
               }
-              pClient.request(reqRoute, payload, (searchRes) => {
-                searchRes.success.should.equal(true)
+              pClient.request(reqRoute, payload, (transferRes) => {
+                transferRes.success.should.equal(true)
 
                 done()
               })

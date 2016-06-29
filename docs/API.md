@@ -304,14 +304,15 @@ Allows the owner to transfer the clan’s ownership to another clan member of th
 #### Signature
 
 ```
-kublaiService.transferClanOwnership(gameId, clanId, clanData, callback);
+kublaiService.transferClanOwnership(gameId, clanId, ownerPublicId, playerPublicId, callback);
 ```
 
 #### Arguments
 
-* `gameId`: public ID for the clan's game.
-* `clanId`: public ID for the clan.
-* `clanData`: object with the details for the clan to be changed. Please refer to Khan's docs for the structure of this argument.
+* `gameId`: public ID for the clan's game;
+* `clanId`: public ID for the clan;
+* `ownerPublicId`: public ID for the current owner of the clan;
+* `playerPublicId`: public ID for the player to be the new owner of the clan.
 
 ## Membership Routes
 
