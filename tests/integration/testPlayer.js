@@ -43,7 +43,7 @@ describe('Integration', () => {
         self.pomeloClient.request(reqRoute, payload, (playerRes) => {
           playerRes.success.should.equal(false)
           playerRes.reason.should.equal(
-            'No game id was provided. Please include gameID in your payload.'
+            'No game id was provided.'
           )
           done()
         })
@@ -63,8 +63,8 @@ describe('Integration', () => {
 
           const reqRoute = 'metagame.sampleHandler.updatePlayer'
           const updatePayload = {
-            gameID: gameId,
-            publicID: playerId,
+            gameId,
+            publicId: playerId,
             name: playerId,
             metadata: { new: 'metadata' },
           }
@@ -98,7 +98,7 @@ describe('Integration', () => {
           self.pomeloClient.request(reqRoute, updatePayload, (updatePlayerRes) => {
             updatePlayerRes.success.should.equal(false)
             updatePlayerRes.reason.should.equal(
-              'No game id was provided. Please include gameID in your payload.'
+              'No game id was provided.'
             )
             done()
           })
@@ -119,7 +119,7 @@ describe('Integration', () => {
 
           const reqRoute = 'metagame.sampleHandler.updatePlayer'
           const updatePayload = {
-            gameID: gameId,
+            gameId,
             name: playerId,
             metadata: { new: 'metadata' },
           }
@@ -127,7 +127,7 @@ describe('Integration', () => {
           self.pomeloClient.request(reqRoute, updatePayload, (updatePlayerRes) => {
             updatePlayerRes.success.should.equal(false)
             updatePlayerRes.reason.should.equal(
-              'No playerId id was provided. Please include publicID in your payload.'
+              'No player id was provided.'
             )
             done()
           })

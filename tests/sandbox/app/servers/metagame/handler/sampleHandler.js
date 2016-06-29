@@ -59,11 +59,15 @@ Handler.prototype.updateGame = function (msg, session, next) {
 }
 
 Handler.prototype.createPlayer = function (msg, session, next) {
-  this.kublaiService.createPlayer(msg.gameID, msg, handleKhanResponse(next))
+  this.kublaiService.createPlayer(
+    msg.gameId, msg.publicId, msg.name, msg.metadata, handleKhanResponse(next)
+  )
 }
 
 Handler.prototype.updatePlayer = function (msg, session, next) {
-  this.kublaiService.updatePlayer(msg.gameID, msg.publicID, msg, handleKhanResponse(next))
+  this.kublaiService.updatePlayer(
+    msg.gameId, msg.publicId, msg.name, msg.metadata, handleKhanResponse(next)
+  )
 }
 
 Handler.prototype.getPlayer = function (msg, session, next) {
@@ -71,7 +75,11 @@ Handler.prototype.getPlayer = function (msg, session, next) {
 }
 
 Handler.prototype.createClan = function (msg, session, next) {
-  this.kublaiService.createClan(msg.gameID, msg, handleKhanResponse(next))
+  this.kublaiService.createClan(
+    msg.gameId, msg.publicId, msg.name, msg.metadata,
+    msg.ownerPublicId, msg.allowApplication, msg.autoJoin,
+    handleKhanResponse(next)
+  )
 }
 
 Handler.prototype.updateClan = function (msg, session, next) {

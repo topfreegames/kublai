@@ -34,11 +34,11 @@ function createGame(client, publicId, name, cb) {
   })
 }
 
-function createPlayer(client, gameId, id, name, cb) {
+function createPlayer(client, gameId, publicId, name, cb) {
   const reqRoute = 'metagame.sampleHandler.createPlayer'
   const payload = {
-    gameID: gameId,
-    publicID: id,
+    gameId,
+    publicId,
     name,
     metadata: {},
   }
@@ -48,12 +48,12 @@ function createPlayer(client, gameId, id, name, cb) {
   })
 }
 
-function createClan(client, gameId, ownerId, id, name, cb) {
+function createClan(client, gameId, ownerId, publicId, name, cb) {
   const reqRoute = 'metagame.sampleHandler.createClan'
   const payload = {
-    gameID: gameId,
-    publicID: id,
-    ownerPublicID: ownerId,
+    gameId,
+    publicId,
+    ownerPublicId: ownerId,
     name,
     metadata: {},
     allowApplication: true,

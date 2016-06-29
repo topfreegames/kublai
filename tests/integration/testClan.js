@@ -56,7 +56,7 @@ describe('Integration', () => {
           self.pomeloClient.request(reqRoute, payload, (clanRes) => {
             clanRes.success.should.equal(false)
             clanRes.reason.should.equal(
-              'No game id was provided. Please include gameID in your payload.'
+              'No game id was provided.'
             )
             done()
           })
@@ -127,7 +127,7 @@ describe('Integration', () => {
             self.pomeloClient.request(reqRoute, updatePayload, (updateClanRes) => {
               updateClanRes.success.should.equal(false)
               updateClanRes.reason.should.equal(
-                'No game id was provided. Please include gameID in your payload.'
+                'No game id was provided.'
               )
               done()
             })
@@ -164,7 +164,7 @@ describe('Integration', () => {
             self.pomeloClient.request(reqRoute, updatePayload, (updateClanRes) => {
               updateClanRes.success.should.equal(false)
               updateClanRes.reason.should.equal(
-                'No clan id was provided. Please include publicID in your payload.'
+                'No clan id was provided.'
               )
               done()
             })

@@ -116,13 +116,15 @@ This operation is not idempotent. If you want to create or update a player, plea
 #### Signature
 
 ```
-kublaiService.createPlayer(gameId, playerData, callback);
+kublaiService.createPlayer(gameId, publicId, name, metadata, callback);
 ```
 
 #### Arguments
 
-* `gameId`: public ID for the player's game.
-* `playerData`: object with the details for the player to be created. Please refer to Khan's docs for the structure of this argument.
+* `gameId`: public ID for the player's game;
+* `publicId`: public ID for the player;
+* `name`: player's name;
+* `metadata`: any player metadata the game wants to store.
 
 ### Update Player
 
@@ -131,14 +133,15 @@ Updates a player in a specific game. If the player does not exist, the player ge
 #### Signature
 
 ```
-kublaiService.updatePlayer(gameId, playerId, playerData, callback);
+kublaiService.updatePlayer(gameId, publicId, name, metadata, callback);
 ```
 
 #### Arguments
 
-* `gameId`: public ID for the player to be updated game.
-* `playerId`: public ID for the player.
-* `playerData`: object with the details for the player to be updated. Please refer to Khan's docs for the structure of this argument.
+* `gameId`: public ID for the player's game;
+* `publicId`: public ID for the player;
+* `name`: player's name;
+* `metadata`: any player metadata the game wants to store.
 
 ### Get Player
 
@@ -164,13 +167,27 @@ Creates a new clan. This operation uses [Khan's Create Clan Route](http://khan-a
 #### Signature
 
 ```
-kublaiService.createClan(gameId, clanData, callback);
+kublaiService.createClan(
+  gameId,
+  publicId,
+  name,
+  metadata,
+  ownerPublicId,
+  allowApplication,
+  autoJoin,
+  callback
+);
 ```
 
 #### Arguments
 
-* `gameId`: public ID for the clan's game.
-* `clanData`: object with the details for the clan to be created. Please refer to Khan's docs for the structure of this argument.
+* `gameId`: public ID for the clan's game;
+* `publicId`: public ID for the clan;
+* `name`: clan's name;
+* `metadata`: a JSON object representing any metadata required for the clan;
+* `ownerPublicId`: clan's owner player public id;
+* `allowApplication`: does this clan allow players to apply to it;
+* `autoJoin`: do players that apply to this clan get automatically accepted;
 
 ### Update Clan
 
