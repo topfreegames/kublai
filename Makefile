@@ -44,6 +44,7 @@ kill-redis:
 	@-redis-cli -p 3434 shutdown
 
 drop-test-khan:
+	@echo "Creating test database..."
 	@psql -d postgres -f tests/drop-test.sql > /dev/null
 	@echo "Test database created successfully!"
 
@@ -66,7 +67,7 @@ run-ci-khan: kill-test-khan drop-test-khan migrate-ci-khan
 	@./bin/khan-$(OS)-amd64 start -p 8888 -c ./tests/khan.yaml 2>&1 > /tmp/kublai-khan.log &
 
 kill-test-khan:
-	@ps aux | egrep './bin/khan' | egrep -v egrep | awk ' { print $$2 } ' | xargs kill -9
+	@-ps aux | egrep './bin/khan' | egrep -v egrep | awk ' { print $$2 } ' | xargs kill -9
 
 run-test-game-server: kill-game-server
 	@rm -rf /tmp/kublai-pomelo.log
