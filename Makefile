@@ -62,6 +62,9 @@ run-test-khan: kill-test-khan drop-test-khan migrate-test-khan
 	@rm -rf /tmp/kublai-khan.log
 	@./bin/khan-$(OS)-$(ARCH) start -p 8888 -c ./tests/khan.yaml 2>&1 > /tmp/kublai-khan.log &
 
+ensure-ci-logs:
+	@mkdir -p tests/sandbox/logs/
+
 run-ci-khan: kill-test-khan drop-test-khan migrate-ci-khan
 	@echo "Running test khan in $(OS)"
 	@rm -rf /tmp/kublai-khan.log
@@ -80,7 +83,7 @@ kill-game-server:
 
 test: redis run-test-khan run-test-game-server run-tests
 
-test-ci: run-ci-khan run-test-game-server run-tests
+test-ci: ensure-ci-logs run-ci-khan run-test-game-server run-tests
 
 run-tests:
 	@./node_modules/mocha/bin/mocha tests/integration/ || \
