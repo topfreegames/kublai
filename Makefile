@@ -5,7 +5,8 @@
 # Copyright © 2016 Top Free Games <backend@tfgco.com>
 
 OS = $(shell uname | awk '{ print tolower($$0) }')
-LFS := $(shell command -v git-lfs 2> /dev/null)
+ARCH = $(shell uname -m)
+LFS = $(shell command -v git-lfs 2> /dev/null)
 
 setup-docs:
 	@pip install -q --log /tmp/pip.log --no-cache-dir sphinx recommonmark sphinx_rtd_theme
@@ -50,21 +51,21 @@ drop-test-khan:
 
 migrate-test-khan:
 	@echo "Running migrations in $(OS)"
-	@./bin/khan-$(OS)-amd64 migrate -c ./tests/khan.yaml
+	@./bin/khan-$(OS)-$(ARCH) migrate -c ./tests/khan.yaml
 
 migrate-ci-khan:
 	@echo "Running migrations in $(OS)"
-	@./bin/khan-$(OS)-amd64 migrate -c ./tests/khan-ci.yaml
+	@./bin/khan-$(OS)-$(ARCH) migrate -c ./tests/khan-ci.yaml
 
 run-test-khan: kill-test-khan drop-test-khan migrate-test-khan
 	@echo "Running test khan in $(OS)"
 	@rm -rf /tmp/kublai-khan.log
-	@./bin/khan-$(OS)-amd64 start -p 8888 -c ./tests/khan.yaml 2>&1 > /tmp/kublai-khan.log &
+	@./bin/khan-$(OS)-$(ARCH) start -p 8888 -c ./tests/khan.yaml 2>&1 > /tmp/kublai-khan.log &
 
 run-ci-khan: kill-test-khan drop-test-khan migrate-ci-khan
 	@echo "Running test khan in $(OS)"
 	@rm -rf /tmp/kublai-khan.log
-	@./bin/khan-$(OS)-amd64 start -p 8888 -c ./tests/khan.yaml 2>&1 > /tmp/kublai-khan.log &
+	@./bin/khan-$(OS)-$(ARCH) start -p 8888 -c ./tests/khan.yaml 2>&1 > /tmp/kublai-khan.log &
 
 kill-test-khan:
 	@-ps aux | egrep './bin/khan' | egrep -v egrep | awk ' { print $$2 } ' | xargs kill -9
