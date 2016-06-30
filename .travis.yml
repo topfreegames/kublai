@@ -20,6 +20,5 @@ install:
   - make setup-ci
 
 script:
-  - env
   - node --version
   - make test-ci

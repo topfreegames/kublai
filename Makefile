@@ -48,7 +48,7 @@ drop-test-khan:
 	@echo "Test database created successfully!"
 
 drop-ci-khan:
-	@psql -d postgres -h postgres -f tests/drop-test.sql > /dev/null
+	@psql -d postgres -h localhost -f tests/drop-test.sql > /dev/null
 	@echo "Test database created successfully!"
 
 migrate-test-khan:
