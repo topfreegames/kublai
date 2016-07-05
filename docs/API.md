@@ -288,14 +288,13 @@ This operation should be used when the clan's owner decides to leave the clan. I
 #### Signature
 
 ```
-kublaiService.leaveClan(gameId, clanId, ownerPublicId, callback);
+kublaiService.leaveClan(gameId, clanId, callback);
 ```
 
 #### Arguments
 
 * `gameId`: public ID for the clan's game;
-* `clanId`: public ID for the clan;
-* `ownerPublicId`: public ID of the owner leaving the clan.
+* `clanId`: public ID for the clan.
 
 ### Transfer Clan Ownership
 
@@ -304,14 +303,13 @@ Allows the owner to transfer the clan’s ownership to another clan member of th
 #### Signature
 
 ```
-kublaiService.transferClanOwnership(gameId, clanId, ownerPublicId, playerPublicId, callback);
+kublaiService.transferClanOwnership(gameId, clanId, playerPublicId, callback);
 ```
 
 #### Arguments
 
 * `gameId`: public ID for the clan's game;
 * `clanId`: public ID for the clan;
-* `ownerPublicId`: public ID for the current owner of the clan;
 * `playerPublicId`: public ID for the player to be the new owner of the clan.
 
 ## Membership Routes
