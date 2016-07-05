@@ -85,8 +85,11 @@ test: redis run-test-khan run-test-game-server run-tests
 
 test-ci: ensure-ci-logs run-ci-khan run-test-game-server run-tests
 
+run-unit:
+	@./node_modules/mocha/bin/mocha tests/integration/
+
 run-tests:
-	@./node_modules/mocha/bin/mocha tests/integration/ || \
+	@$(MAKE) run-unit || \
 	if [ "$$?" -ne "0" ]; then \
 		echo "\nKhan log:\n" && \
 		cat /tmp/kublai-khan.log && \

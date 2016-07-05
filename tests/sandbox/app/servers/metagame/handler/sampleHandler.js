@@ -101,7 +101,7 @@ Handler.prototype.getClan = function (msg, session, next) {
 Handler.prototype.leaveClan = function (msg, session, next) {
   // Here maybe you should check if the current player is the current clan owner ;)
   this.kublaiService.leaveClan(
-    msg.gameId, msg.publicId, msg.ownerPublicId, handleKhanResponse(next)
+    msg.gameId, msg.publicId, handleKhanResponse(next)
   )
 }
 
@@ -157,7 +157,7 @@ Handler.prototype.searchClans = function (msg, session, next) {
 
 Handler.prototype.transferClanOwnership = function (msg, session, next) {
   this.kublaiService.transferClanOwnership(
-    msg.gameId, msg.clanId, msg.ownerPublicId, msg.playerPublicId, handleKhanResponse(next)
+    msg.gameId, msg.clanId, msg.playerPublicId, handleKhanResponse(next)
   )
 }
 
