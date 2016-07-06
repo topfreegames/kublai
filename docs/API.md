@@ -440,3 +440,21 @@ kublaiService.deleteMembership(
 * `clanId`: public ID for the desired clan;
 * `playerPublicId`: public id for the player that is leaving the clan;
 * `requestorPublicId`: the public id of the clan member who is kicking the player.
+
+## Hook Routes
+
+### Create Hook
+
+Creates a hook for the specified game for the given event. The hook URL will be called with the payload specified in [Khan's Docs](http://khan-api.readthedocs.io/en/latest/using_webhooks.html#event-types).
+
+#### Signature
+
+```
+kublaiService.createHook(gameId, hookType, hookURL, callback);
+```
+
+#### Arguments
+
+* `gameId`: public ID for the desired game;
+* `hookType`: integer specifying the type of hook being created;
+* `hookURL`: URL to be called when POSTing the payload for the event.
