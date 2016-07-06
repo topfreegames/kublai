@@ -5,7 +5,7 @@
 
 Pomelo plug-in for [khan clan server](https://github.com/topfreegames/khan).
 
-This release is compatible with [Khan 0.5.0](https://github.com/topfreegames/khan/releases/tag/0.5.0).
+This release is compatible with [Khan 0.6.0](https://github.com/topfreegames/khan/releases/tag/0.6.0).
 
 ## Developing kublai
 
