@@ -458,3 +458,18 @@ kublaiService.createHook(gameId, hookType, hookURL, callback);
 * `gameId`: public ID for the desired game;
 * `hookType`: integer specifying the type of hook being created;
 * `hookURL`: URL to be called when POSTing the payload for the event.
+
+### Remove Hook By Public ID
+
+Removes a hook for the specified game using its public ID.
+
+#### Signature
+
+```
+kublaiService.removeHook(gameId, hookPublicId, callback);
+```
+
+#### Arguments
+
+* `gameId`: public ID for the desired game;
+* `hookPublicId`: Public ID for the Hook. This was returned when creating the Hook.

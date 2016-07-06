@@ -167,6 +167,11 @@ Handler.prototype.createHook = function (msg, session, next) {
   )
 }
 
+Handler.prototype.removeHook = function (msg, session, next) {
+  this.kublaiService.removeHook(
+    msg.gameId, msg.publicId, handleKhanResponse(next)
+  )
+}
 
 module.exports = function (app) {
   return new Handler(app)
