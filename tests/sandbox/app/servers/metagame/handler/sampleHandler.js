@@ -161,6 +161,13 @@ Handler.prototype.transferClanOwnership = function (msg, session, next) {
   )
 }
 
+Handler.prototype.createHook = function (msg, session, next) {
+  this.kublaiService.createHook(
+    msg.gameId, msg.hookType, msg.hookURL, handleKhanResponse(next)
+  )
+}
+
+
 module.exports = function (app) {
   return new Handler(app)
 }
