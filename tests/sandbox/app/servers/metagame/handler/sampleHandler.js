@@ -35,6 +35,8 @@ Handler.prototype.createGame = function (msg, session, next) {
     msg.minLevelOffsetToDemoteMember,
     msg.maxMembers,
     msg.maxClansPerPlayer,
+    msg.cooldownAfterDelete,
+    msg.cooldownAfterDeny,
     callback
   )
 }
@@ -54,6 +56,8 @@ Handler.prototype.updateGame = function (msg, session, next) {
     msg.minLevelOffsetToDemoteMember,
     msg.maxMembers,
     msg.maxClansPerPlayer,
+    msg.cooldownAfterDelete,
+    msg.cooldownAfterDeny,
     callback
   )
 }

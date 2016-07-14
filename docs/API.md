@@ -45,6 +45,8 @@ kublaiService.createGame(
   minLevelOffsetToDemoteMember,
   maxMembers,
   maxClansPerPlayer,
+  cooldownAfterDelete,
+  cooldownAfterDeny,
   callback
 );
 ```
@@ -63,6 +65,9 @@ kublaiService.createGame(
 * `minLevelOffsetToDemoteMember`: a member cannot demote another member unless their level is at least `minLevelOffsetToDemoteMember` levels greater than the level of the member they wish to demote;
 * `maxMembers`: maximum number of members a clan of this game can have;
 * `maxClansPerPlayer`: maximum numbers of clans a player can be an approved member of.
+* `cooldownAfterDelete`: a membership cannot be recreated after being deleted unless cooldown seconds have passed.
+* `cooldownAfterDeny`: a membership cannot be recreated after being denied unless cooldown seconds have passed.
+
 
 ### Update Game
 
@@ -84,6 +89,8 @@ kublaiService.updateGame(
   minLevelOffsetToDemoteMember,
   maxMembers,
   maxClansPerPlayer,
+  cooldownAfterDelete,
+  cooldownAfterDeny,
   callback
 )
 ```
@@ -102,6 +109,8 @@ kublaiService.updateGame(
 * `minLevelOffsetToDemoteMember`: a member cannot demote another member unless their level is at least `minLevelOffsetToDemoteMember` levels greater than the level of the member they wish to demote;
 * `maxMembers`: maximum number of members a clan of this game can have;
 * `maxClansPerPlayer`: maximum numbers of clans a player can be an approved member of.
+* `cooldownAfterDelete`: a membership cannot be recreated after being deleted unless cooldown seconds have passed.
+* `cooldownAfterDeny`: a membership cannot be recreated after being denied unless cooldown seconds have passed.
 
 ## Player Methods
 

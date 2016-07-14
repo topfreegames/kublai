@@ -27,6 +27,8 @@ function createGame(client, publicId, name, cb) {
     maxMembers: 30,
     membershipLevels: { member: 1, elder: 2, coleader: 3 },
     maxClansPerPlayer: 1,
+    cooldownAfterDelete: 0,
+    cooldownAfterDeny: 0,
   }
 
   client.request(reqRoute, payload, (res) => {

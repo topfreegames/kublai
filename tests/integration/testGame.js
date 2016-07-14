@@ -44,6 +44,8 @@ describe('Integration', () => {
           maxMembers: 20,
           membershipLevels: { noob: 1, member: 2, elder: 3, coleader: 4 },
           maxClansPerPlayer: 2,
+          cooldownAfterDelete: 5,
+          cooldownAfterDeny: 5,
         }
 
         self.pomeloClient.request(reqRoute, updatePayload, (updateRes) => {
@@ -74,6 +76,8 @@ describe('Integration', () => {
           maxMembers: 20,
           membershipLevels: { noob: 1, member: 2, elder: 3, coleader: 4 },
           maxClansPerPlayer: 2,
+          cooldownAfterDelete: 5,
+          cooldownAfterDeny: 5,
         }
 
         self.pomeloClient.request(reqRoute, updatePayload, (updateRes) => {
