@@ -43,7 +43,7 @@ describe('Integration', () => {
         self.pomeloClient.request(reqRoute, payload, (playerRes) => {
           playerRes.success.should.equal(false)
           playerRes.reason.should.equal(
-            'No game id was provided.'
+            'No game id was provided. Operation: createPlayer.'
           )
           done()
         })
@@ -98,7 +98,7 @@ describe('Integration', () => {
           self.pomeloClient.request(reqRoute, updatePayload, (updatePlayerRes) => {
             updatePlayerRes.success.should.equal(false)
             updatePlayerRes.reason.should.equal(
-              'No game id was provided.'
+              'No game id was provided. Operation: updatePlayer.'
             )
             done()
           })
@@ -127,7 +127,7 @@ describe('Integration', () => {
           self.pomeloClient.request(reqRoute, updatePayload, (updatePlayerRes) => {
             updatePlayerRes.success.should.equal(false)
             updatePlayerRes.reason.should.equal(
-              'No player id was provided.'
+              'No player id was provided. Operation: updatePlayer.'
             )
             done()
           })

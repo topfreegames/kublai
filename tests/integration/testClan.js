@@ -56,7 +56,7 @@ describe('Integration', () => {
           self.pomeloClient.request(reqRoute, payload, (clanRes) => {
             clanRes.success.should.equal(false)
             clanRes.reason.should.equal(
-              'No game id was provided.'
+              'No game id was provided. Operation: createClan.'
             )
             done()
           })
@@ -127,7 +127,7 @@ describe('Integration', () => {
             self.pomeloClient.request(reqRoute, updatePayload, (updateClanRes) => {
               updateClanRes.success.should.equal(false)
               updateClanRes.reason.should.equal(
-                'No game id was provided.'
+                'No game id was provided. Operation: updateClan.'
               )
               done()
             })
@@ -164,7 +164,7 @@ describe('Integration', () => {
             self.pomeloClient.request(reqRoute, updatePayload, (updateClanRes) => {
               updateClanRes.success.should.equal(false)
               updateClanRes.reason.should.equal(
-                'No clan id was provided.'
+                'No clan id was provided. Operation: updateClan.'
               )
               done()
             })
