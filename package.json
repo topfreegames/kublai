@@ -1,6 +1,6 @@
 {
   "name": "kublai-plugin",
-  "version": "0.6.1",
+  "version": "0.7.0",
   "description": "Pomelo plug-in for khan clan server.",
   "main": "index.js",
   "repository": {
