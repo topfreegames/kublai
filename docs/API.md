@@ -23,6 +23,18 @@ If additional details are added to the response, those will be detailed in the s
 
 For error reasons and payloads, please refer to [Khan's API](http://khan-api.readthedocs.io/en/latest/API.html) docs.
 
+## Healthcheck Methods
+
+### Healthcheck
+
+  Calls [Khan's Healthcheck Route](http://khan-api.readthedocs.io/en/latest/API.html#healthcheck).
+
+#### Signature
+
+```
+kublaiService.healthcheck(callback);
+```
+
 ## Game Methods
 
 ### Create Game
@@ -256,6 +268,22 @@ kublaiService.getClanSummary(gameId, clanId, callback);
 
 * `gameId`: public ID for the clan's game.
 * `clanId`: public ID for the clan.
+
+
+### List Clans Summary
+
+Lists summarized information about the clans with the given IDs. This operation uses [Khan's Clans Summary Route](http://khan-api.readthedocs.io/en/latest/API.html#clans-summary).
+
+#### Signature
+
+```
+kublaiService.listClansSummary(gameId, clanIds, callback);
+```
+
+#### Arguments
+
+* `gameId`: public ID for the clan's game.
+* `clanIds`: list of clans public IDs.
 
 ### List Clans
 
