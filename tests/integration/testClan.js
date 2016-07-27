@@ -244,6 +244,133 @@ describe('Integration', () => {
       })
     })
 
+    it('Should list clans summary', function (done) {
+      const self = this
+      const gameId = helper.getRandomId()
+      const playerId1 = helper.getRandomId()
+      const playerId2 = helper.getRandomId()
+      const playerId3 = helper.getRandomId()
+      const clanId1 = helper.getRandomId()
+      const clanId2 = helper.getRandomId()
+      const clanId3 = helper.getRandomId()
+
+      helper.createGame(self.pomeloClient, gameId, gameId, (res) => {
+        res.success.should.equal(true)
+
+        helper.createPlayer(self.pomeloClient, gameId, playerId1, playerId1, (playerRes) => {
+          playerRes.success.should.equal(true)
+
+          helper.createPlayer(self.pomeloClient, gameId, playerId2, playerId2, (playerRes2) => {
+            playerRes2.success.should.equal(true)
+
+            helper.createPlayer(self.pomeloClient, gameId, playerId3, playerId2, (playerRes3) => {
+              playerRes3.success.should.equal(true)
+
+              helper.createClan(self.pomeloClient, gameId, playerId1, clanId1, clanId1,
+              (clanRes1) => {
+                clanRes1.success.should.equal(true)
+
+                helper.createClan(self.pomeloClient, gameId, playerId2, clanId2, clanId2,
+                (clanRes2) => {
+                  clanRes2.success.should.equal(true)
+
+                  helper.createClan(self.pomeloClient, gameId, playerId3, clanId3, clanId3,
+                  (clanRes3) => {
+                    clanRes3.success.should.equal(true)
+
+                    const reqRoute = 'metagame.sampleHandler.listClansSummary'
+                    const payload = {
+                      gameId,
+                      clanIds: [clanId1, clanId2, clanId3],
+                    }
+                    self.pomeloClient.request(reqRoute, payload, (listClansSummaryRes) => {
+                      listClansSummaryRes.success.should.equal(true)
+                      listClansSummaryRes.clans.length.should.equal(3)
+                      listClansSummaryRes.clans.forEach(clan => {
+                        clan.name.should.be.oneOf([clanId1, clanId2, clanId3])
+                        clan.publicID.should.be.oneOf([clanId1, clanId2, clanId3])
+                        JSON.stringify(clan.metadata).should.equal('{}')
+                      })
+                      done()
+                    })
+                  })
+                })
+              })
+            })
+          })
+        })
+      })
+    })
+
+    it('List clans summary should fail if no gameId', function (done) {
+      const self = this
+      const clanId1 = helper.getRandomId()
+      const clanId2 = helper.getRandomId()
+      const clanId3 = helper.getRandomId()
+
+      const reqRoute = 'metagame.sampleHandler.listClansSummary'
+      const payload = {
+        clanIds: [clanId1, clanId2, clanId3],
+      }
+      self.pomeloClient.request(reqRoute, payload, (listClansSummaryRes) => {
+        listClansSummaryRes.success.should.equal(false)
+        listClansSummaryRes.reason.should.equal(
+          'No game id was provided. Operation: listClansSummary.'
+        )
+        done()
+      })
+    })
+
+    it('List clans summary should fail if no clanIds', function (done) {
+      const self = this
+      const gameId = helper.getRandomId()
+      const reqRoute = 'metagame.sampleHandler.listClansSummary'
+      const payload = {
+        gameId,
+      }
+      self.pomeloClient.request(reqRoute, payload, (listClansSummaryRes) => {
+        listClansSummaryRes.success.should.equal(false)
+        listClansSummaryRes.reason.should.equal(
+          'No clan ids were provided. Operation: listClansSummary.'
+        )
+        done()
+      })
+    })
+
+    it('List clans summary should fail if clanIds is not an array', function (done) {
+      const self = this
+      const gameId = helper.getRandomId()
+      const reqRoute = 'metagame.sampleHandler.listClansSummary'
+      const payload = {
+        gameId,
+        clanIds: 'whatever',
+      }
+      self.pomeloClient.request(reqRoute, payload, (listClansSummaryRes) => {
+        listClansSummaryRes.success.should.equal(false)
+        listClansSummaryRes.reason.should.equal(
+          'Bad clanIds provided, it must be an array. Operation: listClansSummary.'
+        )
+        done()
+      })
+    })
+
+    it('List clans summary should fail if clanIds length == 0', function (done) {
+      const self = this
+      const gameId = helper.getRandomId()
+      const reqRoute = 'metagame.sampleHandler.listClansSummary'
+      const payload = {
+        gameId,
+        clanIds: [],
+      }
+      self.pomeloClient.request(reqRoute, payload, (listClansSummaryRes) => {
+        listClansSummaryRes.success.should.equal(false)
+        listClansSummaryRes.reason.should.equal(
+          'Empty clanIds provided, it must have length > 0. Operation: listClansSummary.'
+        )
+        done()
+      })
+    })
+
     it('Should list clans', function (done) {
       const self = this
       const gameId = helper.getRandomId()

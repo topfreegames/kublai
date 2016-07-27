@@ -94,6 +94,10 @@ Handler.prototype.updateClan = function (msg, session, next) {
   )
 }
 
+Handler.prototype.listClansSummary = function (msg, session, next) {
+  this.kublaiService.listClansSummary(msg.gameId, msg.clanIds, handleKhanResponse(next))
+}
+
 Handler.prototype.getClanSummary = function (msg, session, next) {
   this.kublaiService.getClanSummary(msg.gameId, msg.publicId, handleKhanResponse(next))
 }
