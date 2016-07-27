@@ -20,6 +20,10 @@ function handleKhanResponse(next) {
   }
 }
 
+Handler.prototype.healthcheck = function (msg, session, next) {
+  this.kublaiService.healthcheck(handleKhanResponse(next))
+}
+
 Handler.prototype.createGame = function (msg, session, next) {
   const callback = handleKhanResponse(next)
   this.kublaiService.createGame(
