@@ -45,6 +45,28 @@ Handler.prototype.createGame = function (msg, session, next) {
   )
 }
 
+Handler.prototype.createGameWithOptions = function (msg, session, next) {
+  const callback = handleKhanResponse(next)
+  this.kublaiService.createGame(
+    msg.publicId,
+    msg.name,
+    msg.metadata,
+    msg.membershipLevels,
+    msg.minLevelToAcceptApplication,
+    msg.minLevelToCreateInvitation,
+    msg.minLevelToRemoveMember,
+    msg.minLevelOffsetToRemoveMember,
+    msg.minLevelOffsetToPromoteMember,
+    msg.minLevelOffsetToDemoteMember,
+    msg.maxMembers,
+    msg.maxClansPerPlayer,
+    msg.cooldownAfterDelete,
+    msg.cooldownAfterDeny,
+    msg.options,
+    callback
+  )
+}
+
 Handler.prototype.updateGame = function (msg, session, next) {
   const callback = handleKhanResponse(next)
   this.kublaiService.updateGame(
@@ -62,6 +84,28 @@ Handler.prototype.updateGame = function (msg, session, next) {
     msg.maxClansPerPlayer,
     msg.cooldownAfterDelete,
     msg.cooldownAfterDeny,
+    callback
+  )
+}
+
+Handler.prototype.updateGameWithOptions = function (msg, session, next) {
+  const callback = handleKhanResponse(next)
+  this.kublaiService.updateGame(
+    msg.publicId,
+    msg.name,
+    msg.metadata,
+    msg.membershipLevels,
+    msg.minLevelToAcceptApplication,
+    msg.minLevelToCreateInvitation,
+    msg.minLevelToRemoveMember,
+    msg.minLevelOffsetToRemoveMember,
+    msg.minLevelOffsetToPromoteMember,
+    msg.minLevelOffsetToDemoteMember,
+    msg.maxMembers,
+    msg.maxClansPerPlayer,
+    msg.cooldownAfterDelete,
+    msg.cooldownAfterDeny,
+    msg.options,
     callback
   )
 }
@@ -124,6 +168,12 @@ Handler.prototype.listClans = function (msg, session, next) {
 Handler.prototype.applyForMembership = function (msg, session, next) {
   this.kublaiService.applyForMembership(
     msg.gameId, msg.publicId, msg.level, msg.playerPublicId, handleKhanResponse(next)
+  )
+}
+
+Handler.prototype.applyForMembershipWithMessage = function (msg, session, next) {
+  this.kublaiService.applyForMembership(
+    msg.gameId, msg.publicId, msg.level, msg.playerPublicId, msg.message, handleKhanResponse(next)
   )
 }
 

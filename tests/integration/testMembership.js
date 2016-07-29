@@ -47,6 +47,44 @@ describe('Integration', () => {
       })
     })
 
+    it('Should apply for membership passing a message', function (done) {
+      const self = this
+      const gameId = helper.getRandomId()
+      const playerId = helper.getRandomId()
+      const applicantId = helper.getRandomId()
+      const clanId = helper.getRandomId()
+
+      helper.createGame(self.pomeloClient, gameId, gameId, (res) => {
+        res.success.should.equal(true)
+
+        helper.createPlayer(self.pomeloClient, gameId, playerId, playerId, (playerRes) => {
+          playerRes.success.should.equal(true)
+
+          helper.createPlayer(self.pomeloClient, gameId, applicantId, playerId, (applicantRes) => {
+            applicantRes.success.should.equal(true)
+
+            helper.createClan(self.pomeloClient, gameId, playerId, clanId, clanId, (clanRes) => {
+              clanRes.success.should.equal(true)
+
+
+              const reqRoute = 'metagame.sampleHandler.applyForMembershipWithMessage'
+              const payload = {
+                gameId,
+                publicId: clanId,
+                level: 'member',
+                playerPublicId: applicantId,
+                message: 'Please accept me into your clan.',
+              }
+              self.pomeloClient.request(reqRoute, payload, (applyForMembershipRes) => {
+                applyForMembershipRes.success.should.equal(true)
+                done()
+              })
+            })
+          })
+        })
+      })
+    })
+
     it('Should not apply for unexistent clan', function (done) {
       const self = this
       const gameId = helper.getRandomId()
