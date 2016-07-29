@@ -59,6 +59,7 @@ kublaiService.createGame(
   maxClansPerPlayer,
   cooldownAfterDelete,
   cooldownAfterDeny,
+  options,                        // optional
   callback
 );
 ```
@@ -79,6 +80,8 @@ kublaiService.createGame(
 * `maxClansPerPlayer`: maximum numbers of clans a player can be an approved member of.
 * `cooldownAfterDelete`: a membership cannot be recreated after being deleted unless cooldown seconds have passed.
 * `cooldownAfterDeny`: a membership cannot be recreated after being denied unless cooldown seconds have passed.
+* `options`: optional object. Properties:
+  * `maxPendingInvites`: a member cannot be invited if they have more than maxPendingInvites. Default value is -1 (unlimited).
 
 
 ### Update Game
@@ -103,6 +106,7 @@ kublaiService.updateGame(
   maxClansPerPlayer,
   cooldownAfterDelete,
   cooldownAfterDeny,
+  options,                        // optional
   callback
 )
 ```
@@ -123,6 +127,8 @@ kublaiService.updateGame(
 * `maxClansPerPlayer`: maximum numbers of clans a player can be an approved member of.
 * `cooldownAfterDelete`: a membership cannot be recreated after being deleted unless cooldown seconds have passed.
 * `cooldownAfterDeny`: a membership cannot be recreated after being denied unless cooldown seconds have passed.
+* `options`: optional object. Properties:
+  * `maxPendingInvites`: a member cannot be invited if they have more than maxPendingInvites. Default value is -1 (unlimited).
 
 ## Player Methods
 
@@ -360,7 +366,7 @@ This operation uses [Khan's Apply For Membership Route](http://khan-api.readthed
 #### Signature
 
 ```
-kublaiService.applyForMembership(gameId, clanId, level, playerPublicId, callback);
+kublaiService.applyForMembership(gameId, clanId, level, playerPublicId, message, callback);
 ```
 
 #### Arguments
@@ -368,7 +374,8 @@ kublaiService.applyForMembership(gameId, clanId, level, playerPublicId, callback
 * `gameId`: public ID for the desired clan's game;
 * `clanId`: public ID for the desired clan;
 * `level`: membership level for the application;
-* `playerPublicId`: public id for the player filing the application for the clan.
+* `playerPublicId`: public id for the player filing the application for the clan;
+* `message`: message sent by the player when applying for the membership (**optional**);
 
 ### Approve or Deny Membership
 
