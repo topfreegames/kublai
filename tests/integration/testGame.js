@@ -21,7 +21,7 @@ describe('Integration', () => {
       })
     })
 
-    it('Should create game passing maxPendingInvites', function (done) {
+    it('Should create game passing optionalParams', function (done) {
       const self = this
       const publicId = uuid.v4()
       const reqRoute = 'metagame.sampleHandler.createGameWithOptions'
@@ -43,6 +43,8 @@ describe('Integration', () => {
         cooldownAfterDeny: 5,
         options: {
           maxPendingInvites: 10,
+          cooldownBeforeInvite: 120,
+          cooldownBeforeApply: 3600,
         },
       }
 
@@ -86,7 +88,7 @@ describe('Integration', () => {
       })
     })
 
-    it('Should update game passing maxPendingInvites', function (done) {
+    it('Should update game passing optionalParams', function (done) {
       const self = this
       const id = helper.getRandomId()
 
@@ -113,6 +115,8 @@ describe('Integration', () => {
           cooldownAfterDeny: 5,
           options: {
             maxPendingInvites: 10,
+            cooldownBeforeInvite: 120,
+            cooldownBeforeApply: 3600,
           },
         }
 

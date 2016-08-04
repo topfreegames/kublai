@@ -191,6 +191,13 @@ Handler.prototype.inviteForMembership = function (msg, session, next) {
   )
 }
 
+Handler.prototype.inviteForMembershipWithMessage = function (msg, session, next) {
+  this.kublaiService.inviteForMembership(
+    msg.gameId, msg.publicId, msg.level, msg.playerPublicId,
+    msg.requestorPublicId, msg.message, handleKhanResponse(next)
+  )
+}
+
 Handler.prototype.approveDenyMembershipInvitation = function (msg, session, next) {
   this.kublaiService.approveDenyMembershipInvitation(
     msg.gameId, msg.publicId, msg.action, msg.playerPublicId, handleKhanResponse(next)

@@ -82,7 +82,8 @@ kublaiService.createGame(
 * `cooldownAfterDeny`: a membership cannot be recreated after being denied unless cooldown seconds have passed.
 * `options`: optional object. Properties:
   * `maxPendingInvites`: a member cannot be invited if they have more than maxPendingInvites. Default value is -1 (unlimited).
-
+  * `cooldownBeforeInvite`: a member cannot be invited to the clan after a previous application/invite unless cooldown seconds have passed. Default value is 0.
+  * `cooldownBeforeApply`: a member cannot apply to the clan after a previous application/invite unless cooldown seconds have passed. Default value is 3600.
 
 ### Update Game
 
@@ -129,6 +130,8 @@ kublaiService.updateGame(
 * `cooldownAfterDeny`: a membership cannot be recreated after being denied unless cooldown seconds have passed.
 * `options`: optional object. Properties:
   * `maxPendingInvites`: a member cannot be invited if they have more than maxPendingInvites. Default value is -1 (unlimited).
+  * `cooldownBeforeInvite`: a member cannot be invited to the clan after a previous application/invite unless cooldown seconds have passed. Default value is 0.
+  * `cooldownBeforeApply`: a member cannot apply to the clan after a previous application/invite unless cooldown seconds have passed. Default value is 3600.
 
 ## Player Methods
 
@@ -420,6 +423,7 @@ kublaiService.inviteForMembership(
 * `level`: membership level for the application;
 * `playerPublicId`: public id for the player that is being invited;
 * `requestorPublicId`: the public id of the clan member who is inviting the player.
+* `message`: message sent by the player when inviting for the membership (**optional**);
 
 ### Approve or Deny Membership Invitation
 
