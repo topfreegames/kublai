@@ -28,6 +28,7 @@ app.configure('production|development', '<server-type>', () => {
   app.use(kublaiPlugin, {
     kublai: {
       khanUrl: 'http://localhost:8888/',  // you need to set this to your khan API url
+      timeout: 500,                       // request timeout in milliseconds (default value is 500ms)
     },
   })
 })
