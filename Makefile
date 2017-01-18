@@ -29,7 +29,7 @@ setup-lfs-darwin:
 setup: setup-lfs setup-docs
 	@npm install .
 
-setup-ci: setup-lfs
+setup-ci:
 	@npm install .
 
 run-sandbox-fg: redis
