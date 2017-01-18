@@ -1,3 +1,4 @@
+/* global expect */
 // kublai
 // https://github.com/topfreegames/kublai
 //
@@ -199,7 +200,7 @@ describe('Integration', () => {
               getClanRes.publicID.should.equal(clanId)
               getClanRes.allowApplication.should.be.true  // eslint-disable-line no-unused-expressions,max-len
               getClanRes.autoJoin.should.be.false  // eslint-disable-line no-unused-expressions,max-len
-              getClanRes.metadata.should.be.empty  // eslint-disable-line no-unused-expressions,max-len
+              expect(getClanRes.metadata).to.be.null // eslint-disable-line no-unused-expressions,max-len
               getClanRes.membershipCount.should.equal(1)
               done()
             })
@@ -236,7 +237,7 @@ describe('Integration', () => {
               getClanRes.memberships.denied.length.should.equal(0)
               getClanRes.memberships.pendingApplications.length.should.equal(0)
               getClanRes.memberships.pendingInvites.length.should.equal(0)
-              JSON.stringify(getClanRes.metadata).should.equal('{}')
+              expect(getClanRes.metadata).to.be.null // eslint-disable-line no-unused-expressions,max-len
               done()
             })
           })
@@ -289,7 +290,7 @@ describe('Integration', () => {
                       listClansSummaryRes.clans.forEach(clan => {
                         clan.name.should.be.oneOf([clanId1, clanId2, clanId3])
                         clan.publicID.should.be.oneOf([clanId1, clanId2, clanId3])
-                        JSON.stringify(clan.metadata).should.equal('{}')
+                        expect(clan.metadata).to.be.null // eslint-disable-line no-unused-expressions,max-len
                       })
                       done()
                     })
@@ -406,7 +407,7 @@ describe('Integration', () => {
                   listClansRes.clans.forEach(clan => {
                     clan.name.should.be.oneOf([clanId1, clanId2])
                     clan.publicID.should.be.oneOf([clanId1, clanId2])
-                    JSON.stringify(clan.metadata).should.equal('{}')
+                    expect(clan.metadata).to.be.null // eslint-disable-line no-unused-expressions,max-len
                   })
                   done()
                 })

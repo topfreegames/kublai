@@ -7,6 +7,10 @@
 OS = $(shell uname | awk '{ print tolower($$0) }')
 ARCH = $(shell uname -m)
 LFS = $(shell command -v git-lfs 2> /dev/null)
+KHAN_VERSION ?= "v1.1.2"
+
+update-binaries:
+	@curl -Lo "bin/khan-#1-#2" "https://github.com/topfreegames/khan/releases/download/${KHAN_VERSION}/khan-{darwin,linux}-{i386,x86_64}"
 
 setup-docs:
 	@pip install -q --log /tmp/pip.log --no-cache-dir sphinx recommonmark sphinx_rtd_theme
