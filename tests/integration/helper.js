@@ -31,9 +31,7 @@ function createGame(client, publicId, name, cb) {
     cooldownAfterDeny: 0,
   }
 
-  client.request(reqRoute, payload, (res) => {
-    cb(res)
-  })
+  client.request(reqRoute, payload, cb)
 }
 
 function createPlayer(client, gameId, publicId, name, cb) {
@@ -45,9 +43,7 @@ function createPlayer(client, gameId, publicId, name, cb) {
     metadata: {},
   }
 
-  client.request(reqRoute, payload, (res) => {
-    cb(res)
-  })
+  client.request(reqRoute, payload, cb)
 }
 
 function createClan(client, gameId, ownerId, publicId, name, cb) {
@@ -62,9 +58,7 @@ function createClan(client, gameId, ownerId, publicId, name, cb) {
     autoJoin: false,
   }
 
-  client.request(reqRoute, payload, (res) => {
-    cb(res)
-  })
+  client.request(reqRoute, payload, cb)
 }
 
 function createMembershipApplication(client, gameId, clanId, level, applicantId, cb) {
@@ -75,9 +69,7 @@ function createMembershipApplication(client, gameId, clanId, level, applicantId,
     level,
     playerPublicId: applicantId,
   }
-  client.request(reqRoute, payload, (applyForMembershipRes) => {
-    cb(applyForMembershipRes)
-  })
+  client.request(reqRoute, payload, cb)
 }
 
 function acceptOrDenyMembership(client, gameId, ownerId, clanId, level, action, applicantId, cb) {
@@ -91,9 +83,7 @@ function acceptOrDenyMembership(client, gameId, ownerId, clanId, level, action, 
       playerPublicId: applicantId,
       requestorPublicId: ownerId,
     }
-    client.request(approveRoute, approvepayload, (approveDenyMembershipApplicationRes) => {
-      cb(approveDenyMembershipApplicationRes)
-    })
+    client.request(approveRoute, approvepayload, cb)
   })
 }
 
@@ -116,9 +106,7 @@ function createMembershipInvitation(client, gameId, clanId, level, requestorId, 
     playerPublicId: inviteeId,
     requestorPublicId: requestorId,
   }
-  client.request(reqRoute, payload, (res) => {
-    cb(res)
-  })
+  client.request(reqRoute, payload, cb)
 }
 
 module.exports = {

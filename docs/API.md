@@ -23,6 +23,13 @@ If additional details are added to the response, those will be detailed in the s
 
 For error reasons and payloads, please refer to [Khan's API](http://khan-api.readthedocs.io/en/latest/API.html) docs.
 
+All messages received from Khan are wrapped into a KhanError object with the following fields
+
+* message: `Could not process request: ${reason}. Operation: ${operation}.`
+  * reason and operation are the fields received from Khan
+* khan: Always true to help you identify khan errors
+* meta: possible metadata related to the error (e.g. the error object that originated the khan error)
+
 ## Healthcheck Methods
 
 ### Healthcheck

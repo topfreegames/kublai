@@ -57,7 +57,7 @@ describe('Integration', () => {
           self.pomeloClient.request(reqRoute, payload, (clanRes) => {
             clanRes.success.should.equal(false)
             clanRes.reason.should.equal(
-              'No game id was provided. Operation: createClan.'
+              'Error: No game id was provided. Operation: createClan.'
             )
             done()
           })
@@ -128,7 +128,7 @@ describe('Integration', () => {
             self.pomeloClient.request(reqRoute, updatePayload, (updateClanRes) => {
               updateClanRes.success.should.equal(false)
               updateClanRes.reason.should.equal(
-                'No game id was provided. Operation: updateClan.'
+                'Error: No game id was provided. Operation: updateClan.'
               )
               done()
             })
@@ -165,7 +165,7 @@ describe('Integration', () => {
             self.pomeloClient.request(reqRoute, updatePayload, (updateClanRes) => {
               updateClanRes.success.should.equal(false)
               updateClanRes.reason.should.equal(
-                'No clan id was provided. Operation: updateClan.'
+                'Error: No clan id was provided. Operation: updateClan.'
               )
               done()
             })
@@ -316,7 +316,7 @@ describe('Integration', () => {
       self.pomeloClient.request(reqRoute, payload, (listClansSummaryRes) => {
         listClansSummaryRes.success.should.equal(false)
         listClansSummaryRes.reason.should.equal(
-          'No game id was provided. Operation: listClansSummary.'
+          'Error: No game id was provided. Operation: listClansSummary.'
         )
         done()
       })
@@ -332,7 +332,7 @@ describe('Integration', () => {
       self.pomeloClient.request(reqRoute, payload, (listClansSummaryRes) => {
         listClansSummaryRes.success.should.equal(false)
         listClansSummaryRes.reason.should.equal(
-          'No clan ids were provided. Operation: listClansSummary.'
+          'Error: No clan ids were provided. Operation: listClansSummary.'
         )
         done()
       })
@@ -349,7 +349,7 @@ describe('Integration', () => {
       self.pomeloClient.request(reqRoute, payload, (listClansSummaryRes) => {
         listClansSummaryRes.success.should.equal(false)
         listClansSummaryRes.reason.should.equal(
-          'Bad clanIds provided, it must be an array. Operation: listClansSummary.'
+          'Error: Bad clanIds provided, it must be an array. Operation: listClansSummary.'
         )
         done()
       })
@@ -366,7 +366,7 @@ describe('Integration', () => {
       self.pomeloClient.request(reqRoute, payload, (listClansSummaryRes) => {
         listClansSummaryRes.success.should.equal(false)
         listClansSummaryRes.reason.should.equal(
-          'Empty clanIds provided, it must have length > 0. Operation: listClansSummary.'
+          'Error: Empty clanIds provided, it must have length > 0. Operation: listClansSummary.'
         )
         done()
       })

@@ -46,7 +46,9 @@ describe('Integration', () => {
 
         self.pomeloClient.request(reqRoute, createHookPayload, (createHookRes) => {
           createHookRes.success.should.equal(false)
-          createHookRes.reason.should.equal('No game id was provided. Operation: createHook.')
+          createHookRes.reason.should.equal(
+            'Error: No game id was provided. Operation: createHook.'
+          )
           done()
         })
       })
@@ -68,7 +70,9 @@ describe('Integration', () => {
 
         self.pomeloClient.request(reqRoute, createHookPayload, (createHookRes) => {
           createHookRes.success.should.equal(false)
-          createHookRes.reason.should.equal('No hook type was provided. Operation: createHook.')
+          createHookRes.reason.should.equal(
+            'Error: No hook type was provided. Operation: createHook.'
+          )
           done()
         })
       })
@@ -90,7 +94,9 @@ describe('Integration', () => {
 
         self.pomeloClient.request(reqRoute, createHookPayload, (createHookRes) => {
           createHookRes.success.should.equal(false)
-          createHookRes.reason.should.equal('No hook URL was provided. Operation: createHook.')
+          createHookRes.reason.should.equal(
+            'Error: No hook URL was provided. Operation: createHook.'
+          )
           done()
         })
       })
@@ -151,7 +157,9 @@ describe('Integration', () => {
           }
           self.pomeloClient.request(reqRoute, removeHookPayload, (removeHookRes) => {
             removeHookRes.success.should.equal(false)
-            removeHookRes.reason.should.equal('No game id was provided. Operation: removeHook.')
+            removeHookRes.reason.should.equal(
+              'Error: No game id was provided. Operation: removeHook.'
+            )
             done()
           })
         })
@@ -183,7 +191,7 @@ describe('Integration', () => {
           self.pomeloClient.request(reqRoute, removeHookPayload, (removeHookRes) => {
             removeHookRes.success.should.equal(false)
             removeHookRes.reason.should.equal(
-              'No hook public id was provided. Operation: removeHook.'
+               'Error: No hook public id was provided. Operation: removeHook.'
             )
             done()
           })
