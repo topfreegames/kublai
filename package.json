@@ -22,6 +22,8 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "axios": "^0.15.3",
+    "bluebird": "^3.4.7",
     "pomelo": "topfreegames/pomelo#2.x",
     "request": "^2.72.0"
   },
