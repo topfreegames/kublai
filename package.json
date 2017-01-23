@@ -22,7 +22,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "pomelo": "^2.0.0",
+    "pomelo": "topfreegames/pomelo#2.x",
     "request": "^2.72.0"
   },
   "devDependencies": {
