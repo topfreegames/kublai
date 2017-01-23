@@ -155,7 +155,7 @@ describe('Integration', () => {
         self.pomeloClient.request(reqRoute, updatePayload, (updateRes) => {
           updateRes.success.should.equal(false)
           updateRes.reason.should.equal(
-            'No game id was provided. Operation: updateGame.'
+            'Error: No game id was provided. Operation: updateGame.'
           )
           done()
         })
