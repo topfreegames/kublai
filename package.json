@@ -1,6 +1,6 @@
 {
   "name": "kublai-plugin",
-  "version": "2.0.2",
+  "version": "3.0.0",
   "description": "Pomelo plug-in for khan clan server.",
   "main": "index.js",
   "repository": {
@@ -24,7 +24,7 @@
   "dependencies": {
     "axios": "^0.15.3",
     "bluebird": "^3.4.7",
-    "pomelo": "topfreegames/pomelo#2.x",
+    "pomelo": "topfreegames/pomelo#new-pomelo-logger",
     "request": "^2.72.0"
   },
   "devDependencies": {
